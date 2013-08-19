@@ -1,0 +1,39 @@
+.profile-pic {
+  height: 80px;
+  width: 80px;
+}
+
+.userinfo {
+  padding-left: 30px;
+  font-size: 13px;
+}
+
+.left-pane {
+  padding-top: 20px;
+}
+
+.info-pane {
+  padding-top: 20px;
+}
+
+.user-img {
+  height: 30px;
+  width: 30px;
+}
+
+.topicbox {
+  min-height: 0px;
+  line-height: 1.5;  
+  font-size: 13px;
+}
+
+.topic-heading{
+  color: grey;
+  font-size: 10px;  
+  font-weight: bolder;   
+}
+
+.topic-edit-tools.a {
+  margin-left: 5px;
+}
+

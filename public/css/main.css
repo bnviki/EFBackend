@@ -1,0 +1,38 @@
+body {
+  padding-left: 0px;
+  font-size: 13px;
+}
+
+.topicbox {
+  min-height: 0px;
+  line-height: 1.5;  
+}
+
+.topic-heading{
+  color: grey;
+  font-size: 10px;  
+  font-weight: bolder;   
+}
+
+.left-panel {
+  padding-left: 0px;
+  margin: 0px;	
+  font-size: 13px;
+}
+
+.right-panel {
+  height: 100%;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+#info-pane {
+  margin-left: 15%;
+  font-size: 13px;
+}
+
+.user-img {
+  height: 30px;
+  width: 30px;
+}
+

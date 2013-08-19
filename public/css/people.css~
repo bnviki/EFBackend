@@ -1,0 +1,16 @@
+.profile-pic {
+  height: 80px;
+  width: 80px;
+}
+
+.userinfo {
+  padding-left: 30px;
+}
+
+.left-pane {
+  padding-top: 20px;
+}
+
+.info-panel {
+  padding-top: 20px;
+}

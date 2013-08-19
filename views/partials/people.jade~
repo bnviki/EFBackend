@@ -1,0 +1,30 @@
+link(rel='stylesheet', href='css/people.css')
+
+.container-fluid
+  .row-fluid.span6.media
+    a(href='#')
+     img.pull-left.profile-pic.media-object(src='/img/rain.jpg')
+    .media-body.userinfo
+      h5 Vikram B N
+      label male   
+  .row-fluid.mid-panel
+    .left-pane.span2
+      ul.nav.nav-tabs.nav-stacked
+        li.active 
+          a(href='#info') information
+        li 
+          a(href='#discussions') discussions
+
+    .info-pane.span6
+      table.table
+        tr
+          td gender 
+          td male
+        tr
+          td chats
+          td 25
+        tr
+          td interests
+          td 
+            p sports, music, movies, gadjets, shopping  
+       

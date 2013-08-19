@@ -1,0 +1,18 @@
+body {
+  padding-top: 50px;
+  padding-left: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  height: 100%;
+  
+}
+
+.left-panel {
+  padding-left: 0px;
+  margin: 0px;	
+}
+
+.right-panel {
+  padding-left: 0px;
+  height: 100%;
+}
+

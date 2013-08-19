@@ -1,0 +1,168 @@
+link(rel='stylesheet', href='css/main.css')  
+script.
+  $(function(){
+    $('#left-panel-inner').slimScroll({
+      height: '600px',
+    });
+  });
+  
+block content   
+  .row-fluid(ng-controller='MainCtrl')
+    #left-panel.span2.affix
+      #left-panel-inner
+        ul(class='nav nav-tabs nav-stacked')
+          li(ng-repeat='cat in cats')
+            label.checkbox.pull-right
+              input(type='checkbox')
+            a(href='#') {{cat}}             
+          
+    #info-pane.span7
+      ul(class="nav nav-tabs", id='mainTabs')
+        li(class='active'): a(href="#discussions", data-toggle="tab") Discussions
+        li: a(href="#people", data-toggle="tab") People
+        li: a(href="#feeds", data-toggle="tab") Feeds
+      
+     
+      .tab-content
+        .tab-pane.active(id='discussions', ng-controller='discussionCtrl')
+          .search-panel
+            a.btn.btn-success.btn-small.pull-right(href='#createDiscDialog', data-toggle='modal') Create Discussion
+            form.form-search.text-center
+              input.input-large.search-query(type='text', style='width: 60%')
+              button.btn(type='submit') 
+                i.icon-search   
+
+          .modal.hide.fade(id='createDiscDialog', tabindex='-1', role='dialog', aria-labelledby="Create Discussion", 
+                         aria-hidden="true") 
+            .modal-header
+              button.close(data-dismiss="modal", aria-hidden="true") ×
+              h5 Create Discussion
+            .modal-body
+              form.span12 
+                textarea(id='discText', rows='5', ng-model='newDisc.content', style='width: 98%')
+                label category 
+                  select(ng-model='newDisc.category')
+                    option(ng-repeat='cat in cats') {{cat}}
+                label.chechbox group discussion
+                  input(type='checkbox', ng-model='newDisc.type')
+                
+                button.btn.btn-small
+                  i.icon-picture
+            .modal-footer
+              button.btn.btn-primary(ng-click='createDiscussion(newDisc)') create
+          
+          .container-fluid
+            .row-fluid
+              .topicbox.well.well-small(ng-repeat='disc in discussions')
+                .topic-heading
+                  p created by {{disc.created_by.displayname}} on {{disc.created_at | date:short}}                    
+                    button.btn.btn-mini.btn-inverse(id='{{"disc" + disc._id}}', style='margin-left: 20px;', ng-click='addUserToDisc(disc._id)') discuss
+                      i.icon-plus-sign.icon-white                  
+
+                p {{disc.content}}
+                .row-fluid
+                  .interested-user.span1(ng-repeat='user in disc.interested_users')
+                    img.media-object.user-img(src='/img/rain.jpg')            
+                    .btn.btn-mini.btn-info chat                  
+
+              .topicbox.well.well-small
+                .topic-heading
+                  .label.label-info.pull-right Group discussion
+                  p created by vikram bn on 7th, aug 2013 discused 25 times so far                    
+                  
+                p the topic of discussion is shown here. it can be anything from text, html content, audio from soundcloud
+                  or video from youtube. this can be a conversation starter.
+                  Tight pants next level keffiyeh you probably haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel have a terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. 
+                .row-fluid
+                  .interested-user.span1                    
+                    .btn.btn-small.btn-info Join
+                  
+             
+              .topicbox.well.well-small
+                .topic-heading
+                  p created by vikram bn on 7th, aug 2013 discused 25 times so far                    
+                    button.btn.btn-mini.btn-inverse(style='margin-left: 20px;') discuss
+                      i.icon-plus-sign.icon-white
+                        
+                      
+
+                p the topic of discussion is shown here. it can be anything from text, html content, audio from soundcloud
+                  or video from youtube. this can be a conversation starter.
+                  Tight pants next level keffiyeh you probably haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel have a terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. 
+                .row-fluid
+                  .interested-user.span1
+                    img.media-object.user-img(src='/img/rain.jpg')            
+                    .btn.btn-mini.btn-info chat
+                  .interested-user.span1
+                    img.media-object.user-img(src='/img/rain.jpg')            
+                    .btn.btn-mini.btn-info chat
+                  .interested-user.span1
+                    img.media-object.user-img(src='/img/rain.jpg')            
+                    .btn.btn-mini.btn-info chat
+
+        .tab-pane(id='people')
+          .container-fluid
+            .row-fluid
+              .userbox.span2
+                label(style='margin-bottom:0px;') vikram bn
+                img.span12.media-object(src='/img/rain.jpg', style='height: 80px;')            
+                .btn.btn-small.span12 chat
+              .userbox.span2
+                label(style='margin-bottom:0px;') vikram bn
+                img.span12.media-object(src='/img/rain.jpg', style='height: 80px;')            
+                .btn.btn-small.span12 chat
+              .userbox.span2
+                label(style='margin-bottom:0px;') vikram bn
+                img.span12.media-object(src='/img/rain.jpg', style='height: 80px;')            
+                .btn.btn-small.span12 chat
+              .userbox.span2
+                label(style='margin-bottom:0px;') vikram bn
+                img.span12.media-object(src='/img/rain.jpg', style='height: 80px;')            
+                .btn.btn-small.span12 chat
+
+        .tab-pane(id='feeds') 
+          h5 under construction        
+    
+    .right-panel.span3
+      .row-fluid(data-spy='affix', data-offset-top='100')
+        h5.text-center Chat Requests 
+        .chat-request-box.media
+          img.pull-left.media-object.user-img(src='/img/rain.jpg')
+          .media-body 
+            p topic about which the user wants to talk appears here.
+            .btn.pull-right.btn-mini.btn-primary accept
+        .chat-request-box.media
+          img.pull-left.media-object.user-img(src='/img/rain.jpg')
+          .media-body 
+            p topic about which the user wants to talk appears here.
+            .btn.pull-right.btn-mini.btn-primary accept
+
+      .row-fluid         
+        h5.text-center Discussions        
+        ul.nav.nav-pills.nav-stacked 
+          li
+            a.chat-request-box.media(href='#')              
+              img.pull-left.media-object.user-img(src='/img/rain.jpg')
+              .media-body 
+                p topic about which the user wants to talk appears here.
+          li
+            a.chat-request-box.media(href='#')              
+              img.pull-left.media-object.user-img(src='/img/rain.jpg')
+              .media-body 
+                p topic about which the user wants to talk appears here.
+          li
+            a.chat-request-box.media(href='#')              
+              img.pull-left.media-object.user-img(src='/img/rain.jpg')
+              .media-body 
+                p topic about which the user wants to talk appears here.
+          li
+            a.chat-request-box.media(href='#')              
+              img.pull-left.media-object.user-img(src='/img/rain.jpg')
+              .media-body 
+                p topic about which the user wants to talk appears here.
+          
+
+
+            
+        
+

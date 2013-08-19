@@ -1,0 +1,58 @@
+extends layout
+
+block append csslinks
+  link(rel='stylesheet', href='css/style.css')  
+
+block append scripts
+  script.
+    $(function(){
+      $('#left-panel-inner').slimScroll({
+        height: '600px',
+      });
+    });
+  
+block content   
+  .row-fluid
+    #left-panel.span2.affix
+      #left-panel-inner
+        ul(class='nav nav-tabs nav-stacked')
+          li: a(href='#') news
+            label(class='checkbox pull-right')
+              input(type='checkbox')
+          li: a(href='#') politics
+          li: a(href='#') sports
+          li: a(href='#') music
+          li: a(href='#') movies
+          li: a(href='#') gadjets
+          li: a(href='#') shopping
+          li: a(href='#') business
+          li: a(href='#') celebrity
+          li: a(href='#') technology
+          li: a(href='#') science
+          li: a(href='#') mathematics
+          li: a(href='#') history
+          li: a(href='#') religion
+          li: a(href='#') online games
+          li: a(href='#') arts
+          li: a(href='#') astronomy
+          li: a(href='#') health/fitness
+          li: a(href='#') cartoons/comics
+          li: a(href='#') travel/trekking
+          li: a(href='#') cars/bikes
+          li: a(href='#') pets
+          li: a(href='#') casual
+    .span7.offset2
+      ul(class="nav nav-tabs")
+        li(class='active'): a(href="#people", data-toggle="tab") People
+        li: a(href="#articles", data-toggle="tab") Articles
+    .span3(style='margin-left: 0px; margin-right:0px;')
+      .right-panel(data-spy='affix', data-offset-top='100', class='well well-small')
+        .row-fluid
+          h4 Chat Requests 
+          p chat request from other appear here. you can accept and chat or reject. 
+        .row-fluid         
+          h4 Discussions
+          p ongoing discussions/chats with people appear here
+            
+        
+

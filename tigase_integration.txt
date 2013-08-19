@@ -1,0 +1,4 @@
+steps for integration
+
+- javascript xmpp client talks with tigase server (2 instances must chat)
+- tigase client authentication from web server. use node-xmpp

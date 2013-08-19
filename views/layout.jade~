@@ -1,0 +1,24 @@
+doctype 5
+html(ng-app)
+  head
+    title= title
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    block csslinks	    
+      link(href='css/base.css', rel='stylesheet')
+      link(href='css/bootstrap.min.css', rel='stylesheet')	
+    block scripts
+      script(src='js/lib/jquery-2.0.3.js')
+      script(src='js/lib/jquery-ui.js')
+      script(src='js/lib/bootstrap/bootstrap.js')
+      script(src='js/lib/angular.js')
+      script(src='js/lib/angular-resource.js')
+      script(src='js/lib/jquery.slimscroll.min.js')
+      script(src='js/controllers.js')
+  body(ng-controller='TextController')
+    .navbar.navbar-fixed-top.navbar-inverse
+      .navbar-inner
+        a(class='brand', href='/', style='padding-left:75px') mPeers
+        img(class='img-rounded pull-right', src='images/rain.jpg', style='height:40px; width:40px; padding-right:50px')
+        a(class='pull-right', href='/', style='padding-top:20px;') vikram bn 
+    block content
+

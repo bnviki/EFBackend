@@ -1,0 +1,54 @@
+.container-fluid
+  .row-fluid
+    .span6
+      h2(class='text-center') Welcome to mPeers
+      .well.well-small.text-center
+        p mPeers enables you to talk/discuss about anything with anybody. find people who are interested 
+          |about your ideas.   
+    .span6
+      .container-fluid
+        .login-form(ng-controller='SignInCtrl')
+          form(class='form-horizontal')
+            .legend 
+              h4(class='text-center') Login
+            .control-group
+              label(class="control-label", for="userName") UserName
+              .controls
+                input(type="text", id="userName", placeholder="UserName", ng-model='user.username')
+            .control-group
+              label(class="control-label", for="inputPassword") Password
+              .controls
+                input(type="password", id="inputPassword", placeholder="Password", ng-model='user.password')
+            .control-group
+              .controls
+                label(class="checkbox") Remember me           
+                  input(type="checkbox", ng-model='user.remember') 
+                .btn.btn-primary(type='submit', ng-click='logUserIn(user)') Sign in 
+    
+        .signup-form(ng-controller='SignupCtrl')
+          form(class='form-horizontal')
+            .legend 
+              h4(class='text-center') Sign Up
+            .control-group
+              label(class="control-label", for="userName") UserName
+              .controls
+                input(type="text", id="userName", placeholder="UserName", ng-model='user.username')
+            .control-group
+              label(class="control-label", for="inputEmail") Email
+              .controls
+                input(type="text", id="inputEmail", placeholder="Email", ng-model='user.email')
+            .control-group
+              label(class="control-label", for="inputPassword") Password
+              .controls
+                input(type="password", id="inputPassword", placeholder="Password", ng-model='user.password')
+            .control-group
+              .controls
+                label(class="checkbox") I agree to the terms and conditions           
+                  input(type="checkbox") 
+                .btn.btn-info(type='submit', ng-click='signupUser(user)') Sign up          
+        
+        .signup-ext(ng-controller='SignUpExtCtrl')
+          label or signup with,
+          a.btn(href='/auth/google', target="_self") Google
+          a.btn(href='/auth/facebook') Facebook  
+
