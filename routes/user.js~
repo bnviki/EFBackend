@@ -3,9 +3,19 @@
 var User = require('../data/models/user'),
     verification = require('../data/models/verificationToken'),	
     sendMail = require('./middleware/mailer'),
-    sessionUtils = require('./middleware/session_utils');
+    sessionUtils = require('./middleware/session_utils'),
+    ChatRequest = require('../data/models/chatRequest');
 
 module.exports = function(app) {
+
+	app.get("/users/chatrequests", function (req, res, next) {
+		res.send('success');
+/*		ChatRequest.find({$or: [{from: req.user.id}, {to: req.user.id}]}, function(err, reqs){
+			if(err) return res.send('no requests', 204);
+			res.send(reqs);
+		});    */
+	}); 
+
 	app.get('/users', function(req, res) {
 	  var allUsers = User.find({},function(err, users) {
 		if (err) {
@@ -28,6 +38,8 @@ module.exports = function(app) {
 	});
 
 	app.post('/users', sessionUtils.notLoggedIn, function(req, res, next) {	
+		if(!req.body.displayname)
+			req.body.displayname = req.body.username;
 		var user = new User(req.body);
 		user.save(function(err){
 			if (err) {
@@ -38,12 +50,14 @@ module.exports = function(app) {
 				}
 				return;
 			}
-			var vToken = new verification.verificationTokenModel({_userId: user._id});
+			//email verification
+/*			var vToken = new verification.verificationTokenModel({_userId: user._id});
 			vToken.createVerificationToken(function (err, token) {
 			    if (err) return console.log("Couldn't create verification token", err);
 			    var verifyURL = req.protocol + "://" + req.get('host') + "/verify/" + token;
 			    sendMail(user.email, "mpeers: verification", verifyURL, null)
-			});
+			});*/
+			//email verification
 			res.send(user);
 		});  
 	});
@@ -72,8 +86,6 @@ module.exports = function(app) {
 		if (err) return res.redirect("/");
 		res.redirect("/");
 	    });
-	}); 
-	  
-
+	}); 	
 };
 

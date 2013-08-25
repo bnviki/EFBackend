@@ -77,7 +77,14 @@ module.exports = function(app) {
 	});
 
 	app.post('/discussion/:id/interested', function(req, res, next) {
-	    Discussion.findByIdAndUpdate(req.params.id, { $addToSet: { interested_users: req.body.users }}, function (err, disc) {
+	    Discussion.findByIdAndUpdate(req.params.id, { $addToSet: { interested_users: req.user._id }}, function (err, disc) {
+  		if (err) return handleError(err);
+		res.send(disc);
+	    });
+	});
+
+	app.del('/discussion/:id/interested', function(req, res, next) {
+	    Discussion.findByIdAndUpdate(req.params.id, { $pull: { interested_users: req.user._id }}, function (err, disc) {
   		if (err) return handleError(err);
 		res.send(disc);
 	    });

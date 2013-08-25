@@ -63,79 +63,27 @@ block content
                 .row-fluid
                   .interested-user.span1(ng-repeat='user in disc.interested_users')
                     img.media-object.user-img(src='/img/rain.jpg')            
-                    .btn.btn-mini.btn-info chat                  
-
-              .topicbox.well.well-small
-                .topic-heading
-                  .label.label-info.pull-right Group discussion
-                  p created by vikram bn on 7th, aug 2013 discused 25 times so far                    
-                  
-                p the topic of discussion is shown here. it can be anything from text, html content, audio from soundcloud
-                  or video from youtube. this can be a conversation starter.
-                  Tight pants next level keffiyeh you probably haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel have a terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. 
-                .row-fluid
-                  .interested-user.span1                    
-                    .btn.btn-small.btn-info Join
-                  
-             
-              .topicbox.well.well-small
-                .topic-heading
-                  p created by vikram bn on 7th, aug 2013 discused 25 times so far                    
-                    button.btn.btn-mini.btn-inverse(style='margin-left: 20px;') discuss
-                      i.icon-plus-sign.icon-white
-                        
-                      
-
-                p the topic of discussion is shown here. it can be anything from text, html content, audio from soundcloud
-                  or video from youtube. this can be a conversation starter.
-                  Tight pants next level keffiyeh you probably haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel have a terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. 
-                .row-fluid
-                  .interested-user.span1
-                    img.media-object.user-img(src='/img/rain.jpg')            
-                    .btn.btn-mini.btn-info chat
-                  .interested-user.span1
-                    img.media-object.user-img(src='/img/rain.jpg')            
-                    .btn.btn-mini.btn-info chat
-                  .interested-user.span1
-                    img.media-object.user-img(src='/img/rain.jpg')            
-                    .btn.btn-mini.btn-info chat
-
+                    .btn.btn-mini.btn-info(ng-click='initiateChat(user._id, disc._id)') chat                  
+              
         .tab-pane(id='people')
-          .container-fluid
+          .container-fluid(ng-controller='userCtrl')
             .row-fluid
-              .userbox.span2
-                label(style='margin-bottom:0px;') vikram bn
+              .userbox.span2(ng-repeat='user in allUsers')
+                label(style='margin-bottom:0px;') {{user.displayname}}
                 img.span12.media-object(src='/img/rain.jpg', style='height: 80px;')            
-                .btn.btn-small.span12 chat
-              .userbox.span2
-                label(style='margin-bottom:0px;') vikram bn
-                img.span12.media-object(src='/img/rain.jpg', style='height: 80px;')            
-                .btn.btn-small.span12 chat
-              .userbox.span2
-                label(style='margin-bottom:0px;') vikram bn
-                img.span12.media-object(src='/img/rain.jpg', style='height: 80px;')            
-                .btn.btn-small.span12 chat
-              .userbox.span2
-                label(style='margin-bottom:0px;') vikram bn
-                img.span12.media-object(src='/img/rain.jpg', style='height: 80px;')            
-                .btn.btn-small.span12 chat
+                .btn.btn-small.span12 chat              
 
         .tab-pane(id='feeds') 
           h5 under construction        
     
     .right-panel.span3
-      .row-fluid(data-spy='affix', data-offset-top='100')
+      .row-fluid(data-spy='affix', data-offset-top='100', ng-controller='chatCtrl')
         h5.text-center Chat Requests 
-        .chat-request-box.media
+        .chat-request-box.media(ng-repeat='req in chatReqs')
           img.pull-left.media-object.user-img(src='/img/rain.jpg')
           .media-body 
-            p topic about which the user wants to talk appears here.
-            .btn.pull-right.btn-mini.btn-primary accept
-        .chat-request-box.media
-          img.pull-left.media-object.user-img(src='/img/rain.jpg')
-          .media-body 
-            p topic about which the user wants to talk appears here.
-            .btn.pull-right.btn-mini.btn-primary accept
+            p {{req.discussion}}
+            .btn.pull-right.btn-mini.btn-primary(ng-click='acceptReq(req._id)') accept       
 
       .row-fluid         
         h5.text-center Discussions        

@@ -7,11 +7,15 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
+  , httpProxy = require('http-proxy')
   , path = require('path')
   , passport = require('passport')
   , sessionUtils = require('./routes/middleware/session_utils')
-  , Category = require('./data/models/category');
+  , Category = require('./data/models/category')
+  , xmpp = require('node-xmpp');
   
+var xmpp_host = 'vikram';
+var xmpp_root = 'admin@vikram';
 
 var app = express();
 
@@ -41,7 +45,14 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/openchat');
 //mongo
 
+var proxy = new httpProxy.RoutingProxy();
 
+app.all('/http-bind', function(req, res){
+	proxy.proxyRequest(req, res, {
+	    host: 'localhost',
+	    port: 5280
+	});
+});
 app.get('/', routes.index);
 app.get('/partial/login', sessionUtils.notLoggedIn, function (req, res) {
   res.render('partials/login');
@@ -50,6 +61,7 @@ app.get('/partial/:name', routes.partial);
 require('./auth')(app, passport);
 require('./routes/user')(app);
 require('./routes/discussion')(app);
+require('./routes/chat')(app);
 app.get('*', routes.index);
 
 var cats = ['news','politics','sports','music','movies','gadjets','shopping','business','celebrity','technology',
@@ -62,6 +74,41 @@ for(var i = 0; i < cats.length; i++){
 	});
 }
 
+//xmpp
+/*var c = new xmpp.Component({ jid: 'admin@vikram',
+			     password: 'muc-secret',
+			     host: 'vikram',
+			     port: 5270
+			   });
+
+c.addListener('online', function() {
+	console.log('we are on air');
+	var msg = new xmpp.Element('iq', { to: 'ikram', from: 'admin@vikram', id: 'get-user-roster-1', type: 'set'}).
+				  c('command', {xmlns: 'http://jabber.org/protocol/commands', action: 'execute', 
+					node:'http://jabber.org/protocol/admin#get-user-roster'}).up();
+	console.log(msg);
+	c.send('monkey');
+				  
+});
+
+c.on('error', function(err) {
+	console.log('we failed' + err);
+});
+
+c.on('stanza', function(stanza) {
+	  if (stanza.is('message') &&
+	      // Important: never reply to errors!
+	      stanza.attrs.type !== 'error') {
+
+	      console.log(stanza);
+	  }
+	console.log('stanza error\n' + stanza);
+});*/
+	
+//xmpp
+
 http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+  	console.log('Express server listening on port ' + app.get('port'));
+	
+
 });

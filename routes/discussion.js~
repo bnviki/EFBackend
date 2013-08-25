@@ -54,7 +54,11 @@ module.exports = function(app) {
 		disc.content = req.body.content;  
 		disc.updated_at = Date.now;              
 		disc.save(function(err){						
-			res.send(disc);
+			if (err) return res.send('Not found', 404);					
+			Discussion.findOne({_id: disc._id}).populate('category created_by interested_users')
+     			.exec(function(err, saveddisc){									
+				res.send(saveddisc);
+			});
 		});  
 	    });	  
 	});
@@ -73,7 +77,7 @@ module.exports = function(app) {
 	});
 
 	app.post('/discussion/:id/interested', function(req, res, next) {
-	    Discussion.findByIdAndUpdate(req.params.id, { $addToSet: { interested_users: req.body.users }}, function (err, disc) {
+	    Discussion.findByIdAndUpdate(req.params.id, { $addToSet: { interested_users: req.user._id }}, function (err, disc) {
   		if (err) return handleError(err);
 		res.send(disc);
 	    });

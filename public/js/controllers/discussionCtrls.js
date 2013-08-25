@@ -1,4 +1,4 @@
-function discussionCtrl($scope, Discussion){
+function discussionCtrl($scope, $http, Discussion, UserManager){
  	$scope.cats = ['news','politics','sports','music','movies','gadjets','shopping','business','celebrity','technology',
 'science','mathematics','history','religion','online games','arts','astronomy','health/fitness','cartoons/comics',
 'travel/trekking','cars/bikes','pets','casual'];
@@ -14,7 +14,17 @@ function discussionCtrl($scope, Discussion){
 	$scope.discussions = Discussion.query();
 
 	$scope.addUserToDisc = function(id){
-		console.log(id);
+		console.log(id);		
+		$http.post('/discussion/' + id + '/interested', {users: [UserManager.getCurrentUser._id]}, function(err){
+			if(err)
+				console.log('matter over');
+		});
+	};
+
+	$scope.initiateChat = function(userId, discussionId){
+		$http.post('/chat/request', {to: userId, discussion: discussionId}, function(err){
+			if(err) console.log('error in chatRequest: ' + err);
+		});
 	};
 
 }

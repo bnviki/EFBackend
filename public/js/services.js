@@ -53,7 +53,7 @@ angular.module('OCServices', ['ngResource'])
         userManager.logUserIn = function(user){		
 		if(currentUser != null)
 			logout();
-		currentUser = user;
+		currentUser = user;d
 	};
 
 	userManager.isLoggedIn = function(){
@@ -75,6 +75,6 @@ angular.module('OCServices', ['ngResource'])
 		{id: '@_id'});
 }]).factory('Discussion', ['$resource', function($resource) {
 	return $resource('/discussion/:discid',
-		{discid: '@_id'}, {interested: {method: 'POST'}});
+		{discid: '@_id'}, {interested: {method: 'POST', url: '/interested'}});
 }]);
 
