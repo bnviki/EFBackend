@@ -16,7 +16,7 @@ block content
               input(type='checkbox')
             a(href='#') {{cat}}             
           
-    #info-pane.span7
+    #info-pane.span6
       ul(class="nav nav-tabs", id='mainTabs')
         li(class='active'): a(href="#discussions", data-toggle="tab") Discussions
         li: a(href="#people", data-toggle="tab") People
@@ -76,7 +76,7 @@ block content
         .tab-pane(id='feeds') 
           h5 under construction        
     
-    .right-panel.span3
+    .right-panel.span4
       .row-fluid(data-spy='affix', data-offset-top='100', ng-controller='chatCtrl')
         h5.text-center Chat Requests 
         .chat-request-box.media(ng-repeat='req in chatReqs')
@@ -85,29 +85,14 @@ block content
             p {{req.discussion}}
             .btn.pull-right.btn-mini.btn-primary(ng-click='acceptReq(req._id)') accept       
 
-      .row-fluid         
-        h5.text-center Discussions        
+      .row-fluid(id='candy')         
+//        h5.text-center Discussions
         ul.nav.nav-pills.nav-stacked 
           li
             a.chat-request-box.media(href='#')              
               img.pull-left.media-object.user-img(src='/img/rain.jpg')
               .media-body 
-                p topic about which the user wants to talk appears here.
-          li
-            a.chat-request-box.media(href='#')              
-              img.pull-left.media-object.user-img(src='/img/rain.jpg')
-              .media-body 
-                p topic about which the user wants to talk appears here.
-          li
-            a.chat-request-box.media(href='#')              
-              img.pull-left.media-object.user-img(src='/img/rain.jpg')
-              .media-body 
-                p topic about which the user wants to talk appears here.
-          li
-            a.chat-request-box.media(href='#')              
-              img.pull-left.media-object.user-img(src='/img/rain.jpg')
-              .media-body 
-                p topic about which the user wants to talk appears here.
+                p topic about which the user wants to talk appears here.       
           
 
 

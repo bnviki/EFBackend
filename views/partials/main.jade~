@@ -82,8 +82,8 @@ block content
         .chat-request-box.media(ng-repeat='req in chatReqs')
           img.pull-left.media-object.user-img(src='/img/rain.jpg')
           .media-body 
-            p topic about which the user wants to talk appears here.
-            .btn.pull-right.btn-mini.btn-primary accept       
+            p {{req.discussion}}
+            .btn.pull-right.btn-mini.btn-primary(ng-click='acceptReq(req._id)') accept       
 
       .row-fluid         
         h5.text-center Discussions        

@@ -55,4 +55,10 @@ function ProfileCtrl($scope) {
 	
 }
 
+function MainCtrl($scope) {
+  $scope.cats = ['news','politics','sports','music','movies','gadjets','shopping','business','celebrity','technology',
+'science','mathematics','history','religion','online games','arts','astronomy','health/fitness','cartoons/comics',
+'travel/trekking','cars/bikes','pets','casual'];
+
+}
 

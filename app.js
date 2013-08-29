@@ -12,7 +12,8 @@ var express = require('express')
   , passport = require('passport')
   , sessionUtils = require('./routes/middleware/session_utils')
   , Category = require('./data/models/category')
-  , xmpp = require('node-xmpp');
+  , xmpp = require('node-xmpp')
+  , socketio = require('socket.io');
   
 var xmpp_host = 'vikram';
 var xmpp_root = 'admin@vikram';
@@ -50,7 +51,7 @@ var proxy = new httpProxy.RoutingProxy();
 app.all('/http-bind', function(req, res){
 	proxy.proxyRequest(req, res, {
 	    host: 'localhost',
-	    port: 5280
+	    port: 7070
 	});
 });
 app.get('/', routes.index);
@@ -107,8 +108,16 @@ c.on('stanza', function(stanza) {
 	
 //xmpp
 
-http.createServer(app).listen(app.get('port'), function(){
-  	console.log('Express server listening on port ' + app.get('port'));
-	
-
+var server = http.createServer(app);
+var io = socketio.listen(server);
+server.listen(app.get('port'), function(){
+  	console.log('Express server listening on port ' + app.get('port'));	
 });
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('myevent', function (data) {
+    console.log(data);
+  });
+});
+

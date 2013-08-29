@@ -2,7 +2,7 @@ var app = angular.module('mainMod', ['OCServices']).
   config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 	  $routeProvider.      
 	      when('/login', {templateUrl: 'partial/login',   controller: SignInCtrl}).
-	      when('/main', {templateUrl: 'partial/main',   controller: MainCtrl, reloadOnSearch: false}). 	      
+	      when('/main', {templateUrl: 'partial/main',  reloadOnSearch: false}).
 	      when('/profile', {templateUrl: 'partial/profile',   controller: ProfileCtrl, reloadOnSearch: false}). 	      
 	      when('/', {redirectTo: '/main'});      
 	      //otherwise({redirectTo: '/main'});
@@ -101,5 +101,17 @@ app.run(['$rootScope', '$http', '$location', function(scope, $http, $location) {
     });
   }
   ping();*/
+
+// currently ongoing chats
+
+  scope.currentChats = [];
+
+  scope.$watch('currentChats', function(oldChats, newChats){
+    if(scope.currentChats.length > 0){
+	    var roomId = scope.currentChats[scope.currentChats.length].room;
+	    Candy.Core.Action.Jabber.Room.Join(roomId);
+    }
+  });
+
  
 }]);

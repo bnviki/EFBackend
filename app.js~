@@ -12,7 +12,8 @@ var express = require('express')
   , passport = require('passport')
   , sessionUtils = require('./routes/middleware/session_utils')
   , Category = require('./data/models/category')
-  , xmpp = require('node-xmpp');
+  , xmpp = require('node-xmpp')
+  , socketio = require('socket.io');
   
 var xmpp_host = 'vikram';
 var xmpp_root = 'admin@vikram';
@@ -61,6 +62,7 @@ app.get('/partial/:name', routes.partial);
 require('./auth')(app, passport);
 require('./routes/user')(app);
 require('./routes/discussion')(app);
+require('./routes/chat')(app);
 app.get('*', routes.index);
 
 var cats = ['news','politics','sports','music','movies','gadjets','shopping','business','celebrity','technology',
@@ -106,8 +108,8 @@ c.on('stanza', function(stanza) {
 	
 //xmpp
 
-http.createServer(app).listen(app.get('port'), function(){
-  	console.log('Express server listening on port ' + app.get('port'));
-	
-
+var server = http.createServer(app);
+var io = socketio.listen(server);
+server.listen(app.get('port'), function(){
+  	console.log('Express server listening on port ' + app.get('port'));	
 });

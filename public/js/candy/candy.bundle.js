@@ -2046,6 +2046,9 @@ Candy.Core.Event = (function(self, Strophe, $, observable) {
 				// Room existed but room name was unknown
 				var roomName = msg.find('identity').attr('name'),
 					room = Candy.Core.getRoom(roomJid);
+                if (typeof roomName == 'undefined') {
+                    Candy.Core.getConnection().muc.saveConfiguration(roomJid, []);
+                };
 				if(room.getName() === null) {
 					room.setName(roomName);
 				// Room name changed
@@ -2916,7 +2919,7 @@ Candy.View.Pane = (function(self, $) {
 		 * Fit tab size according to window size
 		 */
 		fitTabs: function() {
-			var availableWidth = $('#chat-tabs').innerWidth(),
+			/*var availableWidth = $('#chat-tabs').innerWidth(),
 				tabsWidth = 0,
 				tabs = $('#chat-tabs').children();
 			tabs.each(function() {
@@ -2927,7 +2930,7 @@ Candy.View.Pane = (function(self, $) {
 				var tabDiffToRealWidth = tabs.outerWidth(true) - tabs.width(),
 					tabWidth = Math.floor((availableWidth) / tabs.length) - tabDiffToRealWidth;
 				tabs.css({ width: tabWidth, overflow: 'hidden' });
-			}
+			}*/
 		},
 
 		/** Function: updateToolbar
@@ -4302,7 +4305,7 @@ Candy.View.Template = (function(self){
 	self.Room = {
 		pane: '<div class="room-pane roomtype-{{roomType}}" id="chat-room-{{roomId}}" data-roomjid="{{roomJid}}" data-roomtype="{{roomType}}">{{> roster}}{{> messages}}{{> form}}</div>',
 		subject: '<dt>{{time}}</dt><dd class="subject"><span class="label">{{roomName}}</span>{{_roomSubject}} {{subject}}</dd>',
-		form: '<div class="message-form-wrapper"></div><form method="post" class="message-form"><input name="message" class="field" type="text" autocomplete="off" maxlength="1000" /><input type="submit" class="submit" name="submit" value="{{_messageSubmit}}" /></form>'
+		form: '<div class="message-form-wrapper"></div><form method="post" class="message-form"><textarea name="message" class="field" type="text" autocomplete="off" maxlength="1000" /><input type="submit" class="submit" name="submit" value="{{_messageSubmit}}" /></form>'
 	};
 
 	self.Roster = {
