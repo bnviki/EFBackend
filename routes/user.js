@@ -13,9 +13,15 @@ module.exports = function(app) {
 			if(err) return res.send('no requests', 204);
 			res.send(reqs);
 		});    
-	}); 
+	});
 
-	app.get('/users', function(req, res) {
+    app.get("/users/chats", function (req, res, next) {
+        if(!req.session.chats) return res.send('no chats', 204);
+        res.send(req.session.chats);
+    });
+
+
+    app.get('/users', function(req, res) {
 	  var allUsers = User.find({},function(err, users) {
 		if (err) {
 			return next(err);

@@ -11,7 +11,7 @@ var ChatRequestSchema = new Schema({
                    type: mongoose.Schema.Types.ObjectId},
 	created_at: {
 			type: Date,
-			'default': Date.now,			
+			'default': Date.now
 		    }
 });
 

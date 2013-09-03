@@ -10,7 +10,6 @@ function RootCtrl($scope, $location, UserManager){
 	$scope.$on('event:loggedOut', function(event){
 		$scope.isLoggedIn = false;
 		$scope.currentUser = null;
-		
   	});
 
 	$scope.logUserOut = function(){

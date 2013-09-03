@@ -85,7 +85,10 @@ block content
             p {{req.discussion}}
             .btn.pull-right.btn-mini.btn-primary(ng-click='acceptReq(req._id)') accept       
 
-      .row-fluid(id='candy')         
+      .row-fluid
+        h5.text-center Discussions
+        p(id='noChats') no ongoing discussions
+        div(id='candy', style='display:none')
 //        h5.text-center Discussions
         ul.nav.nav-pills.nav-stacked 
           li

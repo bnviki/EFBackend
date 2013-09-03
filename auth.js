@@ -4,11 +4,14 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     request = require('request'),
     User = require('./data/models/user');
 
-module.exports = function(app, passport) {
+module.exports = function(app, passport, sessionUsers) {
 	app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 	app.get('/auth/google/callback', 
 	passport.authenticate('google', { successRedirect: '/main',
-		                          failureRedirect: '/' }));
+		                          failureRedirect: '/' }), function(req, res){
+        console.log('registering user: ' + req.user._id + ' session: ' + req.session.sessionID);
+        sessionUsers[req.user._id] = req.sessionID;
+    });
 
 	passport.use(new GoogleStrategy({
 	    clientID: "177866912752.apps.googleusercontent.com",
@@ -46,8 +49,10 @@ module.exports = function(app, passport) {
 
 	app.get('/auth/facebook', passport.authenticate('facebook',  { scope: ['email'] }));
 	app.get('/auth/facebook/callback', 
-	  passport.authenticate('facebook', { successRedirect: '/main',
-                                      	      failureRedirect: '/' }));
+	  passport.authenticate('facebook', { successRedirect: '/main', failureRedirect: '/' }), function(req, res){
+            console.log('registering user: ' + req.user._id + ' session: ' + req.sessionID);
+            sessionUsers[req.user._id] = req.sessionID;
+        });
 
 	passport.use(new FacebookStrategy({
     		clientID: "555808311121979",
@@ -83,6 +88,8 @@ module.exports = function(app, passport) {
 
 	app.post('/login',
 	  passport.authenticate('local'), function(req, res){
+        console.log('registering user: ' + req.user._id + ' session: ' + req.sessionID);
+        sessionUsers[req.user._id] = req.sessionID;
 		res.send(req.user);
 	});
 
@@ -115,7 +122,8 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/logout', function(req, res){
-	  req.logout();
+	  req.session.destroy();
+      console.log("after logout: " + req.user);
 	  res.send('success');
 	});
 
@@ -123,7 +131,7 @@ module.exports = function(app, passport) {
 	  if(req.user)	  
 	  	res.send(req.user);
 	  else{
-		res.send('please login', 404);
+		res.send('please login', 204);
 	  }
 	});
 }

@@ -1,7 +1,8 @@
 var User = require('../../data/models/user');
 
 function notLoggedIn(req, res, next) {
-	if (req.user) {
+    console.log('checking user: ' + req.user);
+	if (req.user &&  req.user != null) {
 		res.send('Unauthorized', 401);
 	} else {
 		next();
@@ -9,7 +10,7 @@ function notLoggedIn(req, res, next) {
 }
 
 function loggedIn(req, res, next) {
-	if (req.user) {
+	if (req.user && req.user != null) {
 		next();		
 	} else {
 		res.send('Unauthorized', 401);
@@ -30,7 +31,7 @@ function loadUser(req, res, next) {
 }
 
 function restrictUser(req, res, next){
-	if(req.user.username === req.params.name)
+	if(req.user && req.user != null && req.user.username === req.params.name)
 		next();
 	else
 		res.send('Unauthorized', 401);	

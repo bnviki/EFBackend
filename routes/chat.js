@@ -2,7 +2,7 @@ var ChatRequest = require('../data/models/chatRequest'),
     Chat = require('../data/models/chat'),
     Discussion = require('../data/models/discussion');
 
-module.exports = function(app) {
+module.exports = function(app, sessionUsers) {
 	app.post('/chat/request', function(req, res) {
 	  if(!req.body.from)
 		req.body.from = req.user._id;
@@ -16,35 +16,66 @@ module.exports = function(app) {
 
 	app.post('/chat/accept/:reqId', function(req, res) {	  
 	  ChatRequest.findOne({_id: req.params.reqId}, function(err, chatRequest){
-		if(err){
+          if(err || !chatRequest){
 			res.send('invalid chat request', 400);
 			return;
-		}
-		
-		if(chatRequest.discussion){
-			Discussion.findOne({_id: chatRequest.discussion}, function(error, disc){				
-				if(!error && disc.type == 'GROUP'){
-					Chat.findOne({discussion: disc._id}, function(err, chat){
-						if(err){
-							res.send('invalid chat request', 400);
-							return;
-						}
-						chatRequest.remove();
-						res.send(chat);
-					});
-					return;
-				}			
-			});
-		}
+		  }
 
-		chatRequest.remove();		
-		var newChat = { users: [chatRequest.from, chatRequest.to], 
-				category: chatRequest.category, 
-				discussion: chatRequest.discussion
-			      };
-		Chat.create(newChat, function(err, chat){
-			res.send(chat);
-		});	
+          var sendChatToUser = function(userId, chat){
+            console.log('sending chat req to :' + userId + ' session: ' + sessionUsers[userId]);
+            //socketCon.sockets.in(sessionUsers[userId]).send('NEW_CHAT', chat);
+            req.io.room(''+ userId).broadcast('NEW_CHAT', chat);
+          }
+
+          var addChatToSession = function(chat){
+              if(!req.session.chats)
+                req.session.chats = [];
+              req.session.chats.push(chat);
+          }
+
+          var newChat = { users: [chatRequest.from, chatRequest.to],
+              category: chatRequest.category,
+              discussion: chatRequest.discussion
+          };
+
+          function getDiscussionChat(discid){
+              Discussion.findOne({_id: discid}, function(error, disc){
+                  if(error || !disc){
+                      return null;
+                  }
+                  if(disc.type == 'GROUP'){
+                      Chat.findOne({discussion: disc._id}, function(err, chat){
+                          if(!err && chat){
+                              return chat;
+                          }
+                      });
+                  }
+                  return null;
+              });
+          };
+
+          var groupChat = null;
+          if(chatRequest.discussion)
+              groupChat = getDiscussionChat(chatRequest.discussion);
+
+          if(groupChat != null){
+              addChatToSession(chat);
+              chatRequest.remove();
+              res.send(chat);
+              return;
+          }
+
+          Chat.create(newChat, function(err, chat){
+              addChatToSession(chat);
+              //req.chat = chat;
+              //req.chatuser = chatRequest.from;
+              chatRequest.remove();
+              //req.io.route('SEND_CHAT', chat);
+              res.send(chat);
+          });
+          return;
+
+
 	  }); 
 	});
 

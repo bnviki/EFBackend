@@ -12,21 +12,18 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			Candy.init('http-bind/', {
-				core: { debug: true, autojoin:['test@conference.vikram', 'test1@conference.vikram']},
+				core: { debug: true},
 				view: { resources: 'js/candy/res/' }
 			});
 
             //Candy.Core.connect();
-			Candy.Core.connect('vikram@vikram', 'vikram', 'viki');
+			Candy.Core.connect('vikram', null, 'viki');
             //Candy.Core.connect('admin@vikram', 'tigase', 'Candy');
 			//Candy.Core.Action.Jabber.Room.Join('test');
 		});
 
 		function joinRoom(){
-            Candy.Core.Action.Jabber.Room.Disco('tete@muc.vikram');
-            Candy.Core.Action.Jabber.Room.UpdatePrivacyList();
-			Candy.Core.Action.Jabber.Room.Join('tete@muc.vikram');
-            document.getElementById('candy').style.display = 'block';
+			Candy.Core.Action.Jabber.Room.Join('tete@conference.vikram');
             Candy.Core.Event.Jabber.Room.PresenceError = function(msg){
                 console.log('hayyo hayyo');
                 return true;

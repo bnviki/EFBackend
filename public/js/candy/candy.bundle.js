@@ -4305,7 +4305,7 @@ Candy.View.Template = (function(self){
 	self.Room = {
 		pane: '<div class="room-pane roomtype-{{roomType}}" id="chat-room-{{roomId}}" data-roomjid="{{roomJid}}" data-roomtype="{{roomType}}">{{> roster}}{{> messages}}{{> form}}</div>',
 		subject: '<dt>{{time}}</dt><dd class="subject"><span class="label">{{roomName}}</span>{{_roomSubject}} {{subject}}</dd>',
-		form: '<div class="message-form-wrapper"></div><form method="post" class="message-form"><textarea name="message" class="field" type="text" autocomplete="off" maxlength="1000" /><input type="submit" class="submit" name="submit" value="{{_messageSubmit}}" /></form>'
+		form: '<div class="message-form-wrapper"></div><form method="post" class="message-form"><textarea name="message" class="field" autocomplete="off" maxlength="1000" /><input type="submit" class="submit" name="submit" value="{{_messageSubmit}}" /></form>'
 	};
 
 	self.Roster = {
