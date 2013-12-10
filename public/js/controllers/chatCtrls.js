@@ -1,4 +1,4 @@
-function chatCtrl($scope, $http, $rootScope, UserManager){
+function chatCtrl($scope, $http, $rootScope, UserManager, Messenger){
 	var currentUser = UserManager.getCurrentUser();
 	console.log('inside chatCtrl');
 	$http.get('/users/chatrequests').success(function(data){
@@ -8,8 +8,40 @@ function chatCtrl($scope, $http, $rootScope, UserManager){
 
 	$scope.acceptReq = function(reqId){
 		$http.post('/chat/accept/' + reqId).success(function(chat){	
-			$rootScope.currentChats.push(chat);		
+			$rootScope.currentChats.push(chat);
+            removeFromChatReq(reqId);
 			console.log('accepted request');
 		});	
-	}	
+	}
+
+    function findInChatRequests(id){
+        if($scope.chatReqs){
+            for(var i = 0; i < $scope.chatReqs.length; i++){
+                if($scope.chatReqs[i]._id == id)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    function removeFromChatReq(id){
+        if($scope.chatReqs){
+            for(var i = 0; i < $scope.chatReqs.length; i++){
+                if($scope.chatReqs[i]._id == id){
+                    $scope.chatReqs.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    }
+
+    Messenger.socket.on('ADD_CHAT_REQUEST', function (data) {
+        console.log('new chat request: ' + data);
+        if(!findInChatRequests(data._id)){
+            $scope.chatReqs.push(data);
+            $scope.$apply();
+        }
+    });
+
+
 }

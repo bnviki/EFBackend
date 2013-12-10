@@ -1,0 +1,82 @@
+link(rel='stylesheet', href='css/dash.css')
+block content
+    div.container.dashboard
+    div.row.clearfix
+        div.col-md-8.column
+            div.row.clearfix.well.well-sm
+                div.col-md-12.column
+                    .col-md-2
+                        img(alt='140x140', src='http://lorempixel.com/60/60/')
+                    .col-md-10
+                        h5.text-primary.text-left
+                            | Vikram B N
+                        .label.label-success Online
+            div.row.chat-area
+                .col-md-12
+                    .row#chat-tabs
+                        ul.nav.nav-tabs
+                            li(ng-repeat='workspace in workspaces')
+                                a(href='', data-toggle='tab', ng-click='setActiveWorkspace(workspace.id)' ) {{workspace.name}}
+
+                        .tab-content
+                            .tab-pane(ng-repeat='workspace in workspaces', id='{{workspace.id}}', ng-class='{active:workspace.active}')
+                                .row(style='min-height:400px;')
+                                    .col-md-12
+                                        .media(ng-repeat='msg in msgs[workspace.user]')
+                                            img.media-object.pull-left(src='/img/rain.jpg', style='width:30px;height:30px')
+                                            .media-body
+                                                p {{msg.msg}}
+
+                                .row.chat-send-form
+                                    .col-md-12
+                                        .input-group.col-md-12(data-spy='affix')
+                                            textarea.form-control(type='text', ng-model='msgToSend')
+                                            span.input-group-addon
+                                                button.btn.btn-primary(type='submit', ng-click='sendMsg(workspace.user, msgToSend)') Send
+        div.col-md-4.column
+            div.row.clearfix
+                div.col-md-12.chatrequests
+                    .label.label-default Chat Requests
+                    .media
+                        .col-md-2
+                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
+                        .col-md-10.media-body
+                            p this is sample message
+                    .media
+                        .col-md-2
+                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
+                        .col-md-10.media-body
+                            p this is sample message
+                    .media
+                        .col-md-2
+                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
+                        .col-md-10.media-body
+                            p this is sample message
+                    .media
+                        .col-md-2
+                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
+                        .col-md-10.media-body
+                            p this is sample message
+            div.row.clearfix
+                div.col-md-12.conversations
+                    .label.label-default Conversations
+                    .media
+                        .col-md-2
+                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
+                        .col-md-10.media-body
+                            p this is sample message
+                    .media
+                        .col-md-2
+                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
+                        .col-md-10.media-body
+                            p this is sample message
+                    .media
+                        .col-md-2
+                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
+                        .col-md-10.media-body
+                            p this is sample message
+                    .media
+                        .col-md-2
+                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
+                        .col-md-10.media-body
+                            p this is sample message

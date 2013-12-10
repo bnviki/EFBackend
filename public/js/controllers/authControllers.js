@@ -19,39 +19,58 @@ function RootCtrl($scope, $location, UserManager){
   	}
 }
 
+function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient){
+    var currentUser = UserManager.getCurrentUser();
+    if(currentUser != null){
+        $location.path('/dash');
+    }
 
-function SignInCtrl($scope, $http, $location, UserManager) {
-  $scope.logUserIn = function(user) {
-    UserManager.login(user.username, user.password).then(function(user){
-	$location.path('/main');
-    });    
-  }    
-}
+    $scope.logUserIn = function(user) {
+        UserManager.login(user.username, user.password).then(function(user){
+            if(!user.username)
+                $location.path('/username');
+            else{
+                ChatClient.connect(user.username, user.password);
+                $location.path('/dash');
+            }
+        });
+    }
 
-function SignupCtrl($scope, $resource, User, UserManager, $location){
-	$scope.alerts = [];
-	$scope.signupUser = function(user){
-		User.save(user);
-		UserManager.login(user.username, user.password).then(function(user){
-			$scope.alerts.push({type:'error', msg: 'user already exists'});
-			//$location.path('/main');
+    $scope.alerts = [];
+    $scope.signupUser = function(user){
+        User.save(user);
+        UserManager.login(user.username, user.password).then(function(user){
+            //$scope.alerts.push({type:'error', msg: 'user already exists'});
+            $location.path('/dash');
+        }, function(err){
+            $scope.alerts.push({type:'error', msg: 'user already exists'});
+        });
+    }
 
-		}, function(err){
-			$scope.alerts.push({type:'error', msg: 'user already exists'});
-		}); 
-	}
-}
-
-function SignUpExtCtrl($scope, $http, $log){
-	$scope.signInGoogle = function(){
-		$http.get('/auth/google').success(function(data){
-			$log.log("success");
-		});
-	}	
+    $scope.signInGoogle = function(){
+        $http.get('/auth/google').success(function(data){
+            $log.log("success");
+        });
+    }
 }
 
 function ProfileCtrl($scope) {
 	
+}
+
+function UserName($scope, UserManager, $location, User){
+    var currentUser = UserManager.getCurrentUser();
+    if(currentUser == null){
+        $location.path('/login');
+    }
+    else if(currentUser.username){
+        $location.path('/dash');
+    }
+
+    $scope.setUserName = function(username){
+        currentUser.username = username;
+        User.save(currentUser);
+    }
 }
 
 

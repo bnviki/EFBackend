@@ -1,0 +1,11 @@
+block content
+  .signup-form(ng-controller='UserName')
+    form(class='form-horizontal')
+      .legend
+        h4(class='text-center') Choose Username
+      .form-group
+        label(class="col-md-1 control-label", for="userName") UserName
+        .col-md-3
+          input(class="form-control", type="text", id="userName", placeholder="UserName", ng-model='username')
+      .form-group
+        .btn.btn-info(type='submit', ng-click='setUserName(username)') Ok

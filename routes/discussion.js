@@ -37,10 +37,12 @@ module.exports = function(app) {
 			newdisc.category = cat._id;
 			var disc = new Discussion(newdisc);
 			disc.save(function(err){
-				if (err) return res.send('Not found', 404);					
+				if (err) return res.send('bad data', 400);
 				Discussion.findOne({_id: disc._id}).populate('category created_by interested_users')
-	     			.exec(function(err, saveddisc){									
-					res.send(saveddisc);
+	     			.exec(function(err, saveddisc){
+                    req.discussion = saveddisc;
+                    req.io.route('BROADCAST_DISCUSSION');
+					//res.send(saveddisc);
 				});									
 			});
 		});		  
@@ -89,4 +91,11 @@ module.exports = function(app) {
 		res.send(disc);
 	    });
 	});
+
+    //socket request handlers
+    app.io.route('BROADCAST_DISCUSSION', function(req) {
+        console.log('broadcasting discussion: ' + req.discussion._id);
+        app.io.broadcast('ADD_DISCUSSION', req.discussion);
+        req.io.respond(req.discussion);
+    });
 }

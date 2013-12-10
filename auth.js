@@ -7,7 +7,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
 module.exports = function(app, passport, sessionUsers) {
 	app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 	app.get('/auth/google/callback', 
-	passport.authenticate('google', { successRedirect: '/main',
+	passport.authenticate('google', { successRedirect: '/username',
 		                          failureRedirect: '/' }), function(req, res){
         console.log('registering user: ' + req.user._id + ' session: ' + req.session.sessionID);
         sessionUsers[req.user._id] = req.sessionID;
@@ -49,7 +49,7 @@ module.exports = function(app, passport, sessionUsers) {
 
 	app.get('/auth/facebook', passport.authenticate('facebook',  { scope: ['email'] }));
 	app.get('/auth/facebook/callback', 
-	  passport.authenticate('facebook', { successRedirect: '/main', failureRedirect: '/' }), function(req, res){
+	  passport.authenticate('facebook', { successRedirect: '/username', failureRedirect: '/' }), function(req, res){
             console.log('registering user: ' + req.user._id + ' session: ' + req.sessionID);
             sessionUsers[req.user._id] = req.sessionID;
         });

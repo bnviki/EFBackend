@@ -1,0 +1,27 @@
+.chat-send-form{
+    bottom: 0;
+    position: relative;
+}
+
+.chat-area{
+    min-height: 500px;
+    height: 500px;
+}
+
+.chat_style_me img{
+    float: right;
+}
+
+.chat_style_me .media-body p{
+    float: right;
+    padding-right: 10px;
+}
+
+.chat_style_other img{
+    float: left;
+}
+
+.chat_style_other .media-body p{
+    float: left;
+    padding-left: 10px;
+}

@@ -11,10 +11,10 @@ block content
     #left-panel.span2.affix
       #left-panel-inner
         ul(class='nav nav-tabs nav-stacked')
-          li(ng-repeat='cat in cats')
+          li(ng-repeat='cat in cats', id='cat_{{cat}}')
             label.checkbox.pull-right
               input(type='checkbox')
-            a(href='#') {{cat}}             
+            a(href='', ng-click='onCatSelected(cat)') {{cat + '(' + catCount[cat] + ')'}}
           
     #info-pane.span6
       ul(class="nav nav-tabs", id='mainTabs')
@@ -53,16 +53,19 @@ block content
           
           .container-fluid
             .row-fluid
-              .topicbox.well.well-small(ng-repeat='disc in discussions')
+              .topicbox.well.well-small(ng-repeat='disc in discussions | catFilter:selectedCat | orderBy:\'created_at\':true')
                 .topic-heading
                   p created by {{disc.created_by.displayname}} on {{disc.created_at | date:short}}                    
-                    button.btn.btn-mini.btn-inverse(id='{{"disc" + disc._id}}', style='margin-left: 20px;', ng-click='addUserToDisc(disc._id)') discuss
-                      i.icon-plus-sign.icon-white                  
+                    button.btn.btn-mini.btn-inverse(id='{{"disc_add" + disc._id}}', style='margin-left: 20px;', ng-click='addUserToDisc(disc._id)', ng-hide='needToHideAdd(disc)') Add me
+                      i.icon-plus-sign.icon-white
+                    button.btn.btn-mini(id='{{"disc_rem" + disc._id}}', style='margin-left: 20px;', ng-click='removeUserFromDisc(disc._id)', ng-hide='needToHideRemove(disc)') remove me
+                      i.icon-ok-circle
 
                 p {{disc.content}}
                 .row-fluid
-                  .interested-user.span1(ng-repeat='user in disc.interested_users')
-                    img.media-object.user-img(src='/img/rain.jpg')            
+                  .interested-user.span1(ng-repeat='user in disc.interested_users | removeCurrentUser' )
+                    a(href="#", data-toggle="tooltip", title='{{user.displayname}}')
+                      img.user-img(src='/img/rain.jpg')
                     .btn.btn-mini.btn-info(ng-click='initiateChat(user._id, disc._id)') chat                  
               
         .tab-pane(id='people')

@@ -12,7 +12,10 @@ var express = require('express.io')
     , passport = require('passport')
     , sessionUtils = require('./routes/middleware/session_utils')
     , Category = require('./data/models/category')
-    , xmpp = require('node-xmpp');
+    , xmppCon = require('./routes/middleware/xmpp_conn')
+    , xmppUser = require('./routes/middleware/xmpp_user')
+    , xmpp = require('node-xmpp')
+    , ServiceAdmin = require('node-xmpp-serviceadmin');
     //, socketio = require('socket.io');
 
 var app = express();
@@ -56,6 +59,14 @@ app.all('/http-bind', function(req, res){
     });
 });
 
+//presence information
+app.get('/plugins/presence/status', function(req, res){
+    proxy.proxyRequest(req, res, {
+        host: 'localhost',
+        port: 9090
+    });
+});
+
 var cats = ['news','politics','sports','music','movies','gadjets','shopping','business','celebrity','technology',
     'science','mathematics','history','religion','online games','arts','astronomy','health/fitness','cartoons/comics',
     'travel/trekking','cars/bikes','pets','casual'];
@@ -77,22 +88,8 @@ app.io.route('register', function(req) {
    req.io.join('' + req.data._id);
 });
 
-app.io.route('SEND_CHAT', function(req) {
-    console.log('sending chat: ' + req.chat._id + ' to: ' + req.chatuser);
-    app.io.room('' + req.chatuser).broadcast('NEW_CHAT', req.chat);
-    req.io.respond(req.chat);
-});
-
-app.io.route('INIT_CHAT', function(req) {
-    console.log('sending chat: ' + req.data.chat._id + ' to: ' + req.data.to);
-    req.io.room('' + req.data.to).broadcast('NEW_CHAT', req.data.chat);
-});
-
 //Routing
 app.get('/', routes.index);
-app.get('/partial/login', sessionUtils.notLoggedIn, function (req, res) {
-    res.render('partials/login');
-});
 app.get('/partial/:name', routes.partial);
 require('./auth')(app, passport, sessionUsers);
 require('./routes/user')(app);

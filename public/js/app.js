@@ -1,11 +1,14 @@
-var app = angular.module('mainMod', ['OCServices']).
+var app = angular.module('mainMod', ['OCServices', 'OCFilters', 'ngRoute', 'ChatServices']).
     config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider.
-            when('/login', {templateUrl: 'partial/login'}).
+            when('/login', {templateUrl: 'partial/login', controller: LoginCtrl}).
+            when('/chatwindow', {templateUrl: 'partial/chatwindow'}).
+            when('/username', {templateUrl: 'partial/username'}).
+            when('/dash', {templateUrl: 'partial/dash', controller: DashCtrl}).
             when('/main', {templateUrl: 'partial/main',  reloadOnSearch: false}).
-            when('/profile', {templateUrl: 'partial/profile',   controller: ProfileCtrl, reloadOnSearch: false}).
-            when('/', {redirectTo: '/main'});
-        //otherwise({redirectTo: '/main'});
+            when('/demo', {templateUrl: 'partial/demo'}).
+            when('/profile/:username', {redirectTo: '/chatwindow'});
+            //otherwise({redirectTo: '/login'});
         $locationProvider.html5Mode(true);
 
         var interceptor = ['$rootScope','$q', function(scope, $q) {
@@ -39,8 +42,10 @@ var app = angular.module('mainMod', ['OCServices']).
         $httpProvider.responseInterceptors.push(interceptor);
     }]);
 
-app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$timeout', function($rootScope, $http, $location, UserManager, Discussion, $timeout) {
-    var socket = io.connect();
+app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$timeout', 'Messenger',
+    function($rootScope, $http, $location, UserManager, Discussion, $timeout, Messenger) {
+
+    $rootScope.selectedCat = 'news';
     //user login params
     UserManager.checkUser();
     $rootScope.isLoggedIn = false;
@@ -56,7 +61,7 @@ app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$time
      */
     $rootScope.$on('event:loginConfirmed', function() {
         var user = UserManager.getCurrentUser();
-        socket.emit('register', user);
+        Messenger.socket.emit('register', user);
         $rootScope.isLoggedIn = true;
 
         /*var i, requests = scope.requests401;
@@ -121,7 +126,7 @@ app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$time
      view: { resources: 'js/candy/res/' }
      });*/
 
-    Candy.Core.init('http-bind/', { debug: true});
+    /*Candy.Core.init('http-bind/', { debug: true});
     $rootScope.candyConnected = false;
 
     $rootScope.$watch('candyConnected', function(newVal, oldVal){
@@ -142,7 +147,7 @@ app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$time
             $('#candy').hide();
             $('#noChats').show();
         }
-    });
+    });*/
 
 
 // currently ongoing chats
@@ -172,7 +177,7 @@ app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$time
                 if(disc.type == 'SINGLE'){
                     $timeout(function(){
                         var toUser = chat.users[0] == user._id ? chat.users[1] : chat.users[0];
-                        socket.emit('INIT_CHAT', {chat: chat, to: toUser});
+                        Messenger.socket.emit('INIT_CHAT', {chat: chat, to: toUser});
                     }, 1000);
                 }
             });
@@ -182,13 +187,11 @@ app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$time
 
     // Socket event receivers
 
-    socket.on('NEW_CHAT', function (data) {
+    Messenger.socket.on('NEW_CHAT', function (data) {
         console.log('new chat added: ' + data);
         if(!findInCurrentChats(data._id)){
             $rootScope.currentChats.push(data);
             $rootScope.$apply();
         }
     });
-
-
 }]);

@@ -9,8 +9,11 @@ module.exports = function(app, sessionUsers) {
 	  ChatRequest.findOrCreate({from: req.body.from, to: req.body.to}, req.body, function(err, chatRequest){
 		if(err){
 			res.send('invalid chat request', 400);
-		}		
-		res.send(chatRequest);
+		}
+
+        req.chatrequest = chatRequest;
+        req.io.route('SEND_CHAT_REQUEST');
+		//res.send(chatRequest);
 	  }); 
 	});
 
@@ -87,5 +90,23 @@ module.exports = function(app, sessionUsers) {
 		}		
 		res.send(disc);
 	  });
-	});	
+	});
+
+    //socket request handlers
+    app.io.route('SEND_CHAT', function(req) {
+        console.log('sending chat: ' + req.chat._id + ' to: ' + req.chatuser);
+        app.io.room('' + req.chatuser).broadcast('NEW_CHAT', req.chat);
+        req.io.respond(req.chat);
+    });
+
+    app.io.route('SEND_CHAT_REQUEST', function(req) {
+        console.log('sending chat request: ' + req.chatrequest._id + ' to: ' + req.chatrequest.to);
+        app.io.room('' + req.chatrequest.to).broadcast('ADD_CHAT_REQUEST', req.chatrequest);
+        req.io.respond(req.chatrequest);
+    });
+
+    app.io.route('INIT_CHAT', function(req) {
+        console.log('sending chat: ' + req.data.chat._id + ' to: ' + req.data.to);
+        req.io.room('' + req.data.to).broadcast('NEW_CHAT', req.data.chat);
+    });
 }

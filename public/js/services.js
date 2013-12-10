@@ -76,5 +76,12 @@ angular.module('OCServices', ['ngResource'])
     }]).factory('Discussion', ['$resource', function($resource) {
         return $resource('/discussion/:discid',
             {discid: '@_id'}, {interested: {method: 'POST', url: '/interested'}});
+    }]).factory('Messenger', ['$resource', function($resource) {
+        var msgr = {};
+        msgr.socket = io.connect();
+        msgr.send = function(eventName, data){
+            this.socket.emit(eventName, data);
+        }
+        return msgr;
     }]);
 

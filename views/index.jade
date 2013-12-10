@@ -6,36 +6,42 @@ html(ng-app="mainMod")
     block csslinks	    
       link(href='css/base.css', rel='stylesheet')
       link(href='css/bootstrap.css', rel='stylesheet')
-      link(href='js/candy/res/default.css', rel='stylesheet')
     block scripts
       script(src='js/lib/jquery-1.10.2.js')
       script(src='js/lib/jquery-ui.js')
-      script(src='js/lib/jquery-migrate-1.2.1.js')
+      //script(src='js/lib/jquery-migrate-1.2.1.js')
       script(src='js/lib/bootstrap/bootstrap.js')
       script(src='/socket.io/socket.io.js')
       script(src='js/lib/angular.js')
       script(src='js/lib/angular-resource.js')
+      script(src='js/lib/angular-route.js')
+      script(src='js/lib/ui-bootstrap-0.7.0.min.js')
       script(src='js/candy/libs/libs.min.js')
       script(src='js/candy/candy.bundle.js')
       script(src='js/lib/jquery.slimscroll.min.js')
+      script(src='js/lib/strophe.js')
 
       script(src='js/controllers/authControllers.js')
       script(src='js/controllers/discussionCtrls.js')
       script(src='js/controllers/userCtrls.js')
       script(src='js/controllers/chatCtrls.js')
       script(src='js/controllers/mainCtrls.js')
+      script(src='js/controllers/chatWinCtrls.js')
+      script(src='js/controllers/dashCtrls.js')
       script(src='js/services.js')
+      script(src='js/services/ChatServices.js')
+      script(src='js/filters.js')
       script(src='js/app.js')
   body(ng-controller='RootCtrl')
     .navbar.navbar-fixed-top.navbar-inverse
       .navbar-inner
-        a(class='brand', href='/', style='padding-left:75px') mPeers
+        a(class='navbar-brand', href='/', style='padding-left:75px') mPeers
         #userinfo(ng-show='isLoggedIn', style='padding-right:50px;')
           img(class='img-rounded pull-right', ng-src='{{currentUser.picture}}', style='height:40px; width:40px;')
           .btn.btn-small.pull-right(ng-click='logUserOut()') logout
           a(class='pull-right', href='/profile', style='padding-top:20px;') {{currentUser.displayname}} 
           
 
-    div(ng-view)
+    div(ng-view, style='padding-top:20px; font-size: 12px;')
     block content
 

@@ -1,54 +1,53 @@
-.container-fluid
-  .row-fluid
-    .span6
+.container
+  .row
+    .col-md-6
       h2(class='text-center') Welcome to mPeers
       .well.well-small.text-center
         p mPeers enables you to talk/discuss about anything with anybody. find people who are interested 
           |about your ideas.   
-    .span6
-      .container-fluid
-        .login-form(ng-controller='SignInCtrl')
+    .col-md-6
+      .container
+        .login-form
           form(class='form-horizontal')
             .legend 
-              h4(class='text-center') Login
-            .control-group
-              label(class="control-label", for="userName") UserName
-              .controls
-                input(type="text", id="userName", placeholder="UserName", ng-model='user.username')
-            .control-group
-              label(class="control-label", for="inputPassword") Password
-              .controls
-                input(type="password", id="inputPassword", placeholder="Password", ng-model='user.password')
-            .control-group
-              .controls
+              .label.label-default Login
+            .form-group
+              label(class="col-md-1 control-label", for="userNameLogin") UserName
+              .col-md-3
+                input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
+            .form-group
+              label(class="col-md-1 control-label", for="inputPasswordLogin") Password
+              .col-md-3
+                input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password')
+            .form-group
                 label(class="checkbox") Remember me           
-                  input(type="checkbox", ng-model='user.remember') 
-                .btn.btn-primary(type='submit', ng-click='logUserIn(user)') Sign in 
+                  input(type="checkbox", ng-model='userLogin.remember')
+                .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)') Sign in
     
-        .signup-form(ng-controller='SignupCtrl')
+        .signup-form
           form(class='form-horizontal')
-            .legend 
-              h4(class='text-center') Sign Up
-            .control-group
-              label(class="control-label", for="userName") UserName
-              .controls
-                input(type="text", id="userName", placeholder="UserName", ng-model='user.username')
-            .control-group
-              label(class="control-label", for="inputEmail") Email
-              .controls
-                input(type="text", id="inputEmail", placeholder="Email", ng-model='user.email')
-            .control-group
-              label(class="control-label", for="inputPassword") Password
-              .controls
-                input(type="password", id="inputPassword", placeholder="Password", ng-model='user.password')
-            .control-group
-              .controls
+            .legend
+                .label.label-default Sign Up
+            .form-group
+              label(class="col-md-1 control-label", for="userNameSignup") UserName
+              .col-md-3
+                input(class="form-control", type="text", id="userNameSignup", placeholder="UserName", ng-model='userSignup.username')
+            .form-group
+              label(class="col-md-1 control-label", for="inputEmailSignup") Email
+              .col-md-3
+                input(class="form-control", type="text", id="inputEmailSignup", placeholder="Email", ng-model='userSignup.email')
+            .form-group
+              label(class="col-md-1 control-label", for="inputPasswordSignup") Password
+              .col-md-3
+                input(class="form-control", type="password", id="inputPasswordSignup", placeholder="Password", ng-model='userSignup.password')
+            .form-group
+              .col-md-3
                 label(class="checkbox") I agree to the terms and conditions           
                   input(type="checkbox") 
-                .btn.btn-info(type='submit', ng-click='signupUser(user)') Sign up          
+              .btn.btn-info(type='submit', ng-click='signupUser(userSignup)') Sign up
         
-        .signup-ext(ng-controller='SignUpExtCtrl')
+        .signup-ext
           label or signup with,
-          a.btn(href='/auth/google', target="_self") Google
-          a.btn(href='/auth/facebook', target="_self") Facebook  
+          a.btn.btn-default(href='/auth/google', target="_self") Google
+          a.btn.btn-default(href='/auth/facebook', target="_self") Facebook
 

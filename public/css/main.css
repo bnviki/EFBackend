@@ -1,6 +1,7 @@
 body {
   padding-left: 0px;
-  font-size: 13px;
+  font-size: 12px;
+    height: 100%;
 }
 
 .topicbox {
@@ -39,4 +40,5 @@ body {
 #candy {
     height: 300px;
 }
+
 

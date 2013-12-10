@@ -2,43 +2,85 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c410d9b-7970-4100-863b-19c973fc5356" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/img/demo1.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/fonts/glyphicons-halflings-regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/fonts/glyphicons-halflings-regular.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/services/ChatServices.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap-theme.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap-theme.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/chatwindow.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/chatwindow.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/dash.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/dash.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/controllers/dashCtrls.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/demo.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/filters.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/lib/strophe.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/username.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/middleware/xmpp_conn.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/middleware/xmpp_user.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/lib/ui-bootstrap-tpls-0.5.0.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/lib/angular-resource.js" afterPath="$PROJECT_DIR$/public/js/lib/angular-resource.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/lib/angular.js" afterPath="$PROJECT_DIR$/public/js/lib/angular.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/app.js" afterPath="$PROJECT_DIR$/public/js/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/auth.js" afterPath="$PROJECT_DIR$/auth.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/controllers/authControllers.js" afterPath="$PROJECT_DIR$/public/js/controllers/authControllers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/candy-test.html" afterPath="$PROJECT_DIR$/public/candy-test.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/candy/candy.bundle.js" afterPath="$PROJECT_DIR$/public/js/candy/candy.bundle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/schemas/chat.js" afterPath="$PROJECT_DIR$/data/schemas/chat.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/base.css" afterPath="$PROJECT_DIR$/public/css/base.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/bootstrap.css" afterPath="$PROJECT_DIR$/public/css/bootstrap.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/lib/bootstrap/bootstrap.js" afterPath="$PROJECT_DIR$/public/js/lib/bootstrap/bootstrap.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/public/css/bootstrap.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/lib/bootstrap/bootstrap.min.js" afterPath="$PROJECT_DIR$/public/js/lib/bootstrap/bootstrap.min.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/chat.js" afterPath="$PROJECT_DIR$/routes/chat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/schemas/chatRequest.js" afterPath="$PROJECT_DIR$/data/schemas/chatRequest.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/controllers/chatCtrls.js" afterPath="$PROJECT_DIR$/public/js/controllers/chatCtrls.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/discussion.js" afterPath="$PROJECT_DIR$/routes/discussion.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/controllers/discussionCtrls.js" afterPath="$PROJECT_DIR$/public/js/controllers/discussionCtrls.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/partials/login.jade" afterPath="$PROJECT_DIR$/views/partials/login.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/main.css" afterPath="$PROJECT_DIR$/public/css/main.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/partials/main.jade" afterPath="$PROJECT_DIR$/views/partials/main.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/controllers/mainCtrls.js" afterPath="$PROJECT_DIR$/public/js/controllers/mainCtrls.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/services.js" afterPath="$PROJECT_DIR$/public/js/services.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/middleware/session_utils.js" afterPath="$PROJECT_DIR$/routes/middleware/session_utils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/user.js" afterPath="$PROJECT_DIR$/routes/user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="openchat.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378184360238" ignored="false" />
-    <file path="/index.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377831320382" ignored="false" />
-    <file path="/app.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378185120212" ignored="false" />
+    <file path="/Dummy.txt" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1386655265749" ignored="false" />
+    <file path="/index.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1386655092222" ignored="false" />
+    <file path="/app.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1386655108543" ignored="false" />
     <file path="/default.css" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377755457101" ignored="false" />
-    <file path="/mainCtrls.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377849194556" ignored="false" />
+    <file path="/mainCtrls.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378384885126" ignored="false" />
     <file path="/candy-test.html" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377838246255" ignored="false" />
     <file path="/converse-test.html" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377517202231" ignored="false" />
     <file path="/candy.bundle.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377754430011" ignored="false" />
-    <file path="/main.css" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377757775444" ignored="false" />
-    <file path="/services.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377856655518" ignored="false" />
-    <file path="/chat.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378122232837" ignored="false" />
-    <file path="/main.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377832803254" ignored="false" />
-    <file path="/user.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377948460200" ignored="false" />
+    <file path="/main.css" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385042205381" ignored="false" />
+    <file path="/services.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1386605187989" ignored="false" />
+    <file path="/chat.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378193402427" ignored="false" />
+    <file path="/main.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378384558181" ignored="false" />
+    <file path="/user.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385105774914" ignored="false" />
     <file path="/auth.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378102446460" ignored="false" />
     <file path="/session_utils.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377859773547" ignored="false" />
     <file path="/chat_manager.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1377933884159" ignored="false" />
+    <file path="/chatCtrls.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378192721404" ignored="false" />
+    <file path="/discussionCtrls.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378378378494" ignored="false" />
+    <file path="/discussion.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378205520136" ignored="false" />
+    <file path="/filters.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1378383755755" ignored="false" />
+    <file path="/chat_window.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1384168910523" ignored="false" />
+    <file path="/login.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385440046062" ignored="false" />
+    <file path="/chatWinow.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1384170547503" ignored="false" />
+    <file path="/test.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1384233185049" ignored="false" />
+    <file path="/chatWinCtrls.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385101376368" ignored="false" />
+    <file path="/xmpp_conn.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385116920521" ignored="false" />
+    <file path="/xmpp_user.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385363810688" ignored="false" />
+    <file path="/authControllers.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385445368672" ignored="false" />
+    <file path="/dash.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1386654636557" ignored="false" />
+    <file path="/username.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385025483767" ignored="false" />
+    <file path="/chatwindow.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385101170662" ignored="false" />
+    <file path="/chatwindow.css" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385094852407" ignored="false" />
+    <file path="/dashCtrls.js" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1386605208856" ignored="false" />
+    <file path="/dash.css" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1385458123683" ignored="false" />
+    <file path="/demo.jade" changelist="1c410d9b-7970-4100-863b-19c973fc5356" time="1386172006790" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,10 +100,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="chat.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/chat.js">
+      <file leaf-file-name="dashCtrls.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/controllers/dashCtrls.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="30" selection-start="2564" selection-end="2564" vertical-scroll-proportion="0.0">
+            <state line="49" column="4" selection-start="1314" selection-end="1314" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -70,52 +112,52 @@
       <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="71" selection-start="2519" selection-end="2519" vertical-scroll-proportion="0.0">
+            <state line="27" column="28" selection-start="802" selection-end="802" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/user.js">
+      <file leaf-file-name="dash.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/partials/dash.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="29" selection-start="328" selection-end="328" vertical-scroll-proportion="0.0">
+            <state line="15" column="42" selection-start="588" selection-end="588" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="auth.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auth.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="62" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="services.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="services.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/services.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="42" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.0">
+            <state line="35" column="71" selection-start="1272" selection-end="1272" vertical-scroll-proportion="1.2899263">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ChatServices.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/services/ChatServices.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="85" selection-start="929" selection-end="929" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="182" column="29" selection-start="5936" selection-end="5936" vertical-scroll-proportion="4.4161186">
+            <state line="24" column="85" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="authControllers.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/controllers/authControllers.js">
+      <file leaf-file-name="chatWinCtrls.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/controllers/chatWinCtrls.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="22" selection-start="59" selection-end="70" vertical-scroll-proportion="0.0">
+            <state line="28" column="68" selection-start="1033" selection-end="1033" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -139,21 +181,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/data/schemas/chatRequest.js" />
-        <option value="$PROJECT_DIR$/views/index.jade" />
-        <option value="$PROJECT_DIR$/views/partials/main.jade" />
-        <option value="$PROJECT_DIR$/public/js/candy/candy.bundle.js" />
-        <option value="$PROJECT_DIR$/public/candy-test.html" />
-        <option value="$PROJECT_DIR$/public/js/controllers/mainCtrls.js" />
-        <option value="$PROJECT_DIR$/public/js/services.js" />
-        <option value="$PROJECT_DIR$/public/js/controllers/authControllers.js" />
-        <option value="$PROJECT_DIR$/routes/middleware/session_utils.js" />
-        <option value="$PROJECT_DIR$/routes/middleware/chat_manager.js" />
         <option value="$PROJECT_DIR$/routes/user.js" />
-        <option value="$PROJECT_DIR$/auth.js" />
-        <option value="$PROJECT_DIR$/data/schemas/chat.js" />
-        <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/routes/chat.js" />
+        <option value="$PROJECT_DIR$/routes/middleware/xmpp_user.js" />
+        <option value="$PROJECT_DIR$/routes/middleware/xmpp_conn.js" />
+        <option value="$PROJECT_DIR$/public/css/main.css" />
+        <option value="$PROJECT_DIR$/public/css/base.css" />
+        <option value="$PROJECT_DIR$/views/partials/login.jade" />
+        <option value="$PROJECT_DIR$/public/js/controllers/authControllers.js" />
+        <option value="$PROJECT_DIR$/public/css/dash.css" />
+        <option value="$PROJECT_DIR$/public/js/lib/ui-bootstrap-0.7.0.min.js" />
+        <option value="$PROJECT_DIR$/views/partials/demo.jade" />
+        <option value="$PROJECT_DIR$/public/js/controllers/dashCtrls.js" />
+        <option value="$PROJECT_DIR$/views/partials/dash.jade" />
+        <option value="$PROJECT_DIR$/public/js/services/ChatServices.js" />
+        <option value="$PROJECT_DIR$/public/js/services.js" />
+        <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/public/js/app.js" />
       </list>
     </option>
@@ -190,6 +232,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -232,7 +275,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="routes" />
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="partials" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -260,11 +307,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
+              <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="schemas" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -278,13 +325,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -300,21 +354,23 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app.js" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="93" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="909" />
-    <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="909" />
+    <property name="DefaultHtmlFileTemplate" value="Html5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="909" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="93" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="88" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="restartRequiresConfirmation" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/img" />
+      <recent name="$PROJECT_DIR$/public/js/lib" />
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/public/css" />
-      <recent name="$PROJECT_DIR$/public/js/converse" />
-      <recent name="$PROJECT_DIR$/public/js/candy/res" />
+      <recent name="$PROJECT_DIR$/public/js/lib/bootstrap" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public/js/lib" />
@@ -396,22 +452,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1215" height="776" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32872504" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872504" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872504" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23361345" sideWeight="0.5253456" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24957983" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20504202" sideWeight="0.67127496" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39938557" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23361345" sideWeight="0.48694316" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2053872" sideWeight="0.5916399" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872504" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47465438" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3809524" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872504" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872504" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32872504" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -459,7 +515,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="working candy with css changed and openfire added" />
+    <option name="LAST_COMMIT_MESSAGE" value="mpeers prototype initialised" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -474,110 +530,144 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="working candy with css changed and openfire added" />
+    <MESSAGE value="mpeers prototype initialised" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/routes/chat.js</url>
+          <url>file://$PROJECT_DIR$/routes/middleware/xmpp_user.js</url>
+          <line>14</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/routes/middleware/xmpp_user.js</url>
+          <line>48</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/routes/middleware/xmpp_user.js</url>
           <line>17</line>
-          <option name="timeStamp" value="3" />
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/routes/middleware/xmpp_user.js</url>
+          <line>40</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/public/js/services.js</url>
+          <line>22</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="4" />
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <option name="time" value="18" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/partials/main.jade">
+    <entry file="file://$PROJECT_DIR$/public/js/lib/angular.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="45" selection-start="3963" selection-end="3963" vertical-scroll-proportion="0.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/lib/angular-route.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/lib/ui-bootstrap-0.7.0.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="8119" selection-start="40127" selection-end="40127" vertical-scroll-proportion="0.05319149" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/demo.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="247" selection-start="380" selection-end="380" vertical-scroll-proportion="0.12864494" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/chatwindow.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/dash.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="16" selection-start="449" selection-end="449" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/partials/login.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/middleware/session_utils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="46" selection-start="132" selection-end="132" vertical-scroll-proportion="0.07550336" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/discussion.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/controllers/mainCtrls.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="8" selection-start="731" selection-end="731" vertical-scroll-proportion="0.33816424" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="43" selection-start="1195" selection-end="1195" vertical-scroll-proportion="0.7004831" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/controllers/authControllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="22" selection-start="59" selection-end="70" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/schemas/chat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="41" selection-start="417" selection-end="417" vertical-scroll-proportion="0.34391534" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/schemas/chatRequest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/schemas/discussion.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/chat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="30" selection-start="2564" selection-end="2564" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="62" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/services.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="42" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="29" selection-start="328" selection-end="328" vertical-scroll-proportion="0.0">
+        <state line="32" column="66" selection-start="986" selection-end="986" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="71" selection-start="2519" selection-end="2519" vertical-scroll-proportion="0.0">
+        <state line="27" column="28" selection-start="802" selection-end="802" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/controllers/dashCtrls.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="4" selection-start="1314" selection-end="1314" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="48" selection-start="1310" selection-end="1310" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/controllers/chatWinCtrls.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="68" selection-start="1033" selection-end="1033" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/services/ChatServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="85" selection-start="929" selection-end="929" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/dash.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="42" selection-start="588" selection-end="588" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="29" selection-start="5936" selection-end="5936" vertical-scroll-proportion="4.4161186">
+        <state line="24" column="85" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="71" selection-start="1272" selection-end="1272" vertical-scroll-proportion="1.2899263">
           <folding />
         </state>
       </provider>

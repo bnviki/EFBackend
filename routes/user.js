@@ -4,12 +4,18 @@ var User = require('../data/models/user'),
     verification = require('../data/models/verificationToken'),	
     sendMail = require('./middleware/mailer'),
     sessionUtils = require('./middleware/session_utils'),
-    ChatRequest = require('../data/models/chatRequest');
+    ChatRequest = require('../data/models/chatRequest'),
+    xmppUser = require('./middleware/xmpp_user');
 
 module.exports = function(app) {
 
 	app.get("/users/chatrequests", function (req, res, next) {
-		ChatRequest.find({$or: [{from: req.user.id}, {to: req.user.id}]}, function(err, reqs){
+        if(!req.user){
+            res.send('no requests', 204);
+            return;
+        }
+
+		ChatRequest.find({to: req.user.id}, function(err, reqs){
 			if(err) return res.send('no requests', 204);
 			res.send(reqs);
 		});    
@@ -22,7 +28,7 @@ module.exports = function(app) {
 
 
     app.get('/users', function(req, res) {
-	  var allUsers = User.find({},function(err, users) {
+	  var allUsers = User.find(req.query,function(err, users) {
 		if (err) {
 			return next(err);
 		}
@@ -63,6 +69,7 @@ module.exports = function(app) {
 			    sendMail(user.email, "mpeers: verification", verifyURL, null)
 			});*/
 			//email verification
+            xmppUser.createUser(user);
 			res.send(user);
 		});  
 	});
@@ -71,6 +78,10 @@ module.exports = function(app) {
 		var newuser = new User(req.body);
 		req.user.displayname = newuser.displayname;
 		req.user.picture = newuser.picture;
+        if(!req.user.username && newuser.username){
+            req.user.username = newuser.username;
+            xmppUser.createUser(req.user);
+        }
 		req.user.save(function(err) {
 		  if (err) { return next(err); }
 		res.send(req.user);
