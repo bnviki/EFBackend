@@ -6,10 +6,10 @@ block content
             div.row.clearfix.well.well-sm
                 div.col-md-12.column
                     .col-md-2
-                        img(alt='140x140', src='http://lorempixel.com/60/60/')
+                        img.img-thumbnail(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
                     .col-md-10
                         h5.text-primary.text-left
-                            | Vikram B N
+                            | {{currentUser.displayname}}
                         .label.label-success Online
             div.row.chat-area
                 .col-md-12
@@ -34,49 +34,12 @@ block content
                                             span.input-group-addon
                                                 button.btn.btn-primary(type='submit', ng-click='sendMsg(workspace.user, msgToSend)') Send
         div.col-md-4.column
-            div.row.clearfix
+            div.row.clearfix(ng-controller='chatCtrl')
                 div.col-md-12.chatrequests
                     .label.label-default Chat Requests
-                    .media
+                    .media(ng-repeat='creq in chatReqs', id='{{creq._id}}')
                         .col-md-2
                             img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
                         .col-md-10.media-body
-                            p this is sample message
-                    .media
-                        .col-md-2
-                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
-                        .col-md-10.media-body
-                            p this is sample message
-                    .media
-                        .col-md-2
-                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
-                        .col-md-10.media-body
-                            p this is sample message
-                    .media
-                        .col-md-2
-                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
-                        .col-md-10.media-body
-                            p this is sample message
-            div.row.clearfix
-                div.col-md-12.conversations
-                    .label.label-default Conversations
-                    .media
-                        .col-md-2
-                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
-                        .col-md-10.media-body
-                            p this is sample message
-                    .media
-                        .col-md-2
-                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
-                        .col-md-10.media-body
-                            p this is sample message
-                    .media
-                        .col-md-2
-                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
-                        .col-md-10.media-body
-                            p this is sample message
-                    .media
-                        .col-md-2
-                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
-                        .col-md-10.media-body
-                            p this is sample message
+                            p {{creq.topic}}
+                            .btn.pull-right.btn-xs.btn-primary(ng-click='acceptReq(creq._id)') accept

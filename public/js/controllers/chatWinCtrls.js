@@ -5,85 +5,55 @@
  * Time: 10:45 AM
  * To change this template use File | Settings | File Templates.
  */
-function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams){
-    var conn = null;
+function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, ChatClient, Messenger){
     console.log("routeparams: " + $routeParams.username);
+
     $scope.chatUser = {};
     $scope.chatUserStatus = 'unavailable';
+    $scope.chatReqSent = null;
+    $scope.currentChat = null;
 
-    $http.get('/users', {params:{username:$routeParams.username}}).success(function(data){
-        if(data.length > 0){
-            $scope.chatUser = data[0];
-            $http.get('/plugins/presence/status', {params:{jid:$scope.chatUser.username + '@vikram', type:'xml'}}).success(function(data){
-                console.log('presence: '+data);
-                if(data.search('unavailable') == -1){
-                    $scope.chatUserStatus = 'online';
-                }
-                else
-                    $scope.chatUserStatus = 'unavailable';
-            });
-        }
-    });
-
-
-    $scope.msgs = [{from:'chat_style_me', message:'hi'},
-        {from:'chat_style_other', message:'how are you'}];
-
-    function connectToServer(){
-        conn = new Strophe.Connection('http-bind/');
-        conn.connect("vikram", "", function (status) {
-            if (status === Strophe.Status.CONNECTED) {
-                console.log("strophe connected");
-
-                conn.xmlInput = function (xml) {
-                    console.log('Incoming:');
-                    console.log(xml);
-                };
-                conn.xmlOutput = function (xml) {
-                    console.log('Outgoing:');
-                    console.log(xml);
-                };
-
-                conn.addHandler(onMsg, null, 'message', 'chat');
-
-            } else if (status === Strophe.Status.DISCONNECTED) {
-                console.log('disconnected');
+    if($routeParams.username && $routeParams.username != ''){
+        $http.get('/users', {params:{username:$routeParams.username}}).success(function(data){
+            if(data.length > 0){
+                $scope.chatUser = data[0];
+                $http.get('/plugins/presence/status', {params:{jid:$scope.chatUser.username + '@vikram', type:'xml'}}).success(function(data){
+                    console.log('presence: ' + data);
+                    if(data.search('unavailable') == -1){
+                        $scope.chatUserStatus = 'online';
+                        $('#UserDetailsDialog').modal('show');
+                    }
+                    else
+                        $scope.chatUserStatus = 'unavailable';
+                });
             }
         });
     }
 
-    var onMsg = function(message){
-        console.log("msg recieved: " + message);
-        var body = $(message).find("html > body");
-        if (body.length === 0) {
-            body = $(message).find('body');
-            if (body.length > 0) {
-                body = body.text()
-            } else {
-                body = null;
-            }
-        } else {
-            body = body.contents();
-        }
-        if (body) {
-            var newmsg = {from: 'chat_style_other', message: body};
-            $scope.msgs.push(newmsg);
-            $scope.$apply();
-        }
-        return true;
-    };
+    $scope.msgs = [];
 
-    connectToServer();
+    $scope.initChat = function(newChat){
+        ChatClient.connect('vikram', '').then(function(jid){
+            var uname = jid.substring(0, jid.indexOf('@'));
+            Messenger.socket.emit('register', {username: uname});
+            var chatreq = {from: uname, to:$scope.chatUser.username, topic: newChat.topic, username: newChat.username};
+            $http.post('/chat/request', chatreq).success(function(data){
+                $scope.chatReqSent = data;
+                $('#UserDetailsDialog').modal('hide');
+            });
+        });
+    }
+
+    $rootScope.$on('NewChatMsg', function(event, newmsg){
+        $scope.msgs.push(newmsg);
+    });
+
+    $rootScope.$on('NewChatAdded', function(event, chat){
+        $scope.currentChat = chat;
+        console.log('ready for chat');
+    });
 
     $scope.sendMsg = function(msg){
-        conn.send($pres({
-            to: $scope.chatUser.username + '@vikram'
-        }));
-        conn.send($msg({
-            to: $scope.chatUser.username + '@vikram',
-            "type": "chat"
-        }).c('body').t(msg));
-        var newmsg = {from: 'chat_style_me', message: msg};
-        $scope.msgs.push(newmsg);
+        ChatClient.sendMsg(msg, $scope.chatUser.username + '@vikram');
     }
 }

@@ -12,3 +12,7 @@ body {
 .userinfo-true {
   visibility: visible; 
 }
+
+#userinfo {
+    padding-top: 7px;
+}

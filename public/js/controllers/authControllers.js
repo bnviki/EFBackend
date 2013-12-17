@@ -14,7 +14,7 @@ function RootCtrl($scope, $location, UserManager){
 
 	$scope.logUserOut = function(){
 		UserManager.logout().then(function(){
-			$location.path('/login');
+			$location.path('/home');
 		});
   	}
 }
@@ -27,10 +27,9 @@ function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient
 
     $scope.logUserIn = function(user) {
         UserManager.login(user.username, user.password).then(function(user){
-            if(!user.username)
-                $location.path('/username');
+            if(!user.signup_complete)
+                $location.path('/complete_profile');
             else{
-                ChatClient.connect(user.username, user.password);
                 $location.path('/dash');
             }
         });
@@ -38,12 +37,17 @@ function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient
 
     $scope.alerts = [];
     $scope.signupUser = function(user){
-        User.save(user);
-        UserManager.login(user.username, user.password).then(function(user){
-            //$scope.alerts.push({type:'error', msg: 'user already exists'});
-            $location.path('/dash');
-        }, function(err){
-            $scope.alerts.push({type:'error', msg: 'user already exists'});
+        var newUser = new User(user);
+        newUser.$save(function(savedUser){
+            //console.log('i saved the user: ' + savedUser.username);
+            UserManager.login(savedUser.username, savedUser.password).then(function(userIn){
+                if(userIn.signup_complete)
+                    $location.path('/dash');
+                else
+                    $location.path('/complete_profile');
+            }, function(err){
+                $scope.alerts.push({type:'error', msg: 'user already exists'});
+            });
         });
     }
 
@@ -58,19 +62,25 @@ function ProfileCtrl($scope) {
 	
 }
 
-function UserName($scope, UserManager, $location, User){
+function CompleteProfile($scope, UserManager, $location, User){
     var currentUser = UserManager.getCurrentUser();
-    if(currentUser == null){
+    $('#userid').val(currentUser._id);
+    $('#user_name').val(currentUser.username);
+    /*if(currentUser == null){
         $location.path('/login');
     }
     else if(currentUser.username){
         $location.path('/dash');
+    } */
+
+    $scope.updateUser = function(userinfo){
+        currentUser.displayname = userinfo.username;
+        currentUser.gender = userinfo.gender;
+        User.save(currentUser);
+        $location.path('/dash');
     }
 
-    $scope.setUserName = function(username){
-        currentUser.username = username;
-        User.save(currentUser);
-    }
+
 }
 
 

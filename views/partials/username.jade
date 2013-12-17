@@ -1,11 +1,15 @@
-block content
-  .signup-form(ng-controller='UserName')
+.signup-form
     form(class='form-horizontal')
-      .legend
-        h4(class='text-center') Choose Username
-      .form-group
-        label(class="col-md-1 control-label", for="userName") UserName
-        .col-md-3
-          input(class="form-control", type="text", id="userName", placeholder="UserName", ng-model='username')
-      .form-group
-        .btn.btn-info(type='submit', ng-click='setUserName(username)') Ok
+        .legend
+            h4(class='text-center') Profile
+        .form-group
+            label(class="col-md-1 control-label", for="displayName") Display Name
+            input.form-control(type="text", id="displayName", placeholder="Display Name")
+        .form-group
+            label(class="col-md-1 control-label", for="gender") Gender
+            .radio.radio-inline
+                label
+                    input(type="radio", id="gender", value='male' checked)
+                    | male
+        .form-group
+            .btn.btn-info(type='submit') Ok

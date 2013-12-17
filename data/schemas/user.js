@@ -26,8 +26,10 @@ var UserSchema = new mongoose.Schema({
 		uppercase: true,
 		'enum': ['M', 'F', 'NS']},
 	picture: String,
-        interests: {
+    interests: {
 		   	categories: [mongoose.Schema.Types.ObjectId]},
+    status_message: String,
+    signup_complete : {type: Boolean, default: false},
 	validated: {
 		     type: Boolean,
 		     default: false},

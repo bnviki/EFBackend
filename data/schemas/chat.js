@@ -4,12 +4,10 @@ var mongoose = require('mongoose'),
 var Schema = mongoose.Schema;
 
 var ChatSchema = new Schema({
-    users: [Schema.Types.ObjectId],
-    category: {
-        type: mongoose.Schema.Types.ObjectId},
-    discussion: {
-        type: mongoose.Schema.Types.ObjectId},
+    users: [String],
+    topic: {type: String},
     room: { type: String },
+    username: {type: String},
     created_at: {
         type: Date,
         'default': Date.now

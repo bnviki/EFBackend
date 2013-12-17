@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('OCServices', ['ngResource'])
-    .factory('UserManager', ['$http', '$q', '$rootScope', function($http, $q, $rootScope){
+    .factory('UserManager', ['$http', '$q', '$rootScope', 'ChatClient', function($http, $q, $rootScope, ChatClient){
 
         var userManager = {};
 
@@ -13,6 +13,7 @@ angular.module('OCServices', ['ngResource'])
                 $rootScope.$broadcast('event:loggedOut', userManager.currentUser);
             } else {
                 $rootScope.$broadcast('event:loginConfirmed', userManager.currentUser);
+                ChatClient.connect(user.username+'@vikram', user.password);
             }
 
         }
@@ -32,6 +33,7 @@ angular.module('OCServices', ['ngResource'])
             var deffered = $q.defer();
             $http.get('/logout').success(function(data){
                 userManager.setCurrentUser(null);
+                ChatClient.disconnect();
                 deffered.resolve();
             }).error(function(){
                     deffered.reject('logout failed');

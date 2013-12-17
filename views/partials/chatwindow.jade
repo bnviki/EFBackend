@@ -5,10 +5,10 @@ block content
             .col-md-8.well.well-sm
                 .row.chat-area
                     .col-md-12
-                        .media(ng-repeat='msg in msgs', class='{{msg.from}}')
-                            img.media-object(src='/img/rain.jpg', style='width:40px;height:40px')
+                        .media(ng-repeat='msg in msgs')
+                            img.media-object.pull-left(src='/img/rain.jpg', style='width:40px;height:40px')
                             .media-body
-                                p {{msg.message}}
+                                p {{msg.msg}}
                 .row.chat-send-form
                     .col-md-12
                         .input-group.col-md-12(data-spy='affix')
@@ -23,3 +23,20 @@ block content
                         h3.text-primary.text-left
                             | {{chatUser.displayname}}
                         label {{chatUserStatus}}
+
+        .modal.fade(id='UserDetailsDialog', tabindex='-1', role='dialog', aria-labelledby="Create Discussion", aria-hidden="true")
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button.close(data-dismiss="modal", aria-hidden="true") ×
+                        h5 Please provide your details
+                    .modal-body
+                        form(role='form')
+                            .form-group
+                                label(for='username') Your Name
+                                input.form-control(id='username', ng-model='newChat.username')
+                            .form-group
+                                label(for='topic') Topic
+                                textarea.form-control(id='topic', rows='5', ng-model='newChat.topic', style='width: 98%')
+                    .modal-footer
+                        button.btn.btn-default(ng-click='initChat(newChat)') Send request

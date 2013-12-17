@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 function DashCtrl($scope, UserManager, ChatClient, $rootScope){
-
+    $scope.currentUser = UserManager.getCurrentUser();
     // tabs
     var setAllInactive = function() {
         angular.forEach($scope.workspaces, function(workspace) {
@@ -23,46 +23,50 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope){
         });
     }
 
-    var addNewWorkspace = function() {
-        var id = $scope.workspaces.length + 1;
-        $scope.workspaces.push({
-            id: id,
-            name: "Workspace " + id,
-            active: true
-        });
+    $scope.addNewWorkspace = function(wspace) {
+        setAllInactive();
+        var id = $scope.wspaceCount + 1;
+        wspace.id = id;
+        wspace.active = true;
+        $scope.workspaces.push(wspace);
+        $scope.wspaceCount = $scope.wspaceCount + 1;
     };
 
+    $scope.wspaceCount = 1;
     $scope.workspaces =
         [
-            { id: 1, name: "Workspace 1", user:'pukki@vikram', active:true  },
-            { id: 2, name: "Workspace 2", user:'vikrambn@vikram', active:false }
+            { id: 1, name: "Workspace 1", user:'', active:true  }
         ];
 
-    $scope.addWorkspace = function () {
-        setAllInactive();
-        addNewWorkspace();
-    };
     // tabs
 
     $scope.msgs = [];
-    $scope.msgs['pukki@vikram'] = [{from: 'pukki@vikram', msg: 'hello, thats it'}];
+    $scope.msgs['pukki@vikram'] = [{from: 'pukki@vikram', to:'vikrambn@vikram', msg: 'hello, thats it'}];
 
-    //login current user
     var currentUser = UserManager.getCurrentUser();
-    if(currentUser){
-        ChatClient.connect(currentUser.username + '@vikram', currentUser.password);
-    }
-
 
     $scope.sendMsg = function(user, msg){
         ChatClient.sendMsg(msg, user);
+        $('.chat-send-form textarea').text = '';
     }
 
     $rootScope.$on('NewChatMsg', function(event, newmsg){
-        if(!$scope.msgs[newmsg.from])
-            $scope.msgs[newmsg.from] = [];
+        if(newmsg.from == ChatClient.user){
+            if(!$scope.msgs[newmsg.to])
+                $scope.msgs[newmsg.to] = [];
+            $scope.msgs[newmsg.to].push(newmsg);
+        } else {
+            if(!$scope.msgs[newmsg.from])
+                $scope.msgs[newmsg.from] = [];
 
-        $scope.msgs[newmsg.from].push(newmsg);
-        $scope.$apply();
+            $scope.msgs[newmsg.from].push(newmsg);
+        }
+    });
+
+    $rootScope.$on('NewChatAdded', function(event, chat){
+        if(currentUser){
+            var toUser = currentUser.username == chat.users[0] ? chat.users[1]:chat.users[0];
+            $scope.addNewWorkspace({name: chat.username, user: toUser + '@vikram'});
+        }
     });
 }

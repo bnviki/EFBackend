@@ -13,11 +13,13 @@ angular.module('ChatServices', ['ngResource'])
     chatClient.user = null;
 
     chatClient.connect = function(username, password){
+        var deffered = $q.defer();
         this.conn = new Strophe.Connection('http-bind/');
         this.conn.connect(username, password, function (status) {
             if (status === Strophe.Status.CONNECTED) {
                 console.log("strophe connected");
-                chatClient.user = username;
+                var jid = Strophe.getBareJidFromJid(chatClient.conn.jid);
+                chatClient.user = jid;
                 chatClient.conn.send($pres({
                     to: 'vikram'
                 }));
@@ -32,11 +34,13 @@ angular.module('ChatServices', ['ngResource'])
                 };
 
                 chatClient.conn.addHandler(chatClient.onMsg, null, 'message', 'chat');
-
+                deffered.resolve(jid);
             } else if (status === Strophe.Status.DISCONNECTED) {
                 console.log('disconnected');
+                deffered.reject('cannot connect to xmpp server');
             }
         });
+        return deffered.promise;
     }
 
     chatClient.onMsg = function(message){
@@ -55,9 +59,10 @@ angular.module('ChatServices', ['ngResource'])
             body = body.contents();
         }
         if (body) {
-            var newmsg = {from: jid, msg: body};
+            var newmsg = {from: jid, to: chatClient.user, msg: body};
             chatClient.messages.push(newmsg);
             $rootScope.$emit('NewChatMsg', newmsg);
+            $rootScope.$apply();
         }
         return true;
     };
@@ -72,9 +77,13 @@ angular.module('ChatServices', ['ngResource'])
             "type": "chat"
         }).c('body').t(msg));
 
-        var newmsg = {from: this.user, msg: msg};
+        var newmsg = {from: this.user, to: toUser, msg: msg};
         this.messages.push(newmsg);
         $rootScope.$emit('NewChatMsg', newmsg);
+    }
+
+    chatClient.disconnect = function(){
+        this.conn.disconnect();
     }
 
     return chatClient;

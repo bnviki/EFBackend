@@ -3,7 +3,7 @@
     .col-md-6
       h2(class='text-center') Welcome to mPeers
       .well.well-small.text-center
-        p mPeers enables you to talk/discuss about anything with anybody. find people who are interested 
+        p mPeers enables an user or a business to have an online contact point, where they can be reached for a chat and extend this reach online to all social networking platforms, websites, blogspots and other forums where user interact.
           |about your ideas.   
     .col-md-6
       .container
@@ -41,12 +41,9 @@
               .col-md-3
                 input(class="form-control", type="password", id="inputPasswordSignup", placeholder="Password", ng-model='userSignup.password')
             .form-group
-              .col-md-3
-                label(class="checkbox") I agree to the terms and conditions           
-                  input(type="checkbox") 
               .btn.btn-info(type='submit', ng-click='signupUser(userSignup)') Sign up
         
-        .signup-ext
+        //.signup-ext
           label or signup with,
           a.btn.btn-default(href='/auth/google', target="_self") Google
           a.btn.btn-default(href='/auth/facebook', target="_self") Facebook

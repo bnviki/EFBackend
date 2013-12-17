@@ -37,11 +37,11 @@ module.exports = function(app, sessionUsers) {
           }
 
           var newChat = { users: [chatRequest.from, chatRequest.to],
-              category: chatRequest.category,
-              discussion: chatRequest.discussion
+              topic: chatRequest.topic,
+              username: chatRequest.username
           };
 
-          function getDiscussionChat(discid){
+          /*function getDiscussionChat(discid){
               Discussion.findOne({_id: discid}, function(error, disc){
                   if(error || !disc){
                       return null;
@@ -66,29 +66,28 @@ module.exports = function(app, sessionUsers) {
               chatRequest.remove();
               res.send(chat);
               return;
-          }
+          }*/
 
           Chat.create(newChat, function(err, chat){
               addChatToSession(chat);
-              //req.chat = chat;
-              //req.chatuser = chatRequest.from;
+              req.chat = chat;
+              req.chatuser = chatRequest.from;
               chatRequest.remove();
-              //req.io.route('SEND_CHAT', chat);
-              res.send(chat);
+              req.io.route('SEND_CHAT');
+
+              //res.send(chat);
           });
           return;
-
-
-	  }); 
+	  });
 	});
 
 	app.get('/chat/:id', function(req, res) {
-	  Chat.findOne({_id: req.params.id}).populate('category users discussion')
-	     .exec(function(err, disc) {
+	  Chat.findOne({_id: req.params.id})
+	     .exec(function(err, chat) {
 		if (err) {
 			return res.send('Not found', 404);
 		}		
-		res.send(disc);
+		res.send(chat);
 	  });
 	});
 

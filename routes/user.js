@@ -15,7 +15,7 @@ module.exports = function(app) {
             return;
         }
 
-		ChatRequest.find({to: req.user.id}, function(err, reqs){
+		ChatRequest.find({to: req.user.username}, function(err, reqs){
 			if(err) return res.send('no requests', 204);
 			res.send(reqs);
 		});    
@@ -74,14 +74,18 @@ module.exports = function(app) {
 		});  
 	});
 
-	app.post('/users/:id', sessionUtils.loggedIn, sessionUtils.restrictToCurrentUser, function(req, res, next) {
-		var newuser = new User(req.body);
-		req.user.displayname = newuser.displayname;
-		req.user.picture = newuser.picture;
+	app.post('/users/:id', sessionUtils.loggedIn, function(req, res, next) {
+		var newuser = req.body;
+        if(newuser.displayname)
+		    req.user.displayname = newuser.displayname;
+        if(newuser.picture)
+		    req.user.picture = newuser.picture;
         if(!req.user.username && newuser.username){
             req.user.username = newuser.username;
             xmppUser.createUser(req.user);
         }
+        if(req.user.displayname && req.user.picture)
+            req.user.signup_complete = true;
 		req.user.save(function(err) {
 		  if (err) { return next(err); }
 		res.send(req.user);
