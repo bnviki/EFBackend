@@ -5,7 +5,7 @@
  * Time: 10:45 AM
  * To change this template use File | Settings | File Templates.
  */
-function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, ChatClient, Messenger, $location){
+function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, ChatClient, Messenger, $location, $timeout){
     console.log("routeparams: " + $routeParams.username);
 
     $scope.chatUser = {};
@@ -55,6 +55,7 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
     };
 
     $scope.msgs = [];
+    $scope.noOfScrollMsgs = 0;
 
     $scope.initChat = function(newChat){
         if(newChat.username != '' && newChat.topic != ''){
@@ -73,8 +74,9 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
 
     $rootScope.$on('NewChatMsg', function(event, newmsg){
         $scope.msgs.push(newmsg);
-        var fromTop = $(".chat-area").height();
-        $(".chat-area").slimScroll({ scrollTo: fromTop  });
+        $scope.noOfScrollMsgs = $scope.msgs.length;
+        //var fromTop = $(".chat-content").scrollTop();
+        //$(".chat-content").slimScroll({ scrollTo: fromTop + 'px' });
     });
 
     $rootScope.$on('NewChatAdded', function(event, chat){

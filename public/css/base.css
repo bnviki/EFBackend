@@ -13,3 +13,21 @@ body {
   visibility: visible; 
 }
 
+.footer-line {
+    position: absolute;
+    bottom: 0;
+    background-color: #222222;
+    left: 0;
+    width: 100%;
+}
+
+.white {
+    color: #f0f0f0;
+}
+
+.footer-line .glyphicon {
+    padding-left: 45%;
+    margin: 10px;
+}
+
+

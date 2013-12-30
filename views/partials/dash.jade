@@ -59,13 +59,13 @@ block content
                             .tab-pane(ng-repeat='workspace in workspaces', id='{{workspace.id}}', ng-class="{active: workspace.active}")
                                 .row(style='min-height:400px;')
                                     .col-md-12(style='margin-top:10px; margin-left:25px;')
-                                        .media(ng-repeat='msg in msgs[workspace.userJID]')
+                                        .media(ng-repeat='msg in msgs[workspace.userJID]', scroll-to-bottom)
                                             img.media-object.pull-left(ng-src='{{getPicture(msg.from)}}', style='width:30px;height:30px')
                                             .media-body
                                                 p {{msg.msg}}
                         .row.chat-send-form(ng-hide='peopleTabActive')
                             .col-md-12
-                                .input-group.col-md-12(data-spy='affix')
+                                .input-group.col-md-12
                                     textarea#send-msg-text.form-control(type='text', ng-model='msgToSend', ng-enter='sendMsg(msgToSend)')
                                     span.input-group-addon
                                         button.btn.btn-primary(type='submit', ng-click='sendMsg(msgToSend)') Send

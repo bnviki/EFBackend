@@ -20,3 +20,22 @@ directiveMod.directive('ngEnter', function () {
         });
     };
 });
+
+directiveMod.directive('scrollToBottom', function() {
+    return function(scope, element, attrs) {
+        if (scope.$last){
+            var fromTop = element[0].scrollHeight * scope.noOfScrollMsgs;
+            //var fromTop = $(".chat-content").scrollTop();
+            $("#chat-content").slimScroll({ scrollTo: fromTop + 'px' });
+        }
+    };
+});
+
+directiveMod.directive('dashScroll', function() {
+    return function(scope, element, attrs) {
+        //if (scope.$last){
+            var fromTop = $("#chat-content").scrollTop();
+            $("#chat-content").slimScroll({ scrollTo: fromTop + 'px' });
+        //}
+    };
+});

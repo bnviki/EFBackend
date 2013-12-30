@@ -1,7 +1,7 @@
 link(rel='stylesheet', href='css/chatwindow.css')
 script.
   $(function(){
-    $('.chat-area').slimScroll({
+    $('#chat-content').slimScroll({
       height: '500px',
     });
   });
@@ -10,15 +10,15 @@ block content
     .container(ng-controller='ChatWindowCtrl')
         .row
             .col-md-8.well.well-sm
-                .row.chat-area
+                .row#chat-content
                     .col-md-12
-                        .media(ng-repeat='msg in msgs')
+                        .media(ng-repeat='msg in msgs', scroll-to-bottom)
                             img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
                             .media-body
                                 p {{msg.msg}}
                 .row.chat-send-form
                     .col-md-12
-                        .input-group.col-md-12(data-spy='affix')
+                        .input-group
                             textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)')
                             span.input-group-addon
                                 button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send

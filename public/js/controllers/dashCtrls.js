@@ -20,8 +20,10 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
             $scope.peopleTabActive = false;
 
         angular.forEach($scope.workspaces, function(workspace) {
-            if(workspace.id == id)
+            if(workspace.id == id){
                 workspace.active = true;
+                $scope.noOfScrollMsgs = $scope.msgs[workspace.userJID].length;
+            }
             else
                 workspace.active = false;
         });
@@ -57,8 +59,19 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     $scope.peopleTabActive = true;
     // tabs
 
+    $scope.updateScrollMsgs = function(){
+        var i = 0;
+        for(i=0; i< $scope.workspaces.length; i++){
+            if($scope.workspaces[i].active){
+                $scope.noOfScrollMsgs = $scope.msgs[$scope.workspaces[i].userJID].length;
+                break;
+            }
+        }
+    };
+
     $scope.msgs = [];
     $scope.msgs['pukki@vikram'] = [{from: 'pukki@vikram', to:'vikrambn@vikram', msg: 'hello, thats it'}];
+    $scope.noOfScrollMsgs = 0;
 
     $scope.getPicture = function(from){
         var fromUser = from.substring(0, from.indexOf('@'));
@@ -137,8 +150,8 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
 
             $scope.msgs[newmsg.from].push(newmsg);
         }
-        var fromTop = $("#chat-content").height();
-        $("#chat-content").slimScroll({ scrollTo: fromTop  });
+
+        $scope.updateScrollMsgs();
     });
 
     $rootScope.$on('NewChatAdded', function(event, chat){
