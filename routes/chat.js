@@ -17,6 +17,22 @@ module.exports = function(app, sessionUsers) {
 	  }); 
 	});
 
+    app.del('/chat/request/:reqId', function(req, res){
+        ChatRequest.findOne({_id: req.params.reqId}, function(err, chatRequest){
+            if(err || !chatRequest){
+                res.send('invalid chat request', 400);
+                return;
+            }
+
+            chatRequest.remove(function(err) {
+                if (err){
+                    res.send('invalid chat request', 400);
+                }
+                res.send('success');
+            });
+        });
+    });
+
 	app.post('/chat/accept/:reqId', function(req, res) {	  
 	  ChatRequest.findOne({_id: req.params.reqId}, function(err, chatRequest){
           if(err || !chatRequest){

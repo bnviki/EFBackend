@@ -38,3 +38,49 @@
 
 }
 
+.close-button {
+    border: 0;
+    background-color: transparent;
+    font-weight: bold;
+    color: rgb(172,34,34);
+}
+
+.chat-user-name {
+    padding-right: 5px;
+}
+
+.chat-accept-button {
+    margin-right: 5px;
+}
+
+.search-bar {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chat-url{
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.userbox {
+    width: 300px;
+    padding:5px;
+    background-color: rgb(247,247,247);
+    margin: 10px;
+}
+
+.userbox .btn {
+    width: 80px;
+    margin-top: 5px;
+}
+
+#instructions {
+    background-color: rgb(247,247,247);
+    margin: 10px;
+}
+
+

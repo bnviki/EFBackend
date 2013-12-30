@@ -5,13 +5,14 @@
  * Time: 10:45 AM
  * To change this template use File | Settings | File Templates.
  */
-function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, ChatClient, Messenger){
+function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, ChatClient, Messenger, $location){
     console.log("routeparams: " + $routeParams.username);
 
     $scope.chatUser = {};
-    $scope.chatUserStatus = 'unavailable';
+    $scope.chatUserOnline = false;
     $scope.chatReqSent = null;
     $scope.currentChat = null;
+    $scope.userFromURL = $routeParams.username;
 
     if($routeParams.username && $routeParams.username != ''){
         $http.get('/users', {params:{username:$routeParams.username}}).success(function(data){
@@ -20,40 +21,73 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
                 $http.get('/plugins/presence/status', {params:{jid:$scope.chatUser.username + '@vikram', type:'xml'}}).success(function(data){
                     console.log('presence: ' + data);
                     if(data.search('unavailable') == -1){
-                        $scope.chatUserStatus = 'online';
-                        $('#UserDetailsDialog').modal('show');
+                        $scope.chatUserOnline = true;
                     }
                     else
-                        $scope.chatUserStatus = 'unavailable';
+                        $scope.chatUserOnline = false;
+                    $scope.msgs.push({from:'system', msg:'Welcome to mPeers'});
+                    $('#UserDetailsDialog').modal('show');
                 });
+            } else{
+                alert($routeParams.username + ' does not seem to exist on mPeers.');
+                $location.search('username', null);
+                $location.path('/home');
             }
         });
+    } else {
+        $location.search('username', null);
+        $location.path('/home');
     }
+
+    $scope.isSystemMsg = function(msg){
+        if(msg.from == 'system')
+            return true;
+        else
+            return false;
+    };
+
+    $scope.getPicture = function(from){
+        var fromUser = from.substring(0, from.indexOf('@'));
+        if(fromUser == $scope.chatUser.username)
+            return $scope.chatUser.picture;
+        else
+            return '/profile/pictures/annonymous.png';
+    };
 
     $scope.msgs = [];
 
     $scope.initChat = function(newChat){
-        ChatClient.connect('vikram', '').then(function(jid){
-            var uname = jid.substring(0, jid.indexOf('@'));
-            Messenger.socket.emit('register', {username: uname});
-            var chatreq = {from: uname, to:$scope.chatUser.username, topic: newChat.topic, username: newChat.username};
-            $http.post('/chat/request', chatreq).success(function(data){
-                $scope.chatReqSent = data;
-                $('#UserDetailsDialog').modal('hide');
+        if(newChat.username != '' && newChat.topic != ''){
+            ChatClient.connect('vikram', '').then(function(jid){
+                var uname = jid.substring(0, jid.indexOf('@'));
+                Messenger.socket.emit('register', {username: uname});
+                var chatreq = {from: uname, to:$scope.chatUser.username, topic: newChat.topic, username: newChat.username};
+                $http.post('/chat/request', chatreq).success(function(data){
+                    $scope.chatReqSent = data;
+                    $('#UserDetailsDialog').modal('hide');
+                    $scope.msgs.push({from:'system', msg:'waiting for ' + $scope.chatUser.username + ' to join'});
+                });
             });
-        });
+        }
     }
 
     $rootScope.$on('NewChatMsg', function(event, newmsg){
         $scope.msgs.push(newmsg);
+        var fromTop = $(".chat-area").height();
+        $(".chat-area").slimScroll({ scrollTo: fromTop  });
     });
 
     $rootScope.$on('NewChatAdded', function(event, chat){
         $scope.currentChat = chat;
+        $('#msg-send-button').removeAttr('disabled');
+        $scope.msgs.push({from:'system', msg: $scope.chatUser.username + ' has joined, you can chat now ... '});
         console.log('ready for chat');
     });
 
     $scope.sendMsg = function(msg){
-        ChatClient.sendMsg(msg, $scope.chatUser.username + '@vikram');
+        if(msg && msg != ''){
+            ChatClient.sendMsg(msg, $scope.chatUser.username + '@vikram');
+            $scope.msgSendText = '';
+        }
     }
 }

@@ -20,40 +20,40 @@ script.
               }
     })
 
-.container.well.well-lg
-    .col-md-6(ng-controller='CompleteProfile')
-        input(id='userid', type='hidden')
-        input(id='user_name', type='hidden')
-        .progress(style='display: none')
-            .progress-bar(id='fileuploadprogress', role='progressbar', aria-valuenow="0", aria-valuemin="0", aria-valuemax="100", style="width: 0%;")
 
-        form.form-horizontal(role='form')
-            .form-group
-                label(for='fileupload') Choose your profile pic
-                .fileinput.fileinput-new(data-provides='fileinput', style='padding-left: 10px;')
-                    .btn.btn-default.btn-file
-                        .fileinput-new Select file
-                        .fileinput-exists Change
-                        input(id="fileupload", type="file", name="files[]", data-url="/upload")
-                    .fileinput-filename
-                    a.close.fileinput-exists(href='#', data-dismiss='fileinput', style='float: none;') &times;
-                input(id='userid', type='hidden')
-                input(id='user_name', type='hidden')
+.well.well-lg.col-md-6(ng-controller='CompleteProfile')
+    input(id='userid', type='hidden')
+    input(id='user_name', type='hidden')
+    .progress(style='display: none')
+        .progress-bar(id='fileuploadprogress', role='progressbar', aria-valuenow="0", aria-valuemin="0", aria-valuemax="100", style="width: 0%;")
 
-            .form-group
-                label(for='displayName') Display Name
-                input.form-control(id='displayName', ng-model='userinfo.username')
-            .form-group
-                label(for='gender') Gender
-                .radio
-                    label
-                        input(type='radio', value='male', id='gender_male', ng-model='userinfo.gender')
-                        | male
-                .radio
-                    label
-                        input(type='radio', value='female', id='gender_female', ng-model='userinfo.gender')
-                        | female
-                .btn.btn-default(ng-click='updateUser(userinfo)') Update
+    form.form-horizontal(role='form')
+        .form-group
+            label.col-md-3(for='fileupload') Choose your profile pic
+            .col-md-9.fileinput.fileinput-new(data-provides='fileinput', style='padding-left: 10px;')
+                .btn.btn-default.btn-file
+                    .fileinput-new Select file
+                    .fileinput-exists Change
+                    input(id="fileupload", type="file", name="files[]", data-url="/upload")
+                .fileinput-filename
+                a.close.fileinput-exists(href='#', data-dismiss='fileinput', style='float: none;') &times;
+            input(id='userid', type='hidden')
+            input(id='user_name', type='hidden')
+
+        .form-group
+            label(for='displayName') Display Name
+            input.form-control(id='displayName', ng-model='userinfo.username')
+        .form-group
+            label(for='gender') Gender
+            .radio
+                label
+                    input(type='radio', value='m', id='gender_male', ng-model='userinfo.gender')
+                    | male
+            .radio
+                label
+                    input(type='radio', value='f', id='gender_female', ng-model='userinfo.gender')
+                    | female
+            .btn.btn-default(style='margin-top:10px;', ng-click='updateUser(userinfo)') Update
 
 
 

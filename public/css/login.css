@@ -1,0 +1,33 @@
+#login-form {
+    background-color: rgb(247,247,247);
+}
+
+#login-form form {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+#signup-form {
+    background-color: rgb(247,247,247);
+}
+
+#signup-form form {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.footer-line {
+    position: absolute;
+    bottom: 0;
+    background-color: #222222;
+    left: 0;
+}
+
+.white {
+    color: #f0f0f0;
+}
+
+.footer-line .glyphicon {
+    padding-left: 45%;
+    margin: 10px;
+}

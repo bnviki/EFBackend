@@ -41,7 +41,7 @@ upload.configure({
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.use(express.favicon());
+app.use(express.favicon(path.join(__dirname, 'public/img/fav.ico')));
 app.use(express.logger('dev'));
 
 app.use('/upload', function (req, res, next) {
@@ -63,6 +63,7 @@ app.use(express.session({ secret: sessionSecret }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/public", express.static(__dirname + '/public'));
 app.use(app.router);
 
 upload.on('begin', function (fileInfo) {
@@ -121,12 +122,13 @@ app.io.route('register', function(req) {
 });
 
 //Routing
-//app.get('/', routes.index);
+app.get('/', routes.index);
 app.get('/partial/:name', routes.partial);
 require('./auth')(app, passport, sessionUsers);
 require('./routes/user')(app);
 require('./routes/discussion')(app);
 require('./routes/chat')(app, sessionUsers);
+app.get("/public", express.static(__dirname + '/public'));
 app.get('*', routes.index);
 
 

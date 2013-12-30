@@ -90,7 +90,7 @@ module.exports = function(app, passport, sessionUsers) {
 	  passport.authenticate('local'), function(req, res){
         console.log('registering user: ' + req.user._id + ' session: ' + req.sessionID);
         sessionUsers[req.user._id] = req.sessionID;
-		res.send(req.user);
+		res.send(req.user.toJSON({ hide: 'password extid validated created_at __v', transform: true }));
 	});
 
 	passport.use(new LocalStrategy(
@@ -129,7 +129,7 @@ module.exports = function(app, passport, sessionUsers) {
 
 	app.get('/ping', function(req, res){
 	  if(req.user)	  
-	  	res.send(req.user);
+	  	res.send(req.user.toJSON());
 	  else{
 		res.send('please login', 204);
 	  }

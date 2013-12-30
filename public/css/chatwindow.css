@@ -25,3 +25,29 @@
     float: left;
     padding-left: 10px;
 }
+
+#status-box {
+    background-color: rgb(247,247,247);
+    margin: 10px;
+}
+
+#about-us {
+    background-color: rgb(247,247,247);
+    margin: 10px;
+}
+
+.init-form input.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+}
+
+.init-form input.ng-valid.ng-dirty {
+    border-color: #78FA89;
+}
+
+.init-form textarea.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+}
+
+.init-form textarea.ng-valid.ng-dirty {
+    border-color: #78FA89;
+}

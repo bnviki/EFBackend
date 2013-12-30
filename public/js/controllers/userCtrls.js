@@ -1,3 +1,3 @@
-function userCtrl($scope, User){
+function UserCtrl($scope, User){
 	$scope.allUsers = User.query();
 }

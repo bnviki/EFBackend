@@ -1,61 +1,63 @@
 doctype 5
 html(ng-app="mainMod")
-  head
-    title= "mPeers"
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    block csslinks	    
-      link(href='css/base.css', rel='stylesheet')
-      link(href='css/bootstrap.css', rel='stylesheet')
-      link(href='css/jasny-bootstrap.css', rel='stylesheet')
-    block scripts
-      script(src='js/lib/jquery-1.10.2.js')
-      script(src='js/lib/jquery-ui.js')
-      script(src='js/lib/jquery.ui.widget.js')
-      script(src='js/lib/jquery.fileupload.js')
-      script(src='js/lib/jquery.iframe-transport.js')
-      //script(src='js/lib/jquery.canvas-to-blob.js')
-      //script(src='js/lib/jquery.load-image.js')
-      //script(src='fileupload/js/jquery.fileupload-process.js')
-      //script(src='fileupload/js/jquery.fileupload-image.js')
-      //script(src='js/lib/jquery-migrate-1.2.1.js')
-      script(src='js/lib/bootstrap/bootstrap.js')
-      script(src='js/lib/bootstrap/jasny-bootstrap.js')
-      script(src='/socket.io/socket.io.js')
-      script(src='js/lib/angular.js')
-      script(src='js/lib/angular-resource.js')
-      script(src='js/lib/angular-route.js')
-      script(src='js/lib/ui-bootstrap-0.7.0.min.js')
-      script(src='js/candy/libs/libs.min.js')
-      script(src='js/candy/candy.bundle.js')
-      script(src='js/lib/jquery.slimscroll.min.js')
-      script(src='js/lib/strophe.js')
+    head
+        title= "mPeers"
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        block csslinks
+            link(href='css/base.css', rel='stylesheet')
+            link(href='css/bootstrap.css', rel='stylesheet')
+            link(href='css/jasny-bootstrap.css', rel='stylesheet')
+        block scripts
+            script(src='js/lib/jquery-1.10.2.js')
+            script(src='js/lib/jquery-ui.js')
+            script(src='js/lib/jquery.ui.widget.js')
+            script(src='js/lib/jquery.fileupload.js')
+            script(src='js/lib/jquery.iframe-transport.js')
+            script(src='js/lib/bootstrap/bootstrap.js')
+            script(src='js/lib/bootstrap/jasny-bootstrap.js')
+            script(src='/socket.io/socket.io.js')
+            script(src='js/lib/angular.js')
+            script(src='js/lib/angular-resource.js')
+            script(src='js/lib/angular-route.js')
+            script(src='js/lib/ui-bootstrap-0.7.0.min.js')
+            script(src='js/candy/libs/libs.min.js')
+            script(src='js/candy/candy.bundle.js')
+            script(src='js/lib/jquery.slimscroll.min.js')
+            script(src='js/lib/strophe.js')
+            script(src='//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.1.7/ZeroClipboard.min.js')
+            script(src='js/lib/ngClip.js')
 
-      script(src='js/controllers/authControllers.js')
-      script(src='js/controllers/discussionCtrls.js')
-      script(src='js/controllers/userCtrls.js')
-      script(src='js/controllers/chatCtrls.js')
-      script(src='js/controllers/mainCtrls.js')
-      script(src='js/controllers/chatWinCtrls.js')
-      script(src='js/controllers/dashCtrls.js')
-      script(src='js/services.js')
-      script(src='js/services/ChatServices.js')
-      script(src='js/filters.js')
-      script(src='js/app.js')
-  body(ng-controller='RootCtrl')
-    .navbar.navbar-fixed-top.navbar-inverse
-      .navbar-inner
-        a(class='navbar-brand', href='/', style='padding: 8px 5%;')
-          img(src='/img/logo.png', style='width:50%; height:100%')
-        #userinfo(ng-show='isLoggedIn', style='padding-right:50px;')
-          .dropdown
-            a.dropdown-toggle(href='#', data-toggle='dropdown')
-              img(class='img-rounded pull-right', ng-src='{{currentUser.picture}}', style='height:40px; width:40px;')
-            ul.pull-right.dropdown-menu(role="menu", aria-labelledby="dLabel")
-              li
-                a(role='menuitem', href='#', ng-click='logUserOut()') logout
-          a(class='pull-right', href='/profile', style='padding-top:20px;') {{currentUser.displayname}} 
-          
 
-    div(ng-view, style='padding-top:20px; font-size: 12px;')
-    block content
+            script(src='js/controllers/authControllers.js')
+            script(src='js/controllers/discussionCtrls.js')
+            script(src='js/controllers/userCtrls.js')
+            script(src='js/controllers/chatCtrls.js')
+            script(src='js/controllers/mainCtrls.js')
+            script(src='js/controllers/chatWinCtrls.js')
+            script(src='js/controllers/dashCtrls.js')
+            script(src='js/services.js')
+            script(src='js/services/ChatServices.js')
+            script(src='js/filters.js')
+            script(src='js/directives.js')
+            script(src='js/app.js')
+    body(ng-controller='RootCtrl')
+        .navbar.navbar-fixed-top.navbar-inverse
+            .navbar-inner
+                a(class='navbar-brand', href='/', style='padding: 8px 5%;')
+                    img(src='/img/logo.png', style='width:50%; height:100%')
+                .label.label-danger.pull-left(style='margin-top: 20px;') Alpha testing
+                .nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
+                    li
+                        a(class='pull-right', href='#', style='font-weight: bolder;') {{currentUser.displayname}}
+                    li.dropdown
+                        a.dropdown-toggle(href='#', data-toggle='dropdown', style='padding-top: 5px;')
+                            img(class='img-rounded pull-right', ng-src='{{currentUser.picture}}', style='height:40px; width:40px;')
+                        ul.pull-right.dropdown-menu(role="menu", aria-labelledby="dLabel")
+                            li
+                                a(role='menuitem', href='#', ng-click='logUserOut()') logout
+
+
+
+        div(ng-view, style='padding-top:15px; font-size: 12px;')
+        block content
 

@@ -1,4 +1,4 @@
-var app = angular.module('mainMod', ['OCServices', 'OCFilters', 'ngRoute', 'ChatServices']).
+var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 'ngRoute', 'ChatServices']).
     config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider.
             when('/home', {templateUrl: 'partial/login', controller: LoginCtrl}).

@@ -32,7 +32,11 @@ module.exports = function(app) {
 		if (err) {
 			return next(err);
 		}
-		res.send(users);
+        var jsonUsers = [];
+        users.forEach(function(user){
+            jsonUsers.push(user.toJSON());
+        });
+		res.send(jsonUsers);
 	  });  
 	});
 
@@ -44,7 +48,7 @@ module.exports = function(app) {
 		if (! user) {
 			return res.send('Not found', 404);
 		}
-		res.send(user);
+		res.send(user.toJSON());
 	  });
 	});
 
@@ -70,7 +74,7 @@ module.exports = function(app) {
 			});*/
 			//email verification
             xmppUser.createUser(user);
-			res.send(user);
+			res.send(user.toJSON());
 		});  
 	});
 
@@ -80,6 +84,10 @@ module.exports = function(app) {
 		    req.user.displayname = newuser.displayname;
         if(newuser.picture)
 		    req.user.picture = newuser.picture;
+        if(newuser.gender)
+            req.user.gender = newuser.gender;
+        if(newuser.status_message)
+            req.user.status_message = newuser.status_message;
         if(!req.user.username && newuser.username){
             req.user.username = newuser.username;
             xmppUser.createUser(req.user);
@@ -88,7 +96,7 @@ module.exports = function(app) {
             req.user.signup_complete = true;
 		req.user.save(function(err) {
 		  if (err) { return next(err); }
-		res.send(req.user);
+		res.send(req.user.toJSON());
 	  });
 	});	
 

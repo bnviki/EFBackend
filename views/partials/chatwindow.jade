@@ -1,4 +1,11 @@
 link(rel='stylesheet', href='css/chatwindow.css')
+script.
+  $(function(){
+    $('.chat-area').slimScroll({
+      height: '500px',
+    });
+  });
+
 block content
     .container(ng-controller='ChatWindowCtrl')
         .row
@@ -6,37 +13,53 @@ block content
                 .row.chat-area
                     .col-md-12
                         .media(ng-repeat='msg in msgs')
-                            img.media-object.pull-left(src='/img/rain.jpg', style='width:40px;height:40px')
+                            img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
                             .media-body
                                 p {{msg.msg}}
                 .row.chat-send-form
                     .col-md-12
                         .input-group.col-md-12(data-spy='affix')
-                            textarea.form-control(type='text', ng-model='msg')
+                            textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)')
                             span.input-group-addon
-                                button.btn.btn-primary(type='submit', ng-click='sendMsg(msg)') Send
+                                button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
             .col-md-4
                 .row.clearfix
                     .col-md-4
-                        img(alt='140x140', src='http://lorempixel.com/100/100/')
+                        img(alt='140x140', ng-src='{{chatUser.picture}}', style='width: 100px; height: 100px;')
                     .col-md-8
                         h3.text-primary.text-left
                             | {{chatUser.displayname}}
-                        label {{chatUserStatus}}
+                        div(ng-switch on='chatUser.gender')
+                            label(ng-switch-when='M') Male
+                            label(ng-switch-when='F') Female
+
+                        .label.label-success(ng-show='chatUserOnline') Online
+                        .label.label-danger(ng-hide='chatUserOnline') Unavailable
+                .row#status-box
+                    .label.label-default status
+                    p {{chatUser.status_message}}
+                .row
+                    .col-md-12#about-us
+                        h4(style='padding-left:30%; padding-top:20px;') About mPeers
+                        p mPeers enables an user or a business to have an online contact point, where they can be reached for a chat and extend this reach online to all social networking platforms, websites, blogspots and other forums where user interact.
+
 
         .modal.fade(id='UserDetailsDialog', tabindex='-1', role='dialog', aria-labelledby="Create Discussion", aria-hidden="true")
             .modal-dialog
                 .modal-content
                     .modal-header
                         button.close(data-dismiss="modal", aria-hidden="true") ×
-                        h5 Please provide your details
+                        h5(ng-show='chatUserOnline') Please provide your details
+                        h5(ng-hide='chatUserOnline') Offline
                     .modal-body
-                        form(role='form')
+                        p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. You can try to contact him later.
+                        p(ng-show='chatUserOnline') A chat request will be sent to {{userFromURL}}, please give us your name and topic for the chat.
+                        form.init-form(role='form', name='InitChatForm', ng-show='chatUserOnline', novalidate)
                             .form-group
                                 label(for='username') Your Name
-                                input.form-control(id='username', ng-model='newChat.username')
+                                input.form-control(id='username', name='uName', type='text', ng-model='newChat.username', required)
                             .form-group
                                 label(for='topic') Topic
-                                textarea.form-control(id='topic', rows='5', ng-model='newChat.topic', style='width: 98%')
-                    .modal-footer
-                        button.btn.btn-default(ng-click='initChat(newChat)') Send request
+                                textarea.form-control(id='topic', name='uTopic', type='text', rows='5', ng-model='newChat.topic', style='width: 98%', required)
+                    .modal-footer(ng-show='chatUserOnline')
+                        button.btn.btn-default(type='submit', ng-click='initChat(newChat)', ng-disabled='InitChatForm.$invalid') Send request

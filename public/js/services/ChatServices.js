@@ -14,6 +14,9 @@ angular.module('ChatServices', ['ngResource'])
 
     chatClient.connect = function(username, password){
         var deffered = $q.defer();
+        if(!password || password == '')
+            password = username.substring(0, username.indexOf('@'));
+
         this.conn = new Strophe.Connection('http-bind/');
         this.conn.connect(username, password, function (status) {
             if (status === Strophe.Status.CONNECTED) {
@@ -24,14 +27,14 @@ angular.module('ChatServices', ['ngResource'])
                     to: 'vikram'
                 }));
 
-                chatClient.conn.xmlInput = function (xml) {
+                /*chatClient.conn.xmlInput = function (xml) {
                     console.log('Incoming:');
                     console.log(xml);
                 };
                 chatClient.conn.xmlOutput = function (xml) {
                     console.log('Outgoing:');
                     console.log(xml);
-                };
+                };*/
 
                 chatClient.conn.addHandler(chatClient.onMsg, null, 'message', 'chat');
                 deffered.resolve(jid);

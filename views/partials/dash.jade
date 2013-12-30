@@ -1,45 +1,108 @@
 link(rel='stylesheet', href='css/dash.css')
+script.
+  $(function(){
+    $('#chat-content').slimScroll({
+      height: '400px',
+    });
+  });
 block content
     div.container.dashboard
     div.row.clearfix
         div.col-md-8.column
-            div.row.clearfix.well.well-sm
+            div.row.clearfix.well.well-sm(style='margin-bottom:5px;')
                 div.col-md-12.column
                     .col-md-2
                         img.img-thumbnail(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
-                    .col-md-10
-                        h5.text-primary.text-left
+                    .col-md-3
+                        h5.text-left
                             | {{currentUser.displayname}}
                         .label.label-success Online
+                        .edit-user(style='padding-top:10px;')
+                            a(href='#', ng-click='editUserDetails()') Edit
+                    .col-md-7(style='padding-right:0px;')
+                        .label.label-default(style='position:absolute;') status
+                        form(role='form')
+                            textarea.form-control(style='font-size: 12px;', ng-model='currentUser.status_message', ng-blur='updateStatus()')
+                        label.chat-url
+                            img.pull-left(src='img/p.png', style='width:20px; height:20px; margin-right:5px;')
+                            | www.mpeers.com/{{currentUser.username}}
             div.row.chat-area
                 .col-md-12
                     .row#chat-tabs
                         ul.nav.nav-tabs
-                            li(ng-repeat='workspace in workspaces')
+                            li(ng-class="{active: peopleTabActive}")
+                                a(href='', data-toggle='tab', ng-click='setActiveWorkspace(-1)')
+                                    .glyphicon.glyphicon-plus
+                            li(ng-repeat='workspace in workspaces', ng-class="{active: workspace.active}")
                                 a(href='', data-toggle='tab', ng-click='setActiveWorkspace(workspace.id)' ) {{workspace.name}}
+                                    button.close-button(ng-click='removeWorkspace(workspace)') &times;
 
-                        .tab-content
-                            .tab-pane(ng-repeat='workspace in workspaces', id='{{workspace.id}}', ng-class='{active:workspace.active}')
+                        .tab-content#chat-content
+                            #people-tab.tab-pane(id='-1', ng-class="{active: peopleTabActive}")
+                                .people.col-md-12(ng-controller='UserCtrl')
+                                    .input-group.input-group-sm.search-bar
+                                        input.form-control(type='text', ng-model='searchQuery')
+                                        .input-group-btn
+                                            .btn.btn-default
+                                                .glyphicon.glyphicon-search
+                                    .col-md-12.center-block
+                                        .userbox.pull-left(ng-repeat='user in allUsers | filter:searchQuery | removeCurrentUser')
+                                            .row
+                                                .col-md-4
+                                                    img.pull-left(ng-src='{{user.picture}}', style='height: 80px; width:80px;')
+                                                    .btn.btn-primary.btn-sm(ng-click='sendChatRequest(user)') chat
+                                                .col-md-8
+                                                    label(style='margin-bottom:0px;') {{user.displayname}}
+                                                    p {{user.status_message}}
+
+
+                            .tab-pane(ng-repeat='workspace in workspaces', id='{{workspace.id}}', ng-class="{active: workspace.active}")
                                 .row(style='min-height:400px;')
-                                    .col-md-12
-                                        .media(ng-repeat='msg in msgs[workspace.user]')
-                                            img.media-object.pull-left(src='/img/rain.jpg', style='width:30px;height:30px')
+                                    .col-md-12(style='margin-top:10px; margin-left:25px;')
+                                        .media(ng-repeat='msg in msgs[workspace.userJID]')
+                                            img.media-object.pull-left(ng-src='{{getPicture(msg.from)}}', style='width:30px;height:30px')
                                             .media-body
                                                 p {{msg.msg}}
-
-                                .row.chat-send-form
-                                    .col-md-12
-                                        .input-group.col-md-12(data-spy='affix')
-                                            textarea.form-control(type='text', ng-model='msgToSend')
-                                            span.input-group-addon
-                                                button.btn.btn-primary(type='submit', ng-click='sendMsg(workspace.user, msgToSend)') Send
+                        .row.chat-send-form(ng-hide='peopleTabActive')
+                            .col-md-12
+                                .input-group.col-md-12(data-spy='affix')
+                                    textarea#send-msg-text.form-control(type='text', ng-model='msgToSend', ng-enter='sendMsg(msgToSend)')
+                                    span.input-group-addon
+                                        button.btn.btn-primary(type='submit', ng-click='sendMsg(msgToSend)') Send
         div.col-md-4.column
             div.row.clearfix(ng-controller='chatCtrl')
                 div.col-md-12.chatrequests
                     .label.label-default Chat Requests
+                    .alert.alert-info.center-block(ng-hide='chatReqs.length', style='margin: 18px; width: 85%;')
+                        p Chat requests from others appear here. Accept them to initiate a chat.
                     .media(ng-repeat='creq in chatReqs', id='{{creq._id}}')
-                        .col-md-2
-                            img.media-object(src='/img/rain.jpg', style='width:30px;height:30px')
-                        .col-md-10.media-body
-                            p {{creq.topic}}
-                            .btn.pull-right.btn-xs.btn-primary(ng-click='acceptReq(creq._id)') accept
+                        img.pull-left.media-object(ng-src='{{creq.user.picture}}', style='width:30px;height:30px')
+                        .media-body
+                            p
+                                label.chat-user-name {{creq.username + ':'}}
+                                | {{creq.topic}}
+                            .btn.btn-xs.btn-primary.chat-accept-button(ng-click='acceptReq(creq._id)') accept
+                            .btn.btn-xs.btn-default(ng-click='discardReq(creq._id)') discard
+            .col-md-12#instructions
+                h5.center-block(style='padding-left:30%; padding-top:10px;') Help
+                ul(style='padding-left: 0px;')
+                    li You can chat with registered people from the list on the left, by clicking on chat.
+                    li You can share the URL (displayed below status message) anywhere on the web or your friends. On opening this link a peer page is seen from where they can chat.
+                    li Chat requests can be accepted or rejected.
+                    li Sometimes the user may be offline when you accept the request and may not respond. (sorry this is for alpha testing. will be improved)
+
+        .modal.fade(id='ChatRequestDialog', tabindex='-1', role='dialog', aria-labelledby="Send Chat Request", aria-hidden="true")
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button.close(data-dismiss="modal", aria-hidden="true") ×
+                        h5 Please provide a topic for discussion
+                    .modal-body
+                        p.text-success(ng-show='userToChat.chatUserOnline') {{userToChat.username}} is online now
+                        p.text-warning(ng-hide='userToChat.chatUserOnline') {{userToChat.username}} is offline now
+                        form(role='form')
+                            .form-group
+                                label(for='topic') Topic
+                                textarea.form-control(id='topic', rows='5', ng-model='newChat.topic', style='width: 98%')
+                    .modal-footer
+                        button.btn.btn-default(ng-click='initChat(newChat)') Send request

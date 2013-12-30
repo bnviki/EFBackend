@@ -28,7 +28,7 @@ var UserSchema = new mongoose.Schema({
 	picture: String,
     interests: {
 		   	categories: [mongoose.Schema.Types.ObjectId]},
-    status_message: String,
+    status_message: {type: String, default: 'Hi there, lets talk!!'},
     signup_complete : {type: Boolean, default: false},
 	validated: {
 		     type: Boolean,
@@ -42,6 +42,16 @@ var UserSchema = new mongoose.Schema({
 		    }	
 
 });
+
+if (!UserSchema.options.toJSON) UserSchema.options.toJSON = {};
+UserSchema.options.toJSON.hide = 'password extid signup_complete validated created_at __v';
+UserSchema.options.toJSON.transform = function (doc, ret, options) {
+    if (options.hide) {
+        options.hide.split(' ').forEach(function (prop) {
+            delete ret[prop];
+        });
+    }
+}
 
 UserSchema.methods.validatePassword = function(password){
 	if(this.password === password)
