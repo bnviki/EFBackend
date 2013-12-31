@@ -18,7 +18,7 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
         $http.get('/users', {params:{username:$routeParams.username}}).success(function(data){
             if(data.length > 0){
                 $scope.chatUser = data[0];
-                $http.get('/plugins/presence/status', {params:{jid:$scope.chatUser.username + '@vikram', type:'xml'}}).success(function(data){
+                $http.get('/plugins/presence/status', {params:{jid:$scope.chatUser.username + '@' + ChatClient.host, type:'xml'}}).success(function(data){
                     console.log('presence: ' + data);
                     if(data.search('unavailable') == -1){
                         $scope.chatUserOnline = true;
@@ -59,7 +59,7 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
 
     $scope.initChat = function(newChat){
         if(newChat.username != '' && newChat.topic != ''){
-            ChatClient.connect('vikram', '').then(function(jid){
+            ChatClient.connect(ChatClient.host, '').then(function(jid){
                 var uname = jid.substring(0, jid.indexOf('@'));
                 Messenger.socket.emit('register', {username: uname});
                 var chatreq = {from: uname, to:$scope.chatUser.username, topic: newChat.topic, username: newChat.username};
@@ -88,7 +88,7 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
 
     $scope.sendMsg = function(msg){
         if(msg && msg != ''){
-            ChatClient.sendMsg(msg, $scope.chatUser.username + '@vikram');
+            ChatClient.sendMsg(msg, $scope.chatUser.username + '@' + ChatClient.host);
             $scope.msgSendText = '';
         }
     }

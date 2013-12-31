@@ -6,11 +6,16 @@
  * To change this template use File | Settings | File Templates.
  */
 angular.module('ChatServices', ['ngResource'])
-  .factory('ChatClient', ['$http', '$q', '$rootScope', function($http, $q, $rootScope){
+  .factory('ChatClient', ['$http', '$q', '$rootScope', '$location', function($http, $q, $rootScope, $location){
     var chatClient = {};
-    chatClient.messages = [{from: "pukki@vikram", msg: "hi!"}];
+    chatClient.messages = []; //[{from: "pukki@vikram", msg: "hi!"}];
     chatClient.conn = null;
     chatClient.user = null;
+    chatClient.host = null;
+    if($location.host().search('localhost') == -1)
+        chatClient.host = 'ip-172-31-9-1';
+    else
+        chatClient.host = 'vikram';
 
     chatClient.connect = function(username, password){
         var deffered = $q.defer();
@@ -24,7 +29,7 @@ angular.module('ChatServices', ['ngResource'])
                 var jid = Strophe.getBareJidFromJid(chatClient.conn.jid);
                 chatClient.user = jid;
                 chatClient.conn.send($pres({
-                    to: 'vikram'
+                    to: chatClient.host
                 }));
 
                 /*chatClient.conn.xmlInput = function (xml) {

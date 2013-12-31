@@ -6,9 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 var xmpp = require('node-xmpp');
+var os = require('os');
 
-var adminJid = "viki@vikram";
-var adminPass = "viki";
+var hostname = os.hostname();
+var adminJid = "mpeers_admin@" + hostname;
+var adminPass = "mpeers";
 
 var connection = new xmpp.Client({
     jid: adminJid,

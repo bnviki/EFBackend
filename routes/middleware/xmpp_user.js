@@ -7,7 +7,10 @@
  */
 var connection = require('./xmpp_conn')
     , xmpp = require('node-xmpp')
-    , User = require('../../data/models/user');
+    , User = require('../../data/models/user')
+    , os = require('os');
+
+var hostname = os.hostname();
 
 connection.on('stanza', handleStanza);
 
@@ -22,7 +25,7 @@ function handleStanza(stanza){
                         pass = user.password;
                     else
                         pass = user.username;
-                    var createUserForm = new xmpp.Element('iq', {from:'viki@vikram',id:'create2-' + user._id, to:'vikram', type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
+                    var createUserForm = new xmpp.Element('iq', {from: connection.jid, id:'create2-' + user._id, to: hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
                         node:'http://jabber.org/protocol/admin#add-user', sessionid: stanza.getChild('command').attrs.sessionid}).c('x', {xmlns:'jabber:x:data', type:'submit'}).
                         c('field',{type:'hidden',var:'FORM_TYPE'}).c('value').t('http://jabber.org/protocol/admin').up().up().
                         c('field',{var:'accountjid'}).c('value').t(user.username + '@vikram').up().up().
@@ -46,7 +49,7 @@ function handleStanza(stanza){
 };
 
 module.exports.createUser = function(newUser){
-        var createUserMsg = new xmpp.Element('iq', {from:'viki@vikram',id: 'create1-' + newUser._id, to:'vikram', type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
+        var createUserMsg = new xmpp.Element('iq', {from: connection.jid, id: 'create1-' + newUser._id, to: hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
             node:'http://jabber.org/protocol/admin#add-user', action:'execute'});
         connection.send(createUserMsg);
 }

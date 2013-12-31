@@ -70,7 +70,7 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     };
 
     $scope.msgs = [];
-    $scope.msgs['pukki@vikram'] = [{from: 'pukki@vikram', to:'vikrambn@vikram', msg: 'hello, thats it'}];
+    //$scope.msgs['pukki@vikram'] = [{from: 'pukki@vikram', to:'vikrambn@vikram', msg: 'hello, thats it'}];
     $scope.noOfScrollMsgs = 0;
 
     $scope.getPicture = function(from){
@@ -107,13 +107,13 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     $scope.sendChatRequest = function(user){
         var chatExists = false;
         angular.forEach($scope.workspaces, function(workspace) {
-            if(workspace.userJID == user.username + '@vikram'){
+            if(workspace.userJID == user.username + '@' + ChatClient.host){
                 chatExists = true;
             }
         });
         if(!chatExists){
             $scope.userToChat = user;
-            $http.get('/plugins/presence/status', {params:{jid:$scope.userToChat.username + '@vikram', type:'xml'}}).success(function(data){
+            $http.get('/plugins/presence/status', {params:{jid:$scope.userToChat.username + '@' + ChatClient.host, type:'xml'}}).success(function(data){
                 if(data.search('unavailable') == -1){
                     $scope.userToChat.chatUserOnline = true;
                 }
@@ -158,15 +158,15 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         if($scope.currentUser){
             var toUser = $scope.currentUser.username == chat.users[0] ? chat.users[1]:chat.users[0];
             if(chat.username == $scope.currentUser.username)
-                $scope.addNewWorkspace({name: toUser, userJID: toUser + '@vikram'});
+                $scope.addNewWorkspace({name: toUser, userJID: toUser + '@' + ChatClient.host});
             else
-                $scope.addNewWorkspace({name: chat.username, userJID: toUser + '@vikram'});
+                $scope.addNewWorkspace({name: chat.username, userJID: toUser + '@' + ChatClient.host});
 
             $http.get('/users', {params:{username: toUser}}).success(function(data){
                 if(data.length > 0){
                     var toUserData = data[0];
                     angular.forEach($scope.workspaces, function(workspace) {
-                        if(workspace.userJID == toUser + '@vikram'){
+                        if(workspace.userJID == toUser + '@' + ChatClient.host){
                             workspace.user = toUserData;
                         }
                     });
