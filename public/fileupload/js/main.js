@@ -19,7 +19,7 @@ $(function () {
         disableImageResize: false,
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
-        url: 'http://localhost:3000'
+        url: 'http://ec2-54-254-143-225.ap-southeast-1.compute.amazonaws.com:3000'
     });
 
     // Enable iframe cross-domain access via redirect option:
@@ -35,7 +35,7 @@ $(function () {
     if (window.location.hostname === 'blueimp.github.io') {
         // Demo settings:
         $('#fileupload').fileupload('option', {
-            url: 'http://localhost:3000',
+            url: 'http://ec2-54-254-143-225.ap-southeast-1.compute.amazonaws.com:3000',
             // Enable image resizing, except for Android and Opera,
             // which actually support image resizing, but fail to
             // send Blob objects via XHR requests:
@@ -47,7 +47,7 @@ $(function () {
         // Upload server status check for browsers with CORS support:
         if ($.support.cors) {
             $.ajax({
-                url: 'http://localhost:3000',
+                url: 'http://ec2-54-254-143-225.ap-southeast-1.compute.amazonaws.com:3000',
                 type: 'HEAD'
             }).fail(function () {
                 $('<div class="alert alert-danger"/>')
