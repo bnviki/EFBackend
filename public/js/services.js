@@ -13,7 +13,7 @@ angular.module('OCServices', ['ngResource'])
                 $rootScope.$broadcast('event:loggedOut', userManager.currentUser);
             } else {
                 $rootScope.$broadcast('event:loginConfirmed', userManager.currentUser);
-                ChatClient.connect(user.username + '@' + ChatClient.host, user.password);
+                ChatClient.connect(user.username + '@' + ChatClient.host, user.username);
             }
 
         }

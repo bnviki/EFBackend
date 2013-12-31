@@ -21,14 +21,14 @@ function handleStanza(stanza){
                 if (!err && user) {
                     //console.log("good so far: " + stanza.getChild('command').attrs.status + ": " + stanza.attrs.sessionid);
                     var pass = "";
-                    if(user.password && user.password != '')
-                        pass = user.password;
-                    else
+                    //if(user.password && user.password != '')
+                    //    pass = user.password;
+                    //else
                         pass = user.username;
                     var createUserForm = new xmpp.Element('iq', {from: connection.jid, id:'create2-' + user._id, to: hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
                         node:'http://jabber.org/protocol/admin#add-user', sessionid: stanza.getChild('command').attrs.sessionid}).c('x', {xmlns:'jabber:x:data', type:'submit'}).
                         c('field',{type:'hidden',var:'FORM_TYPE'}).c('value').t('http://jabber.org/protocol/admin').up().up().
-                        c('field',{var:'accountjid'}).c('value').t(user.username + '@vikram').up().up().
+                        c('field',{var:'accountjid'}).c('value').t(user.username + '@' + hostname).up().up().
                         c('field',{var:'password'}).c('value').t(pass).up().up().
                         c('field',{var:'password-verify'}).c('value').t(pass).up().up().
                         c('field',{var:'email'}).c('value').t(user.email).up().up().
