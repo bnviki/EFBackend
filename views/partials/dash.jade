@@ -38,7 +38,7 @@ block content
                                     button.close-button(ng-click='removeWorkspace(workspace)') &times;
 
                         .tab-content#chat-content
-                            #people-tab.tab-pane(id='-1', ng-class="{active: peopleTabActive}")
+                            .tab-pane(id='-1', ng-class="{active: peopleTabActive}")
                                 .people.col-md-12(ng-controller='UserCtrl')
                                     .input-group.input-group-sm.search-bar
                                         input.form-control(type='text', ng-model='searchQuery')
