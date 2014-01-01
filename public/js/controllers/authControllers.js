@@ -37,18 +37,7 @@ function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient
 
     $scope.alerts = [];
     $scope.signupUser = function(user){
-        var newUser = new User(user);
-        newUser.$save(function(savedUser){
-            //console.log('i saved the user: ' + savedUser.username);
-            UserManager.login(savedUser.username, savedUser.password).then(function(userIn){
-                if(userIn.signup_complete)
-                    $location.path('/dash');
-                else
-                    $location.path('/complete_profile');
-            }, function(err){
-                $scope.alerts.push({type:'error', msg: 'user already exists'});
-            });
-        });
+        //coming soon
     }
 
     $scope.signInGoogle = function(){
