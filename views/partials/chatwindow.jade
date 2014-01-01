@@ -62,4 +62,4 @@ block content
                                 label(for='topic') Topic
                                 textarea.form-control(id='topic', name='uTopic', type='text', rows='5', ng-model='newChat.topic', style='width: 98%', required)
                     .modal-footer(ng-show='chatUserOnline')
-                        button.btn.btn-default(type='submit', ng-click='initChat(newChat)', ng-disabled='InitChatForm.$invalid') Send request
+                        button.btn.btn-default(id='init_chat_btn', type='submit', ng-click='initChat(newChat)', ng-disabled='InitChatForm.$invalid') Send request

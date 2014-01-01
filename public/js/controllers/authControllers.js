@@ -74,8 +74,10 @@ function CompleteProfile($scope, UserManager, $location, User){
     } */
 
     $scope.updateUser = function(userinfo){
-        currentUser.displayname = userinfo.username;
-        currentUser.gender = userinfo.gender;
+        if(userinfo.username && userinfo.username.trim() != '')
+            currentUser.displayname = userinfo.username.trim();
+        if(userinfo.gender)
+            currentUser.gender = userinfo.gender;
         User.save(currentUser);
         $location.path('/dash');
     }

@@ -22,7 +22,10 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         angular.forEach($scope.workspaces, function(workspace) {
             if(workspace.id == id){
                 workspace.active = true;
-                $scope.noOfScrollMsgs = $scope.msgs[workspace.userJID].length;
+                if($scope.msgs[workspace.userJID])
+                    $scope.noOfScrollMsgs = $scope.msgs[workspace.userJID].length;
+                else
+                    $scope.noOfScrollMsgs = 0;
             }
             else
                 workspace.active = false;

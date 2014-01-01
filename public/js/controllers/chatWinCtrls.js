@@ -59,6 +59,7 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
 
     $scope.initChat = function(newChat){
         if(newChat.username != '' && newChat.topic != ''){
+            $('init_chat_btn').attr('disabled','disabled');
             ChatClient.connect(ChatClient.host, '').then(function(jid){
                 var uname = jid.substring(0, jid.indexOf('@'));
                 Messenger.socket.emit('register', {username: uname});
