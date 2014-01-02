@@ -20,12 +20,12 @@ html(ng-app="mainMod")
             script(src='js/lib/angular-resource.js')
             script(src='js/lib/angular-route.js')
             script(src='js/lib/ui-bootstrap-0.7.0.min.js')
-            script(src='js/candy/libs/libs.min.js')
-            script(src='js/candy/candy.bundle.js')
+            //script(src='js/candy/libs/libs.min.js')
+            //script(src='js/candy/candy.bundle.js')
             script(src='js/lib/jquery.slimscroll.min.js')
             script(src='js/lib/strophe.js')
-            script(src='//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.1.7/ZeroClipboard.min.js')
-            script(src='js/lib/ngClip.js')
+            //script(src='//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.1.7/ZeroClipboard.min.js')
+            //script(src='js/lib/ngClip.js')
 
 
             script(src='js/controllers/authControllers.js')
@@ -41,25 +41,26 @@ html(ng-app="mainMod")
             script(src='js/directives.js')
             script(src='js/app.js')
     body(ng-controller='RootCtrl')
-        .navbar.navbar-fixed-top.navbar-inverse
-            .navbar-inner
-                a(class='navbar-brand', href='/', style='padding: 8px 5%;')
-                    img(src='/img/logo.png', style='width:50%; height:100%')
-                .label.label-danger.pull-left(style='margin-top: 20px;') Alpha testing
-                .nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
-                    li
-                        a(class='pull-right', href='#', style='font-weight: bolder;') {{currentUser.displayname}}
-                    li.dropdown
-                        a.dropdown-toggle(href='#', data-toggle='dropdown', style='padding-top: 5px;')
-                            img(class='img-rounded pull-right', ng-src='{{currentUser.picture}}', style='height:40px; width:40px;')
-                        ul.pull-right.dropdown-menu(role="menu", aria-labelledby="dLabel")
-                            li
-                                a(role='menuitem', href='#', ng-click='logUserOut()') logout
+        #wrap
+            .navbar.navbar-fixed-top.navbar-inverse
+                .container.navbar-inner
+                    a(class='navbar-brand', href='/', style='padding: 8px 5%;')
+                        img(src='/img/logo.png', style='width:50%; height:100%')
+                    .label.label-danger.pull-left(style='margin-top: 20px;') Alpha testing
+                    .nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
+                        li
+                            a(class='pull-right', href='#', style='font-weight: bolder;') {{currentUser.displayname}}
+                        li.dropdown
+                            a.dropdown-toggle(href='#', data-toggle='dropdown', style='padding-top: 5px;')
+                                img(class='img-rounded pull-right', ng-src='{{currentUser.picture}}', style='height:40px; width:40px;')
+                            ul.pull-right.dropdown-menu(role="menu", aria-labelledby="dLabel")
+                                li
+                                    a(role='menuitem', href='#', ng-click='logUserOut()') logout
 
+            .container
+                div(ng-view, style='padding-top:60px; font-size: 12px;')
 
-
-        div(ng-view, style='padding-top:15px; font-size: 12px;')
-
-        .footer-line
-            .glyphicon.glyphicon-copyright-mark.white Copyright 2013
+        #footer-line
+            .navbar.navbar-fixed-bottom.navbar-inverse(style='min-height:20px;')
+                .glyphicon.glyphicon-copyright-mark.text-muted.white Copyright 2013
 

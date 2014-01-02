@@ -1,46 +1,45 @@
 link(rel='stylesheet', href='css/login.css')
-.container
-    .row
-        .col-md-8.jumbotron
-            h2 Welcome to mPeers!!
-            ul
-                li Create your online contact point.
-                li Share it online.
-                li Be more reachable.
-            p mPeers enables an individual or a business to have an online contact point, where they can be reached for a chat and extend this reach online to all social networking platforms, websites, blogspots and other forums where users interact.
+.row
+    .col-md-8.jumbotron
+        h2 Welcome to mPeers!!
+        ul
+            li Create your online contact point.
+            li Share it online.
+            li Be more reachable.
+        p mPeers enables an individual or a business to have an online contact point, where they can be reached for a chat and extend this reach online to all social networking platforms, websites, blogspots and other forums where users interact.
 
-        .col-md-4
-            #login-form
-                form.form-horizontal
-                    .legend
-                        .label.label-default Login
-                    .form-group
-                        label(class="col-md-3 control-label", for="userNameLogin") UserName
-                        .col-md-7
-                            input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
-                    .form-group
-                        label(class="col-md-3 control-label", for="inputPasswordLogin") Password
-                        .col-md-7
-                            input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password')
-                    .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)') Sign in
+    .col-md-4
+        #login-form
+            form.form-horizontal
+                .legend
+                    .label.label-default Login
+                .form-group
+                    label(class="col-md-3 control-label", for="userNameLogin") UserName
+                    .col-md-7
+                        input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
+                .form-group
+                    label(class="col-md-3 control-label", for="inputPasswordLogin") Password
+                    .col-md-7
+                        input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password')
+                .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)') Sign in
 
-            #signup-form
-                form(class='form-horizontal')
-                    .legend
-                        .label.label-default Sign Up
-                    .form-group
-                        label(class="col-md-3 control-label", for="userNameSignup") UserName
-                        .col-md-7
-                            input(class="form-control", type="text", id="userNameSignup", placeholder="UserName", ng-model='userSignup.username', disabled)
-                    .form-group
-                        label(class="col-md-3 control-label", for="inputEmailSignup") Email
-                        .col-md-7
-                            input(class="form-control", type="text", id="inputEmailSignup", placeholder="Email", ng-model='userSignup.email', disabled)
-                    .form-group
-                        label(class="col-md-3 control-label", for="inputPasswordSignup") Password
-                        .col-md-7
-                            input(class="form-control", type="password", id="inputPasswordSignup", placeholder="Password", ng-model='userSignup.password', disabled)
-                    .btn.btn-default(type='submit', ng-click='signupUser(userSignup)', disabled) Sign up
-            #test-info
-                p.text-danger mpeers is undergoing various tests. signup will be available soon.
+        #signup-form
+            form(class='form-horizontal')
+                .legend
+                    .label.label-default Sign Up
+                .form-group
+                    label(class="col-md-3 control-label", for="userNameSignup") UserName
+                    .col-md-7
+                        input(class="form-control", type="text", id="userNameSignup", placeholder="UserName", ng-model='userSignup.username', disabled)
+                .form-group
+                    label(class="col-md-3 control-label", for="inputEmailSignup") Email
+                    .col-md-7
+                        input(class="form-control", type="text", id="inputEmailSignup", placeholder="Email", ng-model='userSignup.email', disabled)
+                .form-group
+                    label(class="col-md-3 control-label", for="inputPasswordSignup") Password
+                    .col-md-7
+                        input(class="form-control", type="password", id="inputPasswordSignup", placeholder="Password", ng-model='userSignup.password', disabled)
+                .btn.btn-default(type='submit', ng-click='signupUser(userSignup)', disabled) Sign up
+        #test-info
+            p.text-danger mpeers is undergoing various tests. signup will be available soon.
 
