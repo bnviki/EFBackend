@@ -1,18 +1,18 @@
 link(rel='stylesheet', href='css/chatwindow.css')
 script.
-  $(function(){
+  /*$(function(){
     $('#chat-content').slimScroll({
       height: '500px',
     });
-  });
+  });*/
 
 block content
     .container(ng-controller='ChatWindowCtrl')
         .row
             .col-md-8.well.well-sm
-                .row#chat-content
+                .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
                     .col-md-12
-                        .media(ng-repeat='msg in msgs', scroll-to-bottom)
+                        .media(ng-repeat='msg in msgs')
                             img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
                             .media-body
                                 p {{msg.msg}}

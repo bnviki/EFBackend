@@ -26,16 +26,19 @@ directiveMod.directive('scrollToBottom', function() {
         if (scope.$last){
             var fromTop = element[0].scrollHeight * scope.noOfScrollMsgs;
             //var fromTop = $(".chat-content").scrollTop();
-            $("#chat-content").slimScroll({ scrollTo: fromTop + 'px' });
+            //$("#chat-content").slimScroll({ scrollTo: fromTop + 'px' });
         }
     };
 });
 
-directiveMod.directive('dashScroll', function() {
+directiveMod.directive('ngSlimScroll', function() {
     return function(scope, element, attrs) {
-        //if (scope.$last){
-            var fromTop = $("#chat-content").scrollTop();
-            $("#chat-content").slimScroll({ scrollTo: fromTop + 'px' });
-        //}
+        element.slimScroll({height: attrs.slimScrollHeight});
+        scope.$watch(function(){
+            return element.children().children().size();
+        }, function(val){
+            var len = element[0].scrollHeight * scope.noOfScrollMsgs;;
+            element.slimScroll({scrollTo: len});
+        })
     };
 });

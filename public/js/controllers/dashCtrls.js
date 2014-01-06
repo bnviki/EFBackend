@@ -14,10 +14,14 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     //$scope.currentUserURL = 'www.mpeers.com/' + $scope.currentUser.username;
     // tabs
     $scope.setActiveWorkspace = function(id){
-        if(id == -1)
+        if(id == -1){
             $scope.peopleTabActive = true;
-        else
+            //$('#chat-content').height('100%');
+        }
+        else{
             $scope.peopleTabActive = false;
+            //$('#chat-content').height($(window).height()/2);
+        }
 
         angular.forEach($scope.workspaces, function(workspace) {
             if(workspace.id == id){

@@ -1,15 +1,15 @@
 link(rel='stylesheet', href='css/dash.css')
 script.
   $(function(){
+    /*$('#chat-content').height($(window).height()/2);
     $('#chat-content').slimScroll({
-      height: '400px',
-    });
+      height: 'auto',
+    });*/
   });
 block content
-    div.container.dashboard
-    div.row.clearfix
+    div.row
         div.col-md-8.column
-            div.row.clearfix.well.well-sm(style='margin-bottom:5px;')
+            div.row.well.well-sm(style='margin-bottom:5px;')
                 div.col-md-12.column
                     .col-md-2
                         img.img-thumbnail(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
@@ -57,9 +57,9 @@ block content
 
 
                             .tab-pane(ng-repeat='workspace in workspaces', id='{{workspace.id}}', ng-class="{active: workspace.active}")
-                                .row(style='min-height:400px;')
-                                    .col-md-12(style='margin-top:10px; margin-left:25px;')
-                                        .media(ng-repeat='msg in msgs[workspace.userJID]', scroll-to-bottom)
+                                .row(ng-slim-scroll slim-scroll-height='350px')
+                                    .col-md-12(id='chat-content-{{workspace.id}}', style='margin-top:10px; margin-left:25px;')
+                                        .media(ng-repeat='msg in msgs[workspace.userJID]')
                                             img.media-object.pull-left(ng-src='{{getPicture(msg.from)}}', style='width:30px;height:30px')
                                             .media-body
                                                 p {{msg.msg}}
