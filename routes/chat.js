@@ -107,6 +107,34 @@ module.exports = function(app, sessionUsers) {
 	  });
 	});
 
+    app.get('/chatlive', function(req, res) {
+        if(req.session.chats){
+            res.send(req.session.chats);
+        } else {
+            res.send('no ongoing chats', 204);
+        }
+    });
+
+    app.post('/chat/:id/live', function(req, res) {
+        var chats = req.session.chats;
+        if(chats){
+            setTimeout(function(){
+                var i = 0;
+                for(i=0; i < chats.length; i++){
+                    if(chats[i]._id == req.params.id){
+                        chats.splice(i,1);
+                        break;
+                    }
+                }
+                req.session.chats = chats;
+                req.session.save();
+                res.send('success', 200);
+            }, 500);
+        } else {
+            res.send('not found', 404);
+        }
+    });
+
     //socket request handlers
     app.io.route('SEND_CHAT', function(req) {
         console.log('sending chat: ' + req.chat._id + ' to: ' + req.chatuser);

@@ -6,94 +6,158 @@
  * To change this template use File | Settings | File Templates.
  */
 angular.module('ChatServices', ['ngResource'])
-  .factory('ChatClient', ['$http', '$q', '$rootScope', '$location', function($http, $q, $rootScope, $location){
-    var chatClient = {};
-    chatClient.messages = []; //[{from: "pukki@vikram", msg: "hi!"}];
-    chatClient.conn = null;
-    chatClient.user = null;
-    chatClient.host = null;
-    if($location.host().search('localhost') == -1)
-        chatClient.host = 'ip-172-31-9-1';
-    else
-        chatClient.host = 'vikram';
+    .factory('ChatClient', ['$http', '$q', '$rootScope', '$location', function($http, $q, $rootScope, $location){
+        var chatClient = {};
+        chatClient.messages = []; //[{from: "pukki@vikram", msg: "hi!"}];
+        chatClient.conn = null;
+        chatClient.user = null;
+        chatClient.host = null;
+        if($location.host().search('localhost') == -1)
+            chatClient.host = 'ip-172-31-9-1';
+        else
+            chatClient.host = 'vikram';
 
-    chatClient.connect = function(username, password){
-        var deffered = $q.defer();
-        if(!password || password == '')
-            password = username.substring(0, username.indexOf('@'));
+        chatClient.connect = function(username, password){
+            var deffered = $q.defer();
+            if(!password || password == '')
+                password = username.substring(0, username.indexOf('@'));
 
-        this.conn = new Strophe.Connection('http-bind/');
-        this.conn.connect(username, password, function (status) {
-            if (status === Strophe.Status.CONNECTED) {
-                console.log("strophe connected");
-                var jid = Strophe.getBareJidFromJid(chatClient.conn.jid);
-                chatClient.user = jid;
-                chatClient.conn.send($pres({
-                    to: chatClient.host
-                }));
+            this.conn = new Strophe.Connection('http-bind/');
+            this.conn.connect(username, password, function (status) {
+                if (status === Strophe.Status.CONNECTED) {
+                    console.log("strophe connected");
+                    var jid = Strophe.getBareJidFromJid(chatClient.conn.jid);
+                    chatClient.user = jid;
+                    chatClient.conn.send($pres({
+                        to: chatClient.host
+                    }));
 
-                /*chatClient.conn.xmlInput = function (xml) {
-                    console.log('Incoming:');
-                    console.log(xml);
-                };
-                chatClient.conn.xmlOutput = function (xml) {
-                    console.log('Outgoing:');
-                    console.log(xml);
-                };*/
+                    /*chatClient.conn.xmlInput = function (xml) {
+                     console.log('Incoming:');
+                     console.log(xml);
+                     };
+                     chatClient.conn.xmlOutput = function (xml) {
+                     console.log('Outgoing:');
+                     console.log(xml);
+                     };*/
 
-                chatClient.conn.addHandler(chatClient.onMsg, null, 'message', 'chat');
-                deffered.resolve(jid);
-            } else if (status === Strophe.Status.DISCONNECTED) {
-                console.log('disconnected');
-                deffered.reject('cannot connect to xmpp server');
-            }
-        });
-        return deffered.promise;
-    }
+                    chatClient.conn.addHandler(chatClient.onMsg, null, 'message', 'chat');
+                    deffered.resolve(jid);
+                } else if (status === Strophe.Status.DISCONNECTED) {
+                    console.log('disconnected');
+                    deffered.reject('cannot connect to xmpp server');
+                }
+            });
+            return deffered.promise;
+        }
 
-    chatClient.onMsg = function(message){
-        console.log("msg recieved: " + message);
-        var jid = Strophe.getBareJidFromJid($(message).attr('from'));
+        chatClient.onMsg = function(message){
+            console.log("msg recieved: " + message);
+            var jid = Strophe.getBareJidFromJid($(message).attr('from'));
 
-        var body = $(message).find("html > body");
-        if (body.length === 0) {
-            body = $(message).find('body');
-            if (body.length > 0) {
-                body = body.text()
+            var body = $(message).find("html > body");
+            if (body.length === 0) {
+                body = $(message).find('body');
+                if (body.length > 0) {
+                    body = body.text()
+                } else {
+                    body = null;
+                }
             } else {
-                body = null;
+                body = body.contents();
             }
-        } else {
-            body = body.contents();
-        }
-        if (body) {
-            var newmsg = {from: jid, to: chatClient.user, msg: body};
-            chatClient.messages.push(newmsg);
+            if (body) {
+                var newmsg = {from: jid, to: chatClient.user, msg: body};
+                chatClient.messages.push(newmsg);
+                $rootScope.$emit('NewChatMsg', newmsg);
+                $rootScope.$apply();
+            }
+            return true;
+        };
+
+        chatClient.sendMsg = function(msg, toUser){
+            this.conn.send($pres({
+                to: toUser
+            }));
+
+            this.conn.send($msg({
+                to: toUser,
+                "type": "chat"
+            }).c('body').t(msg));
+
+            var newmsg = {from: this.user, to: toUser, msg: msg};
+            this.messages.push(newmsg);
             $rootScope.$emit('NewChatMsg', newmsg);
-            $rootScope.$apply();
         }
-        return true;
-    };
 
-    chatClient.sendMsg = function(msg, toUser){
-        this.conn.send($pres({
-            to: toUser
-        }));
+        chatClient.disconnect = function(){
+            this.conn.disconnect();
+        }
 
-        this.conn.send($msg({
-            to: toUser,
-            "type": "chat"
-        }).c('body').t(msg));
+        return chatClient;
 
-        var newmsg = {from: this.user, to: toUser, msg: msg};
-        this.messages.push(newmsg);
-        $rootScope.$emit('NewChatMsg', newmsg);
-    }
+    }])
+    .factory('ChatManager', ['$http', '$rootScope', 'UserManager', 'ChatClient', 'Messenger',
+        function($http, $rootScope, UserManager, ChatClient, Messenger){
+            var chatManager = {};
+            chatManager.currentChats = [];
+            chatManager.msgs = [];
 
-    chatClient.disconnect = function(){
-        this.conn.disconnect();
-    }
+            $rootScope.$on('NewChatMsg', function(event, newmsg){
+                if(newmsg.from == ChatClient.user){
+                    if(!chatManager.msgs[newmsg.to])
+                        chatManager.msgs[newmsg.to] = [];
+                    chatManager.msgs[newmsg.to].push(newmsg);
+                } else {
+                    if(!chatManager.msgs[newmsg.from])
+                        chatManager.msgs[newmsg.from] = [];
 
-    return chatClient;
+                    chatManager.msgs[newmsg.from].push(newmsg);
+                }
+            });
 
-}]);
+            chatManager.addChat = function(chat){
+                var i=0;
+                var isNew = true;
+                for(i=0; i < chatManager.currentChats.length; i++){
+                    if(chatManager.currentChats[i]._id == chat._id){
+                        isNew = false;
+                        break;
+                    }
+                }
+                if(isNew){
+                    chatManager.currentChats.push(chat);
+                    $rootScope.$emit('NewChatAdded', chat);
+                }
+            };
+
+            chatManager.checkForChats = function(){
+                $http.get('/chatlive').success(function(data, status){
+                    if(data){
+                        for(var i=0; i<data.length; i++){
+                            chatManager.addChat(data[i]);
+                        }
+                    }
+                });
+            };
+
+            chatManager.removeChat = function(chatId){
+                $http.post('/chat/' + chatId + '/live').success(function(){
+                    console.log('good');
+                });
+                for(i=0; i < chatManager.currentChats.length; i++){
+                    if(chatManager.currentChats[i]._id == chatId){
+                        chatManager.currentChats.splice(i,1);
+                        break;
+                    }
+                }
+            };
+
+            Messenger.socket.on('NEW_CHAT', function (data) {
+                //console.log('new chat added: ' + data);
+                chatManager.addChat(data);
+                $rootScope.$apply();
+            });
+
+            return chatManager;
+        }]);

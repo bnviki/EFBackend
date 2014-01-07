@@ -13,8 +13,8 @@ var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 
 
     }]);
 
-app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$timeout', 'Messenger',
-    function($rootScope, $http, $location, UserManager, Discussion, $timeout, Messenger) {
+app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$timeout', 'Messenger', 'ChatManager',
+    function($rootScope, $http, $location, UserManager, Discussion, $timeout, Messenger, ChatManager) {
 
     $rootScope.selectedCat = 'news';
     //user login params
@@ -37,42 +37,5 @@ app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$time
         $location.path('/login');
     });
 
-    // currently ongoing chats
 
-    $rootScope.currentChats = [];
-    $rootScope.chatCount = 0;
-
-    function findInCurrentChats(id){
-        for(var i = 0; i < $rootScope.chatCount; i++){
-            if($rootScope.currentChats[i]._id == id)
-                return true;
-        }
-        return false;
-    }
-
-    $rootScope.addChat = function(chat){
-        if(!findInCurrentChats(chat._id)){
-            $rootScope.currentChats.push(chat);
-            $rootScope.chatCount = $rootScope.chatCount + 1;
-            $rootScope.$emit('NewChatAdded', chat);
-        }
-    }
-
-    /*$rootScope.$watchCollection('currentChats', function(newChats){
-        console.log('changed: ' + newChats);
-        if(newChats.length > $rootScope.chatCount){
-            var chat = newChats[newChats.length-1];
-            var user = UserManager.getCurrentUser();
-
-        }
-        $rootScope.chatCount = newChats.length;
-    });*/
-
-    // Socket event receivers
-
-    Messenger.socket.on('NEW_CHAT', function (data) {
-        console.log('new chat added: ' + data);
-        $rootScope.addChat(data);
-        $rootScope.$apply();
-    });
 }]);

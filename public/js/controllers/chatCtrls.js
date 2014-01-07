@@ -1,4 +1,4 @@
-function chatCtrl($scope, $http, $rootScope, UserManager, Messenger){
+function chatCtrl($scope, $http, $rootScope, UserManager, Messenger, ChatManager){
 	var currentUser = UserManager.getCurrentUser();
     $scope.chatReqs = [];
 
@@ -29,7 +29,7 @@ function chatCtrl($scope, $http, $rootScope, UserManager, Messenger){
 
 	$scope.acceptReq = function(reqId){
 		$http.post('/chat/accept/' + reqId).success(function(chat){	
-			$rootScope.addChat(chat);
+			ChatManager.addChat(chat);
             removeFromChatReq(reqId);
 			console.log('accepted request');
 		});	

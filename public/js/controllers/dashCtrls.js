@@ -5,7 +5,7 @@
  * Time: 6:12 PM
  * To change this template use File | Settings | File Templates.
  */
-function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, $http){
+function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, $http, ChatManager){
     $scope.currentUser = UserManager.getCurrentUser();
     if(!$scope.currentUser){
         $location.path('/');
@@ -51,10 +51,12 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
             var i=0;
             for(i=0; i< $scope.workspaces.length; i++){
                 if($scope.workspaces[i].id == wspace.id){
+                    ChatManager.removeChat($scope.workspaces[i].chatObj._id);
                     $scope.workspaces.splice(i, 1);
                     break;
                 }
             }
+            $scope.setActiveWorkspace(-1);
         }
     }
 
@@ -77,6 +79,11 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     };
 
     $scope.msgs = [];
+    angular.forEach(ChatManager.currentChats, function(chat){
+        addChat(chat)
+    });
+    ChatManager.checkForChats();
+    $scope.msgs = ChatManager.msgs;
     //$scope.msgs['pukki@vikram'] = [{from: 'pukki@vikram', to:'vikrambn@vikram', msg: 'hello, thats it'}];
     $scope.noOfScrollMsgs = 0;
 
@@ -107,7 +114,7 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     }
 
     $scope.updateStatus = function(){
-            User.save($scope.currentUser);
+        User.save($scope.currentUser);
     }
 
     $scope.userToChat = null;
@@ -147,27 +154,16 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     }
 
     $rootScope.$on('NewChatMsg', function(event, newmsg){
-        if(newmsg.from == ChatClient.user){
-            if(!$scope.msgs[newmsg.to])
-                $scope.msgs[newmsg.to] = [];
-            $scope.msgs[newmsg.to].push(newmsg);
-        } else {
-            if(!$scope.msgs[newmsg.from])
-                $scope.msgs[newmsg.from] = [];
-
-            $scope.msgs[newmsg.from].push(newmsg);
-        }
-
         $scope.updateScrollMsgs();
     });
 
-    $rootScope.$on('NewChatAdded', function(event, chat){
+    function addChat(chat){
         if($scope.currentUser){
             var toUser = $scope.currentUser.username == chat.users[0] ? chat.users[1]:chat.users[0];
             if(chat.username == $scope.currentUser.username)
-                $scope.addNewWorkspace({name: toUser, userJID: toUser + '@' + ChatClient.host});
+                $scope.addNewWorkspace({name: toUser, userJID: toUser + '@' + ChatClient.host, chatObj: chat});
             else
-                $scope.addNewWorkspace({name: chat.username, userJID: toUser + '@' + ChatClient.host});
+                $scope.addNewWorkspace({name: chat.username, userJID: toUser + '@' + ChatClient.host, chatObj: chat});
 
             $http.get('/users', {params:{username: toUser}}).success(function(data){
                 if(data.length > 0){
@@ -180,5 +176,9 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
                 }
             });
         }
+    };
+
+    $rootScope.$on('NewChatAdded', function(event, chat){
+        addChat(chat)
     });
 }
