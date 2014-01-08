@@ -56,25 +56,23 @@ function ProfileCtrl($scope) {
 }
 
 function CompleteProfile($scope, UserManager, $location, User){
-    var currentUser = UserManager.getCurrentUser();
-    $('#userid').val(currentUser._id);
-    $('#user_name').val(currentUser.username);
-    /*if(currentUser == null){
-        $location.path('/login');
-    }
-    else if(currentUser.username){
-        $location.path('/dash');
-    } */
+    $scope.currentUser = UserManager.getCurrentUser();
+    $('#userid').val($scope.currentUser._id);
+    $('#user_name').val($scope.currentUser.username);
+    $scope.userinfo = $scope.currentUser;
 
     $scope.updateUser = function(userinfo){
         if(userinfo.username && userinfo.username.trim() != '')
-            currentUser.displayname = userinfo.username.trim();
+            $scope.currentUser.displayname = userinfo.displayname.trim();
         if(userinfo.gender)
-            currentUser.gender = userinfo.gender;
-        User.save(currentUser);
+            $scope.currentUser.gender = userinfo.gender;
+        User.save($scope.currentUser);
         $location.path('/dash');
     }
 
+    $scope.isMale = function(){
+        return $scope.currentUser.gender == 'M';
+    };
 
 }
 
