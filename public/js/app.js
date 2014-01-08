@@ -1,4 +1,4 @@
-var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 'ngRoute', 'ChatServices']).
+var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 'ngRoute', 'ChatServices', 'xeditable']).
     config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider.
             when('/home', {templateUrl: 'partial/login', controller: LoginCtrl}).
@@ -13,9 +13,9 @@ var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 
 
     }]);
 
-app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$timeout', 'Messenger', 'ChatManager',
-    function($rootScope, $http, $location, UserManager, Discussion, $timeout, Messenger, ChatManager) {
-
+app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$timeout', 'Messenger', 'ChatManager','editableOptions',
+    function($rootScope, $http, $location, UserManager, Discussion, $timeout, Messenger, ChatManager, editableOptions) {
+    editableOptions.theme = 'bs3';
     $rootScope.selectedCat = 'news';
     //user login params
     UserManager.checkUser();

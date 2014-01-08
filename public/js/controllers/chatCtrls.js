@@ -3,8 +3,9 @@ function chatCtrl($scope, $http, $rootScope, UserManager, Messenger, ChatManager
     $scope.chatReqs = [];
 
 	$http.get('/users/chatrequests').success(function(data){
-		console.log('reqs: ' + data);
-        data.forEach(function(creq){
+		//console.log('reqs: ' + data);
+        for(var i=0; i < data.length; i++ ){
+            var creq = data[i];
             $http.get('/users', {params:{username: creq.from}}).success(function(users){
                 if(users.length > 0){
                     var toUserData = users[0];
@@ -15,7 +16,7 @@ function chatCtrl($scope, $http, $rootScope, UserManager, Messenger, ChatManager
             }).error(function(){
                     creq.user = {picture: '/profile/pictures/annonymous.png'};
             });
-        });
+        };
 		$scope.chatReqs = data;
 
 	});

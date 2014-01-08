@@ -17,6 +17,10 @@ function RootCtrl($scope, $location, UserManager){
 			$location.path('/home');
 		});
   	}
+
+    $scope.editUserDetails = function(){
+        $location.path('/complete_profile');
+    }
 }
 
 function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient){
