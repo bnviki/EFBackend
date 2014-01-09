@@ -1,5 +1,5 @@
 doctype html
-html(ng-app="mainMod")
+html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
     head
         title= "mPeers"
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
@@ -9,6 +9,7 @@ html(ng-app="mainMod")
             link(href='css/jasny-bootstrap.css', rel='stylesheet')
             link(rel='stylesheet', href='css/xeditable.css')
         block scripts
+            script(src='js/lib/json3.min.js')
             script(src='js/lib/jquery.min.js')
             script(src='js/lib/jquery-ui.min.js')
             script(src='js/lib/jquery.ui.widget.min.js')
@@ -43,14 +44,16 @@ html(ng-app="mainMod")
                 .container.navbar-inner
                     a(class='navbar-brand', href='/', style='padding: 8px 5%;')
                         img(src='/img/logo.png', style='width:50%; height:100%')
-                    .label.label-danger.pull-left(style='margin-top: 20px;') Alpha testing
+                    .hidden-xs.label.label-danger.pull-left(style='margin-top: 20px;') Alpha testing
                     .nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
-                        li
+                        li.hidden-xs
                             a(class='pull-right', href='#', style='font-weight: bolder;', ng-click='editUserDetails()') {{currentUser.displayname}}
                         li.dropdown
                             a.dropdown-toggle(href='#', data-toggle='dropdown', style='padding-top: 5px;')
                                 img(class='img-rounded pull-right', ng-src='{{currentUser.picture}}', style='height:40px; width:40px;')
                             ul.pull-right.dropdown-menu(role="menu", aria-labelledby="dLabel")
+                                li
+                                    a(role='menuitem', href='#', ng-click='editUserDetails()') profile
                                 li
                                     a(role='menuitem', href='#', ng-click='logUserOut()') logout
 

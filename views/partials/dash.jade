@@ -11,19 +11,19 @@ block content
     div.row
         div.col-md-8.column(style='border-right: solid; border-right-color: beige;')
             div.row.well.well-sm(style='margin-bottom:5px;')
-                div.col-md-12
-                    .col-md-2
+                div.col-md-12.col-xs-12
+                    .col-md-2.col-xs-4
                         img.img-thumbnail(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
-                    .col-md-10
+                    .col-md-10.col-xs-8
                         .label.label-success.pull-right Online
                         h5.text-left.pull-left
                             | {{currentUser.displayname}}
                         label.chat-url.text-primary(style='padding-left:20px;', data-toggle="tooltip", title="Share this URL")
-                            img.pull-left(src='img/p.png', style='width:15px; height:15px; margin-right:5px;')
+                            img.hidden-xs.pull-left(src='img/p.png', style='width:15px; height:15px; margin-right:5px;')
                             | www.mpeers.com/{{currentUser.username}}
                         //.edit-user(style='padding-top:10px;')
                             a(href='#', ng-click='editUserDetails()') Edit
-                        .col-md-12(style='padding-left:0px; margin-top:10px;')
+                        .hidden-xs.col-md-12(style='padding-left:0px; margin-top:10px;')
                             .label.label-default(style='position:absolute;') status
                             a(href='#', editable-textarea="currentUser.status_message", e-rows="7", e-cols="40", onbeforesave='updateStatus($data)', style='font-size: 12px;')
                                 pre {{ currentUser.status_message || 'status not set' }}
