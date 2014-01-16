@@ -3,9 +3,8 @@ var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 
         $routeProvider.
             when('/home', {templateUrl: 'partial/login', controller: LoginCtrl}).
             when('/chatwindow', {templateUrl: 'partial/chatwindow'}).
-            when('/complete_profile', {templateUrl: 'partial/complete_profile'}).
+            when('/admin', {templateUrl: 'partial/adminpage', controller: ProfileCtrl}).
             when('/dash', {templateUrl: 'partial/dash', controller: DashCtrl}).
-            when('/demo', {templateUrl: 'partial/demo'}).
             when('/complete_profile', {templateUrl: 'partial/complete_profile'}).
             when('/:username', {redirectTo: '/chatwindow'}).
             otherwise({redirectTo: '/home'});

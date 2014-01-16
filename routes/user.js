@@ -52,7 +52,7 @@ module.exports = function(app) {
 	  });
 	});
 
-	app.post('/users', sessionUtils.notLoggedIn, function(req, res, next) {	
+	app.post('/users', function(req, res, next) {
 		if(!req.body.displayname)
 			req.body.displayname = req.body.username;
 		var user = new User(req.body);

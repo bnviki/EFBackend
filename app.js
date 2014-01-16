@@ -124,6 +124,7 @@ app.io.route('register', function(req) {
 
 //Routing
 app.get('/', routes.index);
+app.get('/partial/adminpage', routes.adminpage);
 app.get('/partial/:name', routes.partial);
 require('./auth')(app, passport, sessionUsers);
 require('./routes/user')(app);

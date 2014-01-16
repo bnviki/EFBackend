@@ -51,8 +51,13 @@ function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient
     }
 }
 
-function ProfileCtrl($scope) {
-	
+function ProfileCtrl($scope, User) {
+    $scope.qwerty = function(keys){
+        var newUser = new User(keys);
+        newUser.$save(function(savedUser){
+            console.log('i saved the user: ' + savedUser.username);
+        });
+    };
 }
 
 function CompleteProfile($scope, UserManager, $location, User){
