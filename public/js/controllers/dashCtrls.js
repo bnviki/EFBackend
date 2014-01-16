@@ -60,6 +60,15 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         }
     }
 
+    $scope.getWorkspaceByJID = function(userJid){
+        for(var i=0; i< $scope.workspaces.length; i++){
+            if($scope.workspaces[i].userJID == userJid){
+                return $scope.workspaces[i];
+            }
+        }
+        return null;
+    };
+
     $scope.wspaceCount = 1;
     $scope.workspaces =
         [
@@ -80,7 +89,7 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
 
     $scope.msgs = [];
     angular.forEach(ChatManager.currentChats, function(chat){
-        addChat(chat)
+        addChat(chat);
     });
     ChatManager.checkForChats();
     $scope.msgs = ChatManager.msgs;
@@ -135,6 +144,8 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
                     $scope.userToChat.chatUserOnline = false;
                 $('#ChatRequestDialog').modal('show');
             });
+        } else {
+            alert('A chat window has been already opened for this user');
         }
     }
 
@@ -142,13 +153,29 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         $location.path('/complete_profile');
     }
 
+    $scope.isSystemMsg = function(msg){
+        if(msg.from == 'system')
+            return true;
+        else
+            return false;
+    };
+
     $scope.initChat = function(newChat){
         if($scope.currentUser.username){
             var chatreq = {from: $scope.currentUser.username, to:$scope.userToChat.username, topic: newChat.topic, username: $scope.currentUser.username};
             $http.post('/chat/request', chatreq).success(function(data){
                 $scope.chatReqSent = data;
                 $('#ChatRequestDialog').modal('hide');
-                alert('Chat request sent. A new tab will be added when the other user joins the chat.');
+
+                // add new chat tab
+                var toUser = $scope.userToChat.username;
+                var toUserJid = toUser + '@' + ChatClient.host;
+                $scope.addNewWorkspace({name: toUser, userJID: toUserJid});
+                if(!$scope.msgs[toUserJid])
+                    $scope.msgs[toUserJid] = [];
+                $scope.msgs[toUserJid].push({from:'system', msg:'waiting for ' + $scope.userToChat.username + ' to join'});
+                // add sys msg
+                //alert('Chat request sent. A new tab will be added when the other user joins the chat.');
             });
         }
     }
@@ -160,10 +187,15 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     function addChat(chat){
         if($scope.currentUser){
             var toUser = $scope.currentUser.username == chat.users[0] ? chat.users[1]:chat.users[0];
-            if(chat.username == $scope.currentUser.username)
-                $scope.addNewWorkspace({name: toUser, userJID: toUser + '@' + ChatClient.host, chatObj: chat});
-            else
-                $scope.addNewWorkspace({name: chat.username, userJID: toUser + '@' + ChatClient.host, chatObj: chat});
+            var toUserWorkspace = $scope.getWorkspaceByJID(toUser + '@' + ChatClient.host);
+            if(toUserWorkspace != null){
+                $scope.msgs[toUserWorkspace.userJID].push({from:'system', msg: toUserWorkspace.name + ' has joined, you can chat now ... '});
+            } else {
+                if(chat.username == $scope.currentUser.username)
+                    $scope.addNewWorkspace({name: toUser, userJID: toUser + '@' + ChatClient.host, chatObj: chat});
+                else
+                    $scope.addNewWorkspace({name: chat.username, userJID: toUser + '@' + ChatClient.host, chatObj: chat});
+            }
 
             $http.get('/users', {params:{username: toUser}}).success(function(data){
                 if(data.length > 0){

@@ -61,7 +61,7 @@ block content
                                 .row(ng-slim-scroll slim-scroll-height='350px')
                                     .col-md-12(id='chat-content-{{workspace.id}}', style='margin-top:10px; margin-left:25px;')
                                         .media(ng-repeat='msg in msgs[workspace.userJID]')
-                                            img.media-object.pull-left(ng-src='{{getPicture(msg.from)}}', style='width:30px;height:30px')
+                                            img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:30px;height:30px')
                                             .media-body
                                                 p {{msg.msg}}
                         .row.chat-send-form(ng-hide='peopleTabActive')
