@@ -65,7 +65,7 @@ block content
                         h5(ng-show='chatUserOnline') Please provide your details
                         h5(ng-hide='chatUserOnline') Offline
                     .modal-body
-                        p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. You can leave a message.
+                        p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. You can leave a message, please give your name and message.
                         p(ng-show='chatUserOnline') A chat request will be sent to {{userFromURL}}, please give your name and topic for the chat.
                         form.init-form(role='form', name='InitChatForm', novalidate)
                             .form-group
