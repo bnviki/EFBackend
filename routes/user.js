@@ -78,6 +78,20 @@ module.exports = function(app) {
 		});  
 	});
 
+    app.post('/users/:id/message', function(req, res, next) {
+        User.findOne({_id: req.params.id}, function(err, user) {
+            if (err || !user) {
+                return res.send('Not found', 404);
+            }
+            if(req.body && req.body.name && req.body.msg){
+                sendMail(user.email, req.body.name + " has left you a message", req.body.msg, null);
+                res.send('mail sent', 200);
+            } else {
+                res.send('failed', 400);
+            }
+        });
+    });
+
 	app.post('/users/:id', sessionUtils.loggedIn, function(req, res, next) {
 		var newuser = req.body;
         if(newuser.displayname)

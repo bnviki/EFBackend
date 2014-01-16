@@ -17,7 +17,8 @@ var express = require('express.io')
     , xmpp = require('node-xmpp')
     , upload = require('jquery-file-upload-middleware')
     , fs = require('fs')
-    , random = require('randomstring');
+    , random = require('randomstring')
+    , sendMail = require('./routes/middleware/mailer');
 
     //, socketio = require('socket.io');
 

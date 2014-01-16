@@ -65,14 +65,15 @@ block content
                         h5(ng-show='chatUserOnline') Please provide your details
                         h5(ng-hide='chatUserOnline') Offline
                     .modal-body
-                        p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. You can try to contact him later.
-                        p(ng-show='chatUserOnline') A chat request will be sent to {{userFromURL}}, please give us your name and topic for the chat.
-                        form.init-form(role='form', name='InitChatForm', ng-show='chatUserOnline', novalidate)
+                        p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. You can leave a message.
+                        p(ng-show='chatUserOnline') A chat request will be sent to {{userFromURL}}, please give your name and topic for the chat.
+                        form.init-form(role='form', name='InitChatForm', novalidate)
                             .form-group
                                 label(for='username') Your Name
                                 input.form-control(id='username', name='uName', type='text', ng-model='newChat.username', required)
                             .form-group
-                                label(for='topic') Topic
+                                label(ng-show='chatUserOnline', for='topic') Topic
+                                label(ng-hide='chatUserOnline', for='topic') Message
                                 textarea.form-control(id='topic', name='uTopic', type='text', rows='5', ng-model='newChat.topic', style='width: 98%', required)
-                    .modal-footer(ng-show='chatUserOnline')
+                    .modal-footer
                         button.btn.btn-default(id='init_chat_btn', type='submit', ng-click='initChat(newChat)', ng-disabled='InitChatForm.$invalid') Send request

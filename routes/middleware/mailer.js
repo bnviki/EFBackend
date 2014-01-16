@@ -3,14 +3,14 @@ var nodemailer = require("nodemailer")
 var smtpTransport = nodemailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
-        user: "bn.vikram@gmail.com",
-        pass: "82m@rk1vnb"
+        user: "admin@mpeers.com",
+        pass: "mpeersadmin"
     }
 });
 
 var sendMail = function(toAdd, mailSubject, mailText, mailHtml){
 	var mailOptions = {
-	    from: "bn.vikram@gmail.com",
+	    from: 'mPeers <admin@mpeers.com>',
 	    to: toAdd,
 	    subject: mailSubject,
 	    text: mailText,
