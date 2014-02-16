@@ -5,17 +5,18 @@
  * Time: 4:34 PM
  * To change this template use File | Settings | File Templates.
  */
-var connection = require('./xmpp_conn')
+var xmpp_connection = require('./xmpp_conn')
     , xmpp = require('node-xmpp')
     , User = require('../../data/models/user')
     , os = require('os');
 
 var hostname = os.hostname();
 
+var connection = xmpp_connection.getConnection();
 connection.on('stanza', handleStanza);
 
 function handleStanza(stanza){
-    if(stanza.is('iq') && stanza.attrs.id.search('create1-') != -1){
+    if(stanza.is('iq') && stanza.attrs.id && stanza.attrs.id.search('user-create1-') != -1){
         if(stanza.attrs.type == 'result'){
             User.findOne({_id: stanza.attrs.id.substr(8)}, function(err, user) {
                 if (!err && user) {
@@ -25,7 +26,7 @@ function handleStanza(stanza){
                     //    pass = user.password;
                     //else
                         pass = user.username;
-                    var createUserForm = new xmpp.Element('iq', {from: connection.jid, id:'create2-' + user._id, to: hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
+                    var createUserForm = new xmpp.Element('iq', {from: connection.jid, id:'user-create2-' + user._id, to: hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
                         node:'http://jabber.org/protocol/admin#add-user', sessionid: stanza.getChild('command').attrs.sessionid}).c('x', {xmlns:'jabber:x:data', type:'submit'}).
                         c('field',{type:'hidden',var:'FORM_TYPE'}).c('value').t('http://jabber.org/protocol/admin').up().up().
                         c('field',{var:'accountjid'}).c('value').t(user.username + '@' + hostname).up().up().
@@ -40,7 +41,7 @@ function handleStanza(stanza){
             });
         }
     }
-    else if(stanza.is('iq') && stanza.attrs.id.search('create2-') != -1){
+    else if(stanza.is('iq') && stanza.attrs.id && stanza.attrs.id.search('user-create2-') != -1){
         if(stanza.attrs.type == 'result')
             console.log('xmpp: registered user ' + stanza.attrs.id);
         else if(stanza.attrs.type == 'error')
@@ -49,7 +50,7 @@ function handleStanza(stanza){
 };
 
 module.exports.createUser = function(newUser){
-        var createUserMsg = new xmpp.Element('iq', {from: connection.jid, id: 'create1-' + newUser._id, to: hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
+        var createUserMsg = new xmpp.Element('iq', {from: connection.jid, id: 'user-create1-' + newUser._id, to: hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
             node:'http://jabber.org/protocol/admin#add-user', action:'execute'});
         connection.send(createUserMsg);
 }

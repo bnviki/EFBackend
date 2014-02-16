@@ -29,6 +29,9 @@ function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient
         $location.path('/dash');
     }
 
+    $scope.usertypes = ['Event', 'business/service', 'organisation', 'Individual'];
+    //$scope.cats = Category.query();
+
     $scope.logUserIn = function(user) {
         UserManager.login(user.username, user.password).then(function(user){
             if(!user.signup_complete)
@@ -41,7 +44,17 @@ function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient
 
     $scope.alerts = [];
     $scope.signupUser = function(user){
-        //coming soon
+        if(!user.description || user.description != '')
+            user.description = 'Hi there, lets talk';
+        var newUser = new User(user);
+        newUser.$save(function(savedUser){
+            //console.log('i saved the user: ' + savedUser.username);
+            UserManager.login(savedUser.username, savedUser.password).then(function(userIn){
+                console.log('logged in after signup');
+            }, function(err){
+                $scope.alerts.push({type:'error', msg: 'user already exists'});
+            });
+        });
     }
 
     $scope.signInGoogle = function(){

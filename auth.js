@@ -89,8 +89,11 @@ module.exports = function(app, passport, sessionUsers) {
 	app.post('/login',
 	  passport.authenticate('local'), function(req, res){
         console.log('registering user: ' + req.user._id + ' session: ' + req.sessionID);
+        req.user.setLastLogin();
+        req.user.save();
+
         sessionUsers[req.user._id] = req.sessionID;
-		res.send(req.user.toJSON({ hide: 'password extid validated created_at __v', transform: true }));
+		res.send(req.user.toJSON({ hide: 'password validated created_at __v', transform: true }));
 	});
 
 	passport.use(new LocalStrategy(

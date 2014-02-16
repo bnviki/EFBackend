@@ -4,20 +4,24 @@ var mongoose = require('mongoose'),
 var Schema = mongoose.Schema;
 
 var ChatSchema = new Schema({
-    users: [String],
-    topic: {type: String},
-    room: { type: String },
-    username: {type: String},
+    ann_user: {
+        name: String,
+        jid: String
+    },
+    room: {
+        type: String,
+        unique: true
+    },
     created_at: {
         type: Date,
-        'default': Date.now
-
+        index: true,
+        default: Date.now()
     }
 });
 
 ChatSchema.pre('save', function(next) {
     if (this.isNew) {
-        this.created_at = Date.now;
+        this.created_at = Date.now();
         this.room = random.generate(20);
     }
     next();

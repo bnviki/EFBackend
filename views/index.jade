@@ -25,6 +25,8 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
             script(src='js/lib/jquery.slimscroll.min.js')
             script(src='js/lib/strophe.min.js')
             script(src='js/lib/xeditable.min.js')
+            script(src='http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false')
+            script(src='js/lib/ngAutocomplete.js')
 
             script(src='js/controllers/authControllers.js')
             script(src='js/controllers/discussionCtrls.js')
@@ -56,6 +58,21 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
                                     a(role='menuitem', href='#', ng-click='editUserDetails()') profile
                                 li
                                     a(role='menuitem', href='#', ng-click='logUserOut()') logout
+                    .nav.navbar-nav.navbar-right#userinfo(ng-hide='isLoggedIn')
+                        li
+                            a(href='/signup') sign up!!
+                        li.dropdown
+                            a.dropdown-toggle(href="#", data-toggle="dropdown") Sign in
+                            .dropdown-menu(ng-controller='LoginCtrl')
+                                form#login-form.form-horizontal
+                                    .form-group
+                                        .col-md-12
+                                            input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
+                                    .form-group
+                                        .col-md-12
+                                            input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password')
+                                    .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)') Sign in
+
 
             .container
                 div(ng-view, style='padding-top:60px; font-size: 12px;')

@@ -12,6 +12,12 @@ var hostname = os.hostname();
 var adminJid = "mpeers_admin@" + hostname;
 var adminPass = "mpeers";
 
+var xmpp_connection = {
+    getConnection : function(){
+        return connection;
+    }
+};
+
 var connection = new xmpp.Client({
     jid: adminJid,
     password: adminPass
@@ -39,4 +45,4 @@ setInterval(function() {
     );
 }, period);
 
-module.exports = connection;
+module.exports = xmpp_connection;

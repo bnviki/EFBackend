@@ -91,7 +91,10 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     angular.forEach(ChatManager.currentChats, function(chat){
         addChat(chat);
     });
-    ChatManager.checkForChats();
+
+    //fetch all user chats
+    ChatManager.fetchUserChats();
+
     $scope.msgs = ChatManager.msgs;
     //$scope.msgs['pukki@vikram'] = [{from: 'pukki@vikram', to:'vikrambn@vikram', msg: 'hello, thats it'}];
     $scope.noOfScrollMsgs = 0;
@@ -158,6 +161,21 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
             return true;
         else
             return false;
+    };
+
+    $scope.createNewChat = function(newChat){
+        var chatreq = {users:[$scope.currentUser._id, $scope.userToChat._id]};
+        $http.post('/chat', chatreq).success(function(data){
+            console.log('new chat created' + data._id);
+            $('#ChatRequestDialog').modal('hide');
+            // add new chat tab
+            var toUser = $scope.userToChat.username;
+            var toUserJid = toUser + '@' + ChatClient.host;
+            $scope.addNewWorkspace({name: toUser, userJID: toUserJid});
+            if(!$scope.msgs[toUserJid])
+                $scope.msgs[toUserJid] = [];
+            $scope.msgs[toUserJid].push({from:'system', msg:'waiting for ' + $scope.userToChat.username + ' to join'});
+        });
     };
 
     $scope.initChat = function(newChat){

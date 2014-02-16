@@ -42,6 +42,8 @@ angular.module('ChatServices', ['ngResource'])
                      };*/
 
                     chatClient.conn.addHandler(chatClient.onMsg, null, 'message', 'chat');
+                    chatClient.conn.addHandler(chatClient.onPresence, null, 'presence');
+
                     deffered.resolve(jid);
                 } else if (status === Strophe.Status.DISCONNECTED) {
                     console.log('disconnected');
@@ -50,6 +52,26 @@ angular.module('ChatServices', ['ngResource'])
             });
             return deffered.promise;
         }
+
+        chatClient.joinRoom = function(roomName, nickName){
+            chatClient.conn.send($pres({
+                to: roomName + '@conference.' + chatClient.host + '/' + nickName
+            }));
+        };
+
+        chatClient.onPresence = function(presence){
+            var from = $(presence).attr('from');
+            var room = Strophe.getBareJidFromJid(from);
+
+            if ($(presence).attr('type') === 'error') {
+                // error joining room; reset app
+                console.log('error joining room ' + room);
+            }
+            if ($(presence).attr('type') !== 'error') {
+                console.log('room joined ' + room);
+            }
+            return true;
+        };
 
         chatClient.onMsg = function(message){
             console.log("msg recieved: " + message);
@@ -127,10 +149,25 @@ angular.module('ChatServices', ['ngResource'])
                 }
                 if(isNew){
                     chatManager.currentChats.push(chat);
+                    console.log('joining room ' + chat.room);
+                    ChatClient.joinRoom(chat.room, UserManager.getCurrentUser().username);
                     $rootScope.$emit('NewChatAdded', chat);
                 }
             };
 
+            //get all chats of current user
+            chatManager.fetchUserChats = function(){
+                var currentUser = UserManager.getCurrentUser();
+                $http.get('/users/' + currentUser._id + '/chats').success(function(data, status){
+                    if(data){
+                        for(var i=0; i<data.length; i++){
+                            chatManager.addChat(data[i]);
+                        }
+                    }
+                });
+            };
+
+            //check for chats in session .. used for annoymously logged in user
             chatManager.checkForChats = function(){
                 $http.get('/chatlive').success(function(data, status){
                     if(data){

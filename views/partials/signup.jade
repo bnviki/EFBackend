@@ -1,0 +1,49 @@
+.col-md-6
+    #signup-form
+        form(class='form-horizontal')
+            .form-group
+                label(class="col-md-3 control-label", for="userNameSignup") Username*
+                .col-md-7
+                    input(class="form-control", type="text", id="userNameSignup", placeholder="This will be used in URL", ng-model='userSignup.username')
+            .form-group
+                label(class="col-md-3 control-label", for="inputEmailSignup") Email*
+                .col-md-7
+                    input(class="form-control", type="text", id="inputEmailSignup", placeholder="Email", ng-model='userSignup.email')
+            .form-group
+                label(class="col-md-3 control-label", for="inputPasswordSignup") Password*
+                .col-md-7
+                    input(class="form-control", type="password", id="inputPasswordSignup", placeholder="Password", ng-model='userSignup.password')
+            .form-group
+                label(class="col-md-3 control-label", for="confirmPasswordSignup") Confirm Password*
+                .col-md-7
+                    input(class="form-control", type="password", id="confirmPasswordSignup", placeholder="Confirm password")
+            .form-group
+                label(class="col-md-3 control-label", for="userTypeSignup") Type*
+                .col-md-7
+                    select(class="form-control", id="userTypeSignup", placeholder="choose a type", ng-model='userSignup.usertype')
+                        option(ng-repeat='ut in usertypes') {{ut}}
+            .form-group(ng-hide='!userSignup.usertype')
+                label(class="col-md-3 control-label", for="compNameSignup") Name*
+                .col-md-7
+                    input(class="form-control", type="text", id="compNameSignup", placeholder="Display Name", ng-model='userSignup.displayname')
+            .form-group(ng-hide='!userSignup.usertype || userSignup.usertype == "Individual"')
+                label(class="col-md-3 control-label", for="locationSignup") Location*
+                .col-md-7
+                    input(class="form-control", type="text", ng-autocomplete, id="locationSignup", ng-model='userSignup.location')
+            .form-group(ng-hide='!userSignup.usertype || userSignup.usertype == "Individual"')
+                label(class="col-md-3 control-label", for="addressSignup") Address
+                .col-md-7
+                    textarea(class="form-control", id="addressSignup", placeholder="Address", ng-model='userSignup.address', rows='3')
+            .form-group(ng-hide='!userSignup.usertype || userSignup.usertype == "Individual"')
+                label(class="col-md-3 control-label", for="phoneNoSignup") Phone no.
+                .col-md-7
+                    input(class="form-control", type="text", id="phoneNoSignup", placeholder="Phone number", ng-model='userSignup.phone')
+            .form-group(ng-hide='!userSignup.usertype || userSignup.usertype == "Individual"')
+                label(class="col-md-3 control-label", for="descSignup") Description
+                .col-md-7
+                    input(class="form-control", type="text", id="descSignup", placeholder="describe your service in one line", ng-model='userSignup.description')
+            .form-group(ng-hide='!userSignup.usertype || userSignup.usertype == "Individual"')
+                label(class="col-md-3 control-label", for="aboutSignup") About
+                .col-md-7
+                    textarea(class="form-control", id="aboutSignup", placeholder="about your service/business in few lines", ng-model='userSignup.about', rows='4')
+            .btn.btn-default(type='submit', ng-click='signupUser(userSignup)') Sign up

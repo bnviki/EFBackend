@@ -2,6 +2,7 @@ var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 
     config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider.
             when('/home', {templateUrl: 'partial/login', controller: LoginCtrl}).
+            when('/signup', {templateUrl: 'partial/signup', controller: LoginCtrl}).
             when('/chatwindow', {templateUrl: 'partial/chatwindow'}).
             when('/admin', {templateUrl: 'partial/adminpage', controller: ProfileCtrl}).
             when('/dash', {templateUrl: 'partial/dash', controller: DashCtrl}).

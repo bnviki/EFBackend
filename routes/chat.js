@@ -1,21 +1,23 @@
 var ChatRequest = require('../data/models/chatRequest'),
     Chat = require('../data/models/chat'),
+    User = require('../data/models/user'),
+    xmpp_room = require('./middleware/xmpp_room'),
     Discussion = require('../data/models/discussion');
 
 module.exports = function(app, sessionUsers) {
-	app.post('/chat/request', function(req, res) {
-	  if(!req.body.from)
-		req.body.from = req.user._id;
-	  ChatRequest.findOrCreate({from: req.body.from, to: req.body.to}, req.body, function(err, chatRequest){
-		if(err){
-			res.send('invalid chat request', 400);
-		}
+    app.post('/chat/request', function(req, res) {
+        if(!req.body.from)
+            req.body.from = req.user._id;
+        ChatRequest.findOrCreate({from: req.body.from, to: req.body.to}, req.body, function(err, chatRequest){
+            if(err){
+                res.send('invalid chat request', 400);
+            }
 
-        req.chatrequest = chatRequest;
-        req.io.route('SEND_CHAT_REQUEST');
-		//res.send(chatRequest);
-	  }); 
-	});
+            req.chatrequest = chatRequest;
+            req.io.route('SEND_CHAT_REQUEST');
+            //res.send(chatRequest);
+        });
+    });
 
     app.del('/chat/request/:reqId', function(req, res){
         ChatRequest.findOne({_id: req.params.reqId}, function(err, chatRequest){
@@ -33,79 +35,56 @@ module.exports = function(app, sessionUsers) {
         });
     });
 
-	app.post('/chat/accept/:reqId', function(req, res) {	  
-	  ChatRequest.findOne({_id: req.params.reqId}, function(err, chatRequest){
-          if(err || !chatRequest){
-			res.send('invalid chat request', 400);
-			return;
-		  }
-
-          var sendChatToUser = function(userId, chat){
-            console.log('sending chat req to :' + userId + ' session: ' + sessionUsers[userId]);
-            //socketCon.sockets.in(sessionUsers[userId]).send('NEW_CHAT', chat);
-            req.io.room(''+ userId).broadcast('NEW_CHAT', chat);
-          }
-
-          var addChatToSession = function(chat){
-              if(!req.session.chats)
+    /*
+     req.body should contain
+     {
+     ann_user: {name, jid}
+     users: [_id]
+     }
+     */
+    app.post('/chat', function(req, res) {
+        var addChatToSession = function(chat){
+            if(!req.session.chats)
                 req.session.chats = [];
-              req.session.chats.push(chat);
-          }
+            req.session.chats.push(chat);
+        }
 
-          var newChat = { users: [chatRequest.from, chatRequest.to],
-              topic: chatRequest.topic,
-              username: chatRequest.username
-          };
+        var newChat = {};
+        if(req.body.ann_user)
+            newChat.ann_user = req.body.ann_user;
 
-          /*function getDiscussionChat(discid){
-              Discussion.findOne({_id: discid}, function(error, disc){
-                  if(error || !disc){
-                      return null;
-                  }
-                  if(disc.type == 'GROUP'){
-                      Chat.findOne({discussion: disc._id}, function(err, chat){
-                          if(!err && chat){
-                              return chat;
-                          }
-                      });
-                  }
-                  return null;
-              });
-          };
+        //todo: check if all users exist before chat creation
+        Chat.create(newChat, function(err, chat){
+            for(userId in req.body.users){
+                User.findOne({_id: req.body.users[userId]}, function(err, user){
+                    if(err){
+                        res.send('users not found', 400);
+                        return;
+                    }
+                    user.chats.push(chat._id);
+                    user.save();
+                });
+            }
 
-          var groupChat = null;
-          if(chatRequest.discussion)
-              groupChat = getDiscussionChat(chatRequest.discussion);
+            xmpp_room.createRoom(chat.room, 'admin');
+            addChatToSession(chat);
+            req.chat = chat;
+            req.chatusers = req.body.users;
+            req.io.route('SEND_CHAT');
+            //res.send(chat);
+        });
 
-          if(groupChat != null){
-              addChatToSession(chat);
-              chatRequest.remove();
-              res.send(chat);
-              return;
-          }*/
+    });
 
-          Chat.create(newChat, function(err, chat){
-              addChatToSession(chat);
-              req.chat = chat;
-              req.chatuser = chatRequest.from;
-              chatRequest.remove();
-              req.io.route('SEND_CHAT');
-
-              //res.send(chat);
-          });
-          return;
-	  });
-	});
-
-	app.get('/chat/:id', function(req, res) {
-	  Chat.findOne({_id: req.params.id})
-	     .exec(function(err, chat) {
-		if (err) {
-			return res.send('Not found', 404);
-		}		
-		res.send(chat);
-	  });
-	});
+    app.get('/chat/:id', function(req, res) {
+        Chat.findOne({_id: req.params.id})
+            .exec(function(err, chat) {
+                if (err) {
+                    return res.send('Not found', 404);
+                }
+                res.send(chat);
+            });
+    });
 
     app.get('/chatlive', function(req, res) {
         if(req.session.chats){
@@ -116,29 +95,35 @@ module.exports = function(app, sessionUsers) {
     });
 
     app.post('/chat/:id/live', function(req, res) {
-        var chats = req.session.chats;
-        if(chats){
-            setTimeout(function(){
-                var i = 0;
-                for(i=0; i < chats.length; i++){
-                    if(chats[i]._id == req.params.id){
-                        chats.splice(i,1);
-                        break;
-                    }
+        Chat.findOne({_id: req.params.id})
+            .exec(function(err, chat) {
+                if (err) {
+                    return res.send('Not found', 404);
                 }
-                req.session.chats = chats;
-                req.session.save();
-                res.send('success', 200);
-            }, 500);
-        } else {
-            res.send('not found', 404);
-        }
+                if(req.session.chats){
+                    var i = 0;
+                    for(i=0; i < req.session.chats.length; i++){
+                        if(req.session.chats[i]._id == chat._id){
+                            req.session.chats.splice(i,1);
+                            break;
+                        }
+                    }
+                    req.session.save();
+                }
+                chat.remove(function(err) {
+                    if (err){
+                        res.send('invalid chat request', 400);
+                    }
+                    res.send('success');
+                });
+            });
     });
 
     //socket request handlers
     app.io.route('SEND_CHAT', function(req) {
-        console.log('sending chat: ' + req.chat._id + ' to: ' + req.chatuser);
-        app.io.room('' + req.chatuser).broadcast('NEW_CHAT', req.chat);
+        console.log('sending chat: ' + req.chat._id);
+        for(usr in req.chatusers)
+            app.io.room('' + usr).broadcast('NEW_CHAT', req.chat);
         req.io.respond(req.chat);
     });
 
