@@ -81,6 +81,8 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         var i = 0;
         for(i=0; i< $scope.workspaces.length; i++){
             if($scope.workspaces[i].active){
+                if(!$scope.msgs[$scope.workspaces[i].userJID])
+                    $scope.msgs[$scope.workspaces[i].userJID] = [];
                 $scope.noOfScrollMsgs = $scope.msgs[$scope.workspaces[i].userJID].length;
                 break;
             }
@@ -92,15 +94,13 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         addChat(chat);
     });
 
-    //fetch all user chats
-    ChatManager.fetchUserChats();
-
     $scope.msgs = ChatManager.msgs;
     //$scope.msgs['pukki@vikram'] = [{from: 'pukki@vikram', to:'vikrambn@vikram', msg: 'hello, thats it'}];
     $scope.noOfScrollMsgs = 0;
 
     $scope.getPicture = function(from){
-        var fromUser = from.substring(0, from.indexOf('@'));
+        return '/profile/pictures/guest.png';
+        /*var fromUser = from.substring(0, from.indexOf('@'));
         if(fromUser == $scope.currentUser.username)
             return $scope.currentUser.picture;
         else{
@@ -111,7 +111,7 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
                 }
             });
             return userPic;
-        }
+        } */
     };
 
     $scope.sendMsg = function(msg){
@@ -164,18 +164,20 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     };
 
     $scope.createNewChat = function(newChat){
-        var chatreq = {users:[$scope.currentUser._id, $scope.userToChat._id]};
-        $http.post('/chat', chatreq).success(function(data){
+        var chatreq = {users:[$scope.currentUser._id, $scope.userToChat._id], anonymous_chat: false};
+        ChatManager.createNewChat(chatreq);
+        $('#ChatRequestDialog').modal('hide');
+        /*$http.post('/chat', chatreq).success(function(data){
             console.log('new chat created' + data._id);
             $('#ChatRequestDialog').modal('hide');
             // add new chat tab
             var toUser = $scope.userToChat.username;
-            var toUserJid = toUser + '@' + ChatClient.host;
+            var toUserJid = data.room + '@conference.' + ChatClient.host;
             $scope.addNewWorkspace({name: toUser, userJID: toUserJid});
             if(!$scope.msgs[toUserJid])
                 $scope.msgs[toUserJid] = [];
             $scope.msgs[toUserJid].push({from:'system', msg:'waiting for ' + $scope.userToChat.username + ' to join'});
-        });
+        });*/
     };
 
     $scope.initChat = function(newChat){
@@ -202,7 +204,7 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         $scope.updateScrollMsgs();
     });
 
-    function addChat(chat){
+    /*function addChat(chat){
         if($scope.currentUser){
             var toUser = $scope.currentUser.username == chat.users[0] ? chat.users[1]:chat.users[0];
             var toUserWorkspace = $scope.getWorkspaceByJID(toUser + '@' + ChatClient.host);
@@ -226,7 +228,24 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
                 }
             });
         }
+    };*/
+
+    function addChat(chat){
+        if($scope.currentUser){
+            var roomJid = chat.room + '@conference.' + ChatClient.host;
+            roomJid = roomJid.toLowerCase();
+            var toUserWorkspace = $scope.getWorkspaceByJID(roomJid);
+            if(toUserWorkspace == null){
+                var toUser = null;
+                if(chat.anonymous_chat)
+                    toUser = chat.anonymous_user.name;
+                else
+                    toUser = $scope.currentUser._id == chat.users[0] ? chat.users[1]:chat.users[0];
+                $scope.addNewWorkspace({name: toUser, userJID: roomJid, chatObj: chat});
+            }
+        }
     };
+
 
     $rootScope.$on('NewChatAdded', function(event, chat){
         addChat(chat)

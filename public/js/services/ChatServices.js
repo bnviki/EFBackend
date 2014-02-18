@@ -42,13 +42,18 @@ angular.module('ChatServices', ['ngResource'])
                      };*/
 
                     chatClient.conn.addHandler(chatClient.onMsg, null, 'message', 'chat');
+                    chatClient.conn.addHandler(chatClient.onMsg, null, 'message', 'groupchat');
                     chatClient.conn.addHandler(chatClient.onPresence, null, 'presence');
 
                     deffered.resolve(jid);
                 } else if (status === Strophe.Status.DISCONNECTED) {
                     console.log('disconnected');
                     deffered.reject('cannot connect to xmpp server');
+                } else if (status === Strophe.Status.ERROR) {
+                    console.log('strophe error');
+                    deffered.reject('cannot connect to xmpp server');
                 }
+
             });
             return deffered.promise;
         }
@@ -67,7 +72,7 @@ angular.module('ChatServices', ['ngResource'])
                 // error joining room; reset app
                 console.log('error joining room ' + room);
             }
-            if ($(presence).attr('type') !== 'error') {
+            if ($(presence).attr('type') !== 'error' && from.search('conference') != -1) {
                 console.log('room joined ' + room);
             }
             return true;
@@ -98,18 +103,18 @@ angular.module('ChatServices', ['ngResource'])
         };
 
         chatClient.sendMsg = function(msg, toUser){
-            this.conn.send($pres({
+            /*this.conn.send($pres({
                 to: toUser
-            }));
+            }));*/
 
             this.conn.send($msg({
                 to: toUser,
-                "type": "chat"
+                "type": "groupchat"
             }).c('body').t(msg));
 
-            var newmsg = {from: this.user, to: toUser, msg: msg};
+            /*var newmsg = {from: this.user, to: toUser, msg: msg};
             this.messages.push(newmsg);
-            $rootScope.$emit('NewChatMsg', newmsg);
+            $rootScope.$emit('NewChatMsg', newmsg);*/
         }
 
         chatClient.disconnect = function(){
@@ -126,7 +131,12 @@ angular.module('ChatServices', ['ngResource'])
             chatManager.msgs = [];
 
             $rootScope.$on('NewChatMsg', function(event, newmsg){
-                if(newmsg.from == ChatClient.user){
+                var room = newmsg.from.search('conference') != -1? newmsg.from : newmsg.to;
+                if(!chatManager.msgs[room])
+                    chatManager.msgs[room] = [];
+                chatManager.msgs[room].push(newmsg);
+
+                /*if(newmsg.from == ChatClient.user){
                     if(!chatManager.msgs[newmsg.to])
                         chatManager.msgs[newmsg.to] = [];
                     chatManager.msgs[newmsg.to].push(newmsg);
@@ -135,8 +145,15 @@ angular.module('ChatServices', ['ngResource'])
                         chatManager.msgs[newmsg.from] = [];
 
                     chatManager.msgs[newmsg.from].push(newmsg);
-                }
+                } */
             });
+
+            chatManager.createNewChat = function(chat){
+                $http.post('/chat', chat).success(function(data){
+                    console.log('new chat created' + data._id);
+                    chatManager.addChat(data);
+                });
+            }
 
             chatManager.addChat = function(chat){
                 var i=0;

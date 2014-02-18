@@ -50,29 +50,43 @@ module.exports = function(app, sessionUsers) {
         }
 
         var newChat = {};
-        if(req.body.ann_user)
-            newChat.ann_user = req.body.ann_user;
+        if(req.body.anonymous_user){
+            newChat.anonymous_user = req.body.anonymous_user;
+            newChat.anonymous_chat = true;
+        }
+        newChat.users = req.body.users;
 
-        //todo: check if all users exist before chat creation
-        Chat.create(newChat, function(err, chat){
-            for(userId in req.body.users){
-                User.findOne({_id: req.body.users[userId]}, function(err, user){
+        //check if chat already exists between 2 users
+        if(req.body.users.length > 1){
+            Chat.findOne({users: {'$in': [req.body.users[0]._id, req.body.users[1]._id]}})
+                .exec(function(err, chat){
                     if(err){
-                        res.send('users not found', 400);
-                        return;
+                        Chat.create(newChat, function(err, chat){
+                            xmpp_room.createRoom(chat.room, 'admin');
+                            addChatToSession(chat);
+                            req.chat = chat;
+                            req.chatusers = req.body.users;
+                            req.io.route('SEND_CHAT');
+                            //res.send(chat);
+                        });
                     }
-                    user.chats.push(chat._id);
-                    user.save();
+                    else if(!err && chat){
+                        req.chat = chat;
+                        req.chatusers = chat.users;
+                        req.io.route('SEND_CHAT');
+                    }
                 });
-            }
-
-            xmpp_room.createRoom(chat.room, 'admin');
-            addChatToSession(chat);
-            req.chat = chat;
-            req.chatusers = req.body.users;
-            req.io.route('SEND_CHAT');
-            //res.send(chat);
-        });
+        } else {
+            //todo: check if all users exist before chat creation
+            Chat.create(newChat, function(err, chat){
+                xmpp_room.createRoom(chat.room, 'admin');
+                addChatToSession(chat);
+                req.chat = chat;
+                req.chatusers = req.body.users;
+                req.io.route('SEND_CHAT');
+                //res.send(chat);
+            });
+        }
 
     });
 

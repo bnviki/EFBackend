@@ -44,9 +44,11 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
         #wrap
             .navbar.navbar-fixed-top.navbar-inverse
                 .container.navbar-inner
-                    a(class='navbar-brand', href='/', style='padding: 8px 5%;')
+                    a(class='navbar-brand', href='/', style='padding: 5px;')
                         img(src='/img/logo.png', style='width:50%; height:100%')
-                    .hidden-xs.label.label-danger.pull-left(style='margin-top: 20px;') Alpha testing
+                    .nav.navbar-nav.navbar-left
+                        li
+                            a(href='#') browse
                     .nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
                         li.hidden-xs
                             a(class='pull-right', href='#', style='font-weight: bolder;', ng-click='editUserDetails()') {{currentUser.displayname}}

@@ -4,10 +4,12 @@ var mongoose = require('mongoose'),
 var Schema = mongoose.Schema;
 
 var ChatSchema = new Schema({
-    ann_user: {
+    anonymous_chat: {type: Boolean},
+    anonymous_user: {
         name: String,
         jid: String
     },
+    users: {type: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}], index: true},
     room: {
         type: String,
         unique: true

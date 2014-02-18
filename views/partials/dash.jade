@@ -9,7 +9,7 @@ script.
   });
 block content
     div.row
-        div.col-md-8.column(style='border-right: solid; border-right-color: beige;')
+        div.col-md-9.column(style='border-right: solid; border-right-color: beige;')
             div.row.well.well-sm(style='margin-bottom:5px;')
                 div.col-md-12.col-xs-12
                     .col-md-2.col-xs-4
@@ -70,20 +70,22 @@ block content
                                     textarea#send-msg-text.form-control(type='text', ng-model='msgToSend', ng-enter='sendMsg(msgToSend)')
                                     span.input-group-addon
                                         button.btn.btn-primary(type='submit', ng-click='sendMsg(msgToSend)') Send
-        div.col-md-4.column
+        div.col-md-3.column
             div.row.clearfix(ng-controller='chatCtrl')
                 div.col-md-12.chatrequests
                     .label.label-default Chat Requests
                     .alert.alert-info.center-block(ng-hide='chatReqs.length', style='margin: 18px; width: 85%;')
                         p Chat requests from others appear here. Accept them to initiate a chat.
-                    .media(ng-repeat='creq in chatReqs', id='{{creq._id}}', style='background: beige; padding: 8px; margin-top: 2px;')
-                        img.pull-left.media-object(ng-src='{{creq.user.picture}}', style='width:30px;height:30px')
-                        .media-body
-                            p
-                                label.chat-user-name {{creq.username + ':'}}
-                                | {{creq.topic}}
-                            .btn.btn-xs.btn-primary.chat-accept-button(ng-click='acceptReq(creq._id)') accept
-                            .btn.btn-xs.btn-default(ng-click='discardReq(creq._id)') discard
+                    .list-group
+                        a.list-group-item(href='#', ng-repeat='creq in chatReqs', id='{{creq._id}}')
+                            .media
+                                img.pull-left.media-object(ng-src='{{creq.user.picture}}', style='width:30px;height:30px')
+                                .media-body
+                                    p
+                                        label.chat-user-name {{creq.username + ':'}}
+                                        | {{creq.topic}}
+                                    //.btn.btn-xs.btn-primary.chat-accept-button(ng-click='acceptReq(creq._id)') accept
+                                    //.btn.btn-xs.btn-default(ng-click='discardReq(creq._id)') discard
             .col-md-12#instructions
                 h5.center-block(style='padding-left:30%; padding-top:10px;') Help
                 ul(style='padding-left: 20px;')

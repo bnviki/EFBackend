@@ -1,8 +1,14 @@
 function chatCtrl($scope, $http, $rootScope, UserManager, Messenger, ChatManager){
 	var currentUser = UserManager.getCurrentUser();
-    $scope.chatReqs = [];
+    $scope.chatReqs = [
+        {_id: 1, username: 'vikram', topic: 'this is dummy topic', user: {picture: '/profile/pictures/guest.png'}},
+        {_id: 1, username: 'vikram', topic: 'this is dummy topic', user: {picture: '/profile/pictures/guest.png'}},
+        {_id: 1, username: 'vikram', topic: 'this is dummy topic', user: {picture: '/profile/pictures/guest.png'}},
+        {_id: 1, username: 'vikram', topic: 'this is dummy topic', user: {picture: '/profile/pictures/guest.png'}},
+        {_id: 1, username: 'vikram', topic: 'this is dummy topic', user: {picture: '/profile/pictures/guest.png'}}
+    ];
 
-	$http.get('/users/chatrequests').success(function(data){
+	/*$http.get('/users/chatrequests').success(function(data){
 		//console.log('reqs: ' + data);
         for(var i=0; i < data.length; i++ ){
             var creq = data[i];
@@ -19,7 +25,7 @@ function chatCtrl($scope, $http, $rootScope, UserManager, Messenger, ChatManager
         };
 		$scope.chatReqs = data;
 
-	});
+	});*/
 
     $scope.discardReq = function(reqId){
         $http.delete('/chat/request/' + reqId).success(function(){

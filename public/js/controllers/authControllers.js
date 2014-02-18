@@ -34,11 +34,11 @@ function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient
 
     $scope.logUserIn = function(user) {
         UserManager.login(user.username, user.password).then(function(user){
-            if(!user.signup_complete)
-                $location.path('/complete_profile');
-            else{
+            //if(!user.signup_complete)
+            //    $location.path('/complete_profile');
+            //else{
                 $location.path('/dash');
-            }
+            //}
         });
     }
 

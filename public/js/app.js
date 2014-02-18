@@ -18,12 +18,16 @@ app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$time
     editableOptions.theme = 'bs3';
     $rootScope.selectedCat = 'news';
     //user login params
-    UserManager.checkUser();
+    UserManager.checkUser().then(function(){
+        //fetch all user chats
+        //ChatManager.fetchUserChats();
+    });
     $rootScope.isLoggedIn = false;
 
     $rootScope.$on('event:loginConfirmed', function() {
         var user = UserManager.getCurrentUser();
         Messenger.socket.emit('register', user);
+        ChatManager.fetchUserChats();
         $rootScope.isLoggedIn = true;
 
     });

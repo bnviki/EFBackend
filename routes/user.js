@@ -6,6 +6,7 @@ var User = require('../data/models/user'),
     sendMail = require('./middleware/mailer'),
     sessionUtils = require('./middleware/session_utils'),
     ChatRequest = require('../data/models/chatRequest'),
+    Chat = require('../data/models/chat'),
     xmppUser = require('./middleware/xmpp_user');
 var xmpp = require('node-bosh-xmpp-client');
 
@@ -24,11 +25,16 @@ module.exports = function(app) {
     });
 
     app.get("/users/:id/chats", function (req, res, next) {
-        User.findOne({_id: req.params.id}).populate('chats').exec(function(err, user) {
+        User.findOne({_id: req.params.id}).exec(function(err, user) {
             if (err) {
                 return res.send('Not found', 404);
             }
-            res.send(user.chats);
+            Chat.find({users: user._id}, function(err, chats){
+                if (err) {
+                    return res.send('Not found', 404);
+                }
+                res.send(chats);
+            });
         });
     });
 

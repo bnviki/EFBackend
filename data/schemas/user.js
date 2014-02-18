@@ -39,7 +39,6 @@ var UserSchema = new mongoose.Schema({
     about: {type: String},
     phone: {type: String},
     address: {type: String},
-    chats: [{type: mongoose.Schema.Types.ObjectId, ref: 'Chat'}],
 
     validated: {
         type: Boolean,

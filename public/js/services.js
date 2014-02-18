@@ -8,21 +8,26 @@ angular.module('OCServices', ['ngResource'])
         userManager.currentUser = null;
 
         userManager.setCurrentUser = function(user){
+            var deffered = $q.defer();
             userManager.currentUser = user;
             if(user == null){
                 $rootScope.$broadcast('event:loggedOut', userManager.currentUser);
+                deffered.resolve();
             } else {
-                $rootScope.$broadcast('event:loginConfirmed', userManager.currentUser);
-                ChatClient.connect(user.username + '@' + ChatClient.host, user.password);
+                ChatClient.connect(user.username + '@' + ChatClient.host, user.password).then(function(){
+                    $rootScope.$broadcast('event:loginConfirmed', userManager.currentUser);
+                    deffered.resolve();
+                });
             }
-
+            return deffered.promise;
         }
 
         userManager.login = function(uname, pword){
             var deffered = $q.defer();
             $http.post('/login', {username: uname, password: pword}).success(function(data){
-                userManager.setCurrentUser(data);
-                deffered.resolve(userManager.currentUser);
+                userManager.setCurrentUser(data).then(function(){
+                    deffered.resolve(userManager.currentUser);
+                });
             }).error(function(){
                     deffered.reject('login failed');
                 });
@@ -45,13 +50,16 @@ angular.module('OCServices', ['ngResource'])
             var deffered = $q.defer();
             $http.get('/ping').success(function(data, status){
                 if(status == 200){
-                    userManager.setCurrentUser(data);
-                    deffered.resolve(userManager.currentUser);
+                    userManager.setCurrentUser(data).then(function(){
+                        deffered.resolve(userManager.currentUser);
+                    });
+                    //deffered.resolve(userManager.currentUser);
                     return;
                 }
                 userManager.currentUser = null;
                 deffered.reject('session expired');
             });
+            return deffered.promise;
         };
 
         userManager.logUserIn = function(user){
