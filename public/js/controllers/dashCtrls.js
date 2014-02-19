@@ -78,50 +78,51 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     // tabs
 
     $scope.updateScrollMsgs = function(){
-        var i = 0;
-        for(i=0; i< $scope.workspaces.length; i++){
-            if($scope.workspaces[i].active){
-                if(!$scope.msgs[$scope.workspaces[i].userJID])
-                    $scope.msgs[$scope.workspaces[i].userJID] = [];
-                $scope.noOfScrollMsgs = $scope.msgs[$scope.workspaces[i].userJID].length;
-                break;
-            }
-        }
+        if($scope.activeChatMsgs)
+            $scope.noOfScrollMsgs = $scope.activeChatMsgs.length;
     };
 
     $scope.msgs = [];
-    angular.forEach(ChatManager.currentChats, function(chat){
+    /*angular.forEach(ChatManager.currentChats, function(chat){
         addChat(chat);
-    });
+    });*/
+
+    $scope.chats = ChatManager.currentChats;
+    $scope.activeChat = null;
+    $scope.activeChatMsgs = null;
+
+    $scope.setActiveChat = function(chat){
+        $scope.activeChat = chat;
+        $scope.activeChatMsgs = $scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host];
+    };
 
     $scope.msgs = ChatManager.msgs;
     //$scope.msgs['pukki@vikram'] = [{from: 'pukki@vikram', to:'vikrambn@vikram', msg: 'hello, thats it'}];
     $scope.noOfScrollMsgs = 0;
 
+    $scope.getToUser = function(chat){
+        if(chat.users.length > 1){
+            return chat.users[0]._id == $scope.currentUser._id ? chat.users[1] : chat.users[0];
+        } else {
+            var anonUser = {displayname: chat.anonymous_user.name, picture: '/profile/pictures/guest.png'}
+            return anonUser;
+        }
+    };
+
     $scope.getPicture = function(from){
-        return '/profile/pictures/guest.png';
-        /*var fromUser = from.substring(0, from.indexOf('@'));
+        var fromUser = from.substring(0, from.indexOf('@'));
         if(fromUser == $scope.currentUser.username)
             return $scope.currentUser.picture;
         else{
-            var userPic = '/profile/pictures/annonymous.png';
-            angular.forEach($scope.workspaces, function(workspace) {
-                if(workspace.active && workspace.user){
-                    userPic = workspace.user.picture;
-                }
-            });
+            var userPic = '/profile/pictures/guest.png';
             return userPic;
-        } */
+        }
     };
 
     $scope.sendMsg = function(msg){
-        if(msg && msg != ''){
-            angular.forEach($scope.workspaces, function(workspace) {
-                if(workspace.active){
-                    ChatClient.sendMsg(msg, workspace.userJID);
-                    $scope.msgToSend = '';
-                }
-            });
+        if(msg && msg != '' && $scope.activeChat != null){
+            ChatClient.sendMsg(msg, $scope.activeChat.room + '@conference.' + ChatClient.host);
+            $scope.msgToSend = '';
         }
     }
 
@@ -231,7 +232,7 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     };*/
 
     function addChat(chat){
-        if($scope.currentUser){
+        /*if($scope.currentUser){
             var roomJid = chat.room + '@conference.' + ChatClient.host;
             roomJid = roomJid.toLowerCase();
             var toUserWorkspace = $scope.getWorkspaceByJID(roomJid);
@@ -243,11 +244,11 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
                     toUser = $scope.currentUser._id == chat.users[0] ? chat.users[1]:chat.users[0];
                 $scope.addNewWorkspace({name: toUser, userJID: roomJid, chatObj: chat});
             }
-        }
+        }*/
     };
 
 
     $rootScope.$on('NewChatAdded', function(event, chat){
-        addChat(chat)
+        //addChat(chat)
     });
 }

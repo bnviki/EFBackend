@@ -62,12 +62,14 @@ module.exports = function(app, sessionUsers) {
                 .exec(function(err, chat){
                     if(err){
                         Chat.create(newChat, function(err, chat){
-                            xmpp_room.createRoom(chat.room, 'admin');
-                            addChatToSession(chat);
-                            req.chat = chat;
-                            req.chatusers = req.body.users;
-                            req.io.route('SEND_CHAT');
-                            //res.send(chat);
+                            var xmppRoomCreator = new xmpp_room(chat.room, 'admin');
+                            xmppRoomCreator.createRoom();
+                            xmppRoomCreator.on('RoomCreated', function(roomName){
+                                addChatToSession(chat);
+                                req.chat = chat;
+                                req.chatusers = req.body.users;
+                                req.io.route('SEND_CHAT');
+                            });
                         });
                     }
                     else if(!err && chat){
@@ -79,12 +81,14 @@ module.exports = function(app, sessionUsers) {
         } else {
             //todo: check if all users exist before chat creation
             Chat.create(newChat, function(err, chat){
-                xmpp_room.createRoom(chat.room, 'admin');
-                addChatToSession(chat);
-                req.chat = chat;
-                req.chatusers = req.body.users;
-                req.io.route('SEND_CHAT');
-                //res.send(chat);
+                var xmppRoomCreator = new xmpp_room(chat.room, 'admin');
+                xmppRoomCreator.createRoom();
+                xmppRoomCreator.on('RoomCreated', function(roomName){
+                    addChatToSession(chat);
+                    req.chat = chat;
+                    req.chatusers = req.body.users;
+                    req.io.route('SEND_CHAT');
+                });
             });
         }
 

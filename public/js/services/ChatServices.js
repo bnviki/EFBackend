@@ -124,8 +124,8 @@ angular.module('ChatServices', ['ngResource'])
         return chatClient;
 
     }])
-    .factory('ChatManager', ['$http', '$rootScope', 'UserManager', 'ChatClient', 'Messenger',
-        function($http, $rootScope, UserManager, ChatClient, Messenger){
+    .factory('ChatManager', ['$http', '$rootScope', 'UserManager', 'ChatClient', 'Messenger','$q',
+        function($http, $rootScope, UserManager, ChatClient, Messenger, $q){
             var chatManager = {};
             chatManager.currentChats = [];
             chatManager.msgs = [];
@@ -149,10 +149,15 @@ angular.module('ChatServices', ['ngResource'])
             });
 
             chatManager.createNewChat = function(chat){
+                var deffered = $q.defer();
                 $http.post('/chat', chat).success(function(data){
                     console.log('new chat created' + data._id);
                     chatManager.addChat(data);
+                    deffered.resolve();
+                }).error(function(){
+                    deffered.reject('could not create chat');
                 });
+                return deffered.promise;
             }
 
             chatManager.addChat = function(chat){
@@ -167,7 +172,12 @@ angular.module('ChatServices', ['ngResource'])
                 if(isNew){
                     chatManager.currentChats.push(chat);
                     console.log('joining room ' + chat.room);
-                    ChatClient.joinRoom(chat.room, UserManager.getCurrentUser().username);
+                    var nickname = '';
+                    if(chat.anonymous_chat && !UserManager.getCurrentUser())
+                        nickname = chat.anonymous_user.name;
+                    else
+                        nickname = UserManager.getCurrentUser().username;
+                    ChatClient.joinRoom(chat.room, nickname);
                     $rootScope.$emit('NewChatAdded', chat);
                 }
             };

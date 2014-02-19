@@ -7,16 +7,17 @@ var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 
             when('/admin', {templateUrl: 'partial/adminpage', controller: ProfileCtrl}).
             when('/dash', {templateUrl: 'partial/dash', controller: DashCtrl}).
             when('/complete_profile', {templateUrl: 'partial/complete_profile'}).
-            when('/:username', {redirectTo: '/chatwindow'}).
+            when('/:username', {templateUrl: 'partial/chatwindow'}).
             otherwise({redirectTo: '/home'});
         $locationProvider.html5Mode(true);
 
     }]);
 
-app.run(['$rootScope', '$http', '$location', 'UserManager', 'Discussion', '$timeout', 'Messenger', 'ChatManager','editableOptions',
-    function($rootScope, $http, $location, UserManager, Discussion, $timeout, Messenger, ChatManager, editableOptions) {
+app.run(['$rootScope', '$http', '$location', 'UserManager', '$timeout', 'Messenger', 'ChatManager','editableOptions','$route',
+    function($rootScope, $http, $location, UserManager, $timeout, Messenger, ChatManager, editableOptions, $route) {
     editableOptions.theme = 'bs3';
     $rootScope.selectedCat = 'news';
+
     //user login params
     UserManager.checkUser().then(function(){
         //fetch all user chats

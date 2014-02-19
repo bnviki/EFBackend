@@ -29,7 +29,7 @@ module.exports = function(app) {
             if (err) {
                 return res.send('Not found', 404);
             }
-            Chat.find({users: user._id}, function(err, chats){
+            Chat.find({users: user._id}).populate('users').exec(function(err, chats){
                 if (err) {
                     return res.send('Not found', 404);
                 }
