@@ -5,7 +5,7 @@
  * Time: 6:12 PM
  * To change this template use File | Settings | File Templates.
  */
-function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, $http, ChatManager){
+function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, $http, ChatManager, $routeParams){
     $scope.currentUser = UserManager.getCurrentUser();
     if(!$scope.currentUser){
         $location.path('/');
@@ -45,7 +45,12 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         if(fromUser == $scope.currentUser.username)
             return $scope.currentUser.picture;
         else{
-            var userPic = '/profile/pictures/guest.png';
+            $http.get('/users', {params:{username: from}}).success(function(users){
+                if(users.length > 0)
+                    return users[0].picture;
+                else
+                    return '/profile/pictures/guest.png';
+            });
             return userPic;
         }
     };
@@ -63,16 +68,23 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
 
     $scope.userToChat = null;
 
-    /*
-        code to get presence info of user
-     $http.get('/plugins/presence/status', {params:{jid:$scope.userToChat.username + '@' + ChatClient.host, type:'xml'}}).success(function(data){
-         if(data.search('unavailable') == -1){
-            $scope.userToChat.chatUserOnline = true;
-         }
-         else
-            $scope.userToChat.chatUserOnline = false;
-     });
-    */
+
+    $scope.sendChatRequest = function(username){
+        $http.get('/users', {params:{username: username}}).success(function(users){
+            if(users.length > 0){
+                $scope.userToChat = users[0];
+                $http.get('/plugins/presence/status', {params:{jid:$scope.userToChat.username + '@' + ChatClient.host, type:'xml'}}).success(function(data){
+                    if(data.search('unavailable') == -1){
+                        $scope.userToChat.chatUserOnline = true;
+                    }
+                    else
+                        $scope.userToChat.chatUserOnline = false;
+                    $('#ChatRequestDialog').modal('show');
+                });
+            }
+        });
+    }
+
 
     $scope.editUserDetails = function(){
         $location.path('/complete_profile');
@@ -99,4 +111,8 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     $rootScope.$on('NewChatAdded', function(event, chat){
         //highlight new chat
     });
+
+    if($routeParams.username && $routeParams.username != ''){
+        $scope.sendChatRequest($routeParams.username);
+    }
 }

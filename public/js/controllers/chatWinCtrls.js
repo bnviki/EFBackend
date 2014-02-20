@@ -5,7 +5,7 @@
  * Time: 10:45 AM
  * To change this template use File | Settings | File Templates.
  */
-function ChatWindowCtrl($scope, $http, $rootScope, $timeout, $routeParams, ChatClient, Messenger, $location, ChatManager, $q){
+function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, ChatClient, Messenger, $location, ChatManager, $q){
     console.log("routeparams: " + $routeParams.username);
 
     $scope.chatUser = {};
@@ -13,6 +13,10 @@ function ChatWindowCtrl($scope, $http, $rootScope, $timeout, $routeParams, ChatC
     $scope.chatReqSent = null;
     $scope.currentChat = null;
     $scope.userFromURL = $routeParams.username;
+
+    if(UserManager.getCurrentUser()){
+        $location.path('/dash').search({username: $routeParams.username});
+    }
 
     if($routeParams.username && $routeParams.username != ''){
         $http.get('/users', {params:{username:$routeParams.username}}).success(function(data){

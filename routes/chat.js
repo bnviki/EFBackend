@@ -53,29 +53,36 @@ module.exports = function(app, sessionUsers) {
         if(req.body.anonymous_user){
             newChat.anonymous_user = req.body.anonymous_user;
             newChat.anonymous_chat = true;
+        } else {
+            newChat.anonymous_chat = false;
         }
         newChat.users = req.body.users;
 
         //check if chat already exists between 2 users
         if(req.body.users.length > 1){
-            Chat.findOne({users: {'$in': [req.body.users[0]._id, req.body.users[1]._id]}})
+            Chat.findOne({users: {'$all': [req.body.users[0], req.body.users[1]]}})
                 .exec(function(err, chat){
-                    if(err){
+                    if(err || !chat){
                         Chat.create(newChat, function(err, chat){
                             var xmppRoomCreator = new xmpp_room(chat.room, 'admin');
                             xmppRoomCreator.createRoom();
                             xmppRoomCreator.on('RoomCreated', function(roomName){
-                                addChatToSession(chat);
-                                req.chat = chat;
-                                req.chatusers = req.body.users;
-                                req.io.route('SEND_CHAT');
+                                chat.populate('users', function(){
+                                    addChatToSession(chat);
+                                    req.chat = chat;
+                                    req.chatusers = req.body.users;
+                                    req.io.route('SEND_CHAT');
+                                });
                             });
                         });
                     }
                     else if(!err && chat){
-                        req.chat = chat;
-                        req.chatusers = chat.users;
-                        req.io.route('SEND_CHAT');
+                        chat.populate('users', function(){
+                            addChatToSession(chat);
+                            req.chat = chat;
+                            req.chatusers = chat.users;
+                            req.io.route('SEND_CHAT');
+                        });
                     }
                 });
         } else {
@@ -84,10 +91,12 @@ module.exports = function(app, sessionUsers) {
                 var xmppRoomCreator = new xmpp_room(chat.room, 'admin');
                 xmppRoomCreator.createRoom();
                 xmppRoomCreator.on('RoomCreated', function(roomName){
-                    addChatToSession(chat);
-                    req.chat = chat;
-                    req.chatusers = req.body.users;
-                    req.io.route('SEND_CHAT');
+                    chat.populate('users', function(){
+                        addChatToSession(chat);
+                        req.chat = chat;
+                        req.chatusers = req.body.users;
+                        req.io.route('SEND_CHAT');
+                    });
                 });
             });
         }

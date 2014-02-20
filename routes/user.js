@@ -109,8 +109,11 @@ module.exports = function(app) {
              });*/
             //email verification
 
-            xmppUser.createUser(user);
-            res.send(user.toJSON());
+            var xmppUserCreator = new xmppUser(user);
+            xmppUserCreator.createUser();
+            xmppUserCreator.on('UserCreated', function(createdUser){
+                res.send(user.toJSON());
+            });
         });
     });
 
