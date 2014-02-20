@@ -11,81 +11,12 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         $location.path('/');
     }
 
-    //$scope.currentUserURL = 'www.mpeers.com/' + $scope.currentUser.username;
-    // tabs
-    $scope.setActiveWorkspace = function(id){
-        if(id == -1){
-            $scope.peopleTabActive = true;
-            //$('#chat-content').height('100%');
-        }
-        else{
-            $scope.peopleTabActive = false;
-            //$('#chat-content').height($(window).height()/2);
-        }
-
-        angular.forEach($scope.workspaces, function(workspace) {
-            if(workspace.id == id){
-                workspace.active = true;
-                if($scope.msgs[workspace.userJID])
-                    $scope.noOfScrollMsgs = $scope.msgs[workspace.userJID].length;
-                else
-                    $scope.noOfScrollMsgs = 0;
-            }
-            else
-                workspace.active = false;
-        });
-    };
-
-    $scope.addNewWorkspace = function(wspace) {
-        var id = $scope.wspaceCount + 1;
-        wspace.id = id;
-        wspace.active = false;
-        $scope.workspaces.push(wspace);
-        $scope.wspaceCount = $scope.wspaceCount + 1;
-        $scope.setActiveWorkspace(wspace.id);
-    };
-
-    $scope.removeWorkspace = function(wspace){
-        var proceed = confirm('This will end the chat, are you sure?');
-        if(proceed){
-            var i=0;
-            for(i=0; i< $scope.workspaces.length; i++){
-                if($scope.workspaces[i].id == wspace.id){
-                    ChatManager.removeChat($scope.workspaces[i].chatObj._id);
-                    $scope.workspaces.splice(i, 1);
-                    break;
-                }
-            }
-            $scope.setActiveWorkspace(-1);
-        }
-    }
-
-    $scope.getWorkspaceByJID = function(userJid){
-        for(var i=0; i< $scope.workspaces.length; i++){
-            if($scope.workspaces[i].userJID == userJid){
-                return $scope.workspaces[i];
-            }
-        }
-        return null;
-    };
-
-    $scope.wspaceCount = 1;
-    $scope.workspaces =
-        [
-            //{ id: 1, name: "Workspace 1", userJID:'', active:true, user: [Object]  }
-        ];
-    $scope.peopleTabActive = true;
-    // tabs
-
     $scope.updateScrollMsgs = function(){
         if($scope.activeChatMsgs)
             $scope.noOfScrollMsgs = $scope.activeChatMsgs.length;
     };
 
     $scope.msgs = [];
-    /*angular.forEach(ChatManager.currentChats, function(chat){
-        addChat(chat);
-    });*/
 
     $scope.chats = ChatManager.currentChats;
     $scope.activeChat = null;
@@ -110,7 +41,7 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     };
 
     $scope.getPicture = function(from){
-        var fromUser = from.substring(0, from.indexOf('@'));
+        var fromUser = from.substring(from.indexOf('/') + 1);
         if(fromUser == $scope.currentUser.username)
             return $scope.currentUser.picture;
         else{
@@ -131,27 +62,17 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     }
 
     $scope.userToChat = null;
-    $scope.sendChatRequest = function(user){
-        var chatExists = false;
-        angular.forEach($scope.workspaces, function(workspace) {
-            if(workspace.userJID == user.username + '@' + ChatClient.host){
-                chatExists = true;
-            }
-        });
-        if(!chatExists){
-            $scope.userToChat = user;
-            $http.get('/plugins/presence/status', {params:{jid:$scope.userToChat.username + '@' + ChatClient.host, type:'xml'}}).success(function(data){
-                if(data.search('unavailable') == -1){
-                    $scope.userToChat.chatUserOnline = true;
-                }
-                else
-                    $scope.userToChat.chatUserOnline = false;
-                $('#ChatRequestDialog').modal('show');
-            });
-        } else {
-            alert('A chat window has been already opened for this user');
-        }
-    }
+
+    /*
+        code to get presence info of user
+     $http.get('/plugins/presence/status', {params:{jid:$scope.userToChat.username + '@' + ChatClient.host, type:'xml'}}).success(function(data){
+         if(data.search('unavailable') == -1){
+            $scope.userToChat.chatUserOnline = true;
+         }
+         else
+            $scope.userToChat.chatUserOnline = false;
+     });
+    */
 
     $scope.editUserDetails = function(){
         $location.path('/complete_profile');
@@ -168,87 +89,14 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         var chatreq = {users:[$scope.currentUser._id, $scope.userToChat._id], anonymous_chat: false};
         ChatManager.createNewChat(chatreq);
         $('#ChatRequestDialog').modal('hide');
-        /*$http.post('/chat', chatreq).success(function(data){
-            console.log('new chat created' + data._id);
-            $('#ChatRequestDialog').modal('hide');
-            // add new chat tab
-            var toUser = $scope.userToChat.username;
-            var toUserJid = data.room + '@conference.' + ChatClient.host;
-            $scope.addNewWorkspace({name: toUser, userJID: toUserJid});
-            if(!$scope.msgs[toUserJid])
-                $scope.msgs[toUserJid] = [];
-            $scope.msgs[toUserJid].push({from:'system', msg:'waiting for ' + $scope.userToChat.username + ' to join'});
-        });*/
     };
-
-    $scope.initChat = function(newChat){
-        if($scope.currentUser.username){
-            var chatreq = {from: $scope.currentUser.username, to:$scope.userToChat.username, topic: newChat.topic, username: $scope.currentUser.username};
-            $http.post('/chat/request', chatreq).success(function(data){
-                $scope.chatReqSent = data;
-                $('#ChatRequestDialog').modal('hide');
-
-                // add new chat tab
-                var toUser = $scope.userToChat.username;
-                var toUserJid = toUser + '@' + ChatClient.host;
-                $scope.addNewWorkspace({name: toUser, userJID: toUserJid});
-                if(!$scope.msgs[toUserJid])
-                    $scope.msgs[toUserJid] = [];
-                $scope.msgs[toUserJid].push({from:'system', msg:'waiting for ' + $scope.userToChat.username + ' to join'});
-                // add sys msg
-                //alert('Chat request sent. A new tab will be added when the other user joins the chat.');
-            });
-        }
-    }
 
     $rootScope.$on('NewChatMsg', function(event, newmsg){
         $scope.updateScrollMsgs();
     });
 
-    /*function addChat(chat){
-        if($scope.currentUser){
-            var toUser = $scope.currentUser.username == chat.users[0] ? chat.users[1]:chat.users[0];
-            var toUserWorkspace = $scope.getWorkspaceByJID(toUser + '@' + ChatClient.host);
-            if(toUserWorkspace != null){
-                $scope.msgs[toUserWorkspace.userJID].push({from:'system', msg: toUserWorkspace.name + ' has joined, you can chat now ... '});
-            } else {
-                if(chat.username == $scope.currentUser.username)
-                    $scope.addNewWorkspace({name: toUser, userJID: toUser + '@' + ChatClient.host, chatObj: chat});
-                else
-                    $scope.addNewWorkspace({name: chat.username, userJID: toUser + '@' + ChatClient.host, chatObj: chat});
-            }
-
-            $http.get('/users', {params:{username: toUser}}).success(function(data){
-                if(data.length > 0){
-                    var toUserData = data[0];
-                    angular.forEach($scope.workspaces, function(workspace) {
-                        if(workspace.userJID == toUser + '@' + ChatClient.host){
-                            workspace.user = toUserData;
-                        }
-                    });
-                }
-            });
-        }
-    };*/
-
-    function addChat(chat){
-        /*if($scope.currentUser){
-            var roomJid = chat.room + '@conference.' + ChatClient.host;
-            roomJid = roomJid.toLowerCase();
-            var toUserWorkspace = $scope.getWorkspaceByJID(roomJid);
-            if(toUserWorkspace == null){
-                var toUser = null;
-                if(chat.anonymous_chat)
-                    toUser = chat.anonymous_user.name;
-                else
-                    toUser = $scope.currentUser._id == chat.users[0] ? chat.users[1]:chat.users[0];
-                $scope.addNewWorkspace({name: toUser, userJID: roomJid, chatObj: chat});
-            }
-        }*/
-    };
-
 
     $rootScope.$on('NewChatAdded', function(event, chat){
-        //addChat(chat)
+        //highlight new chat
     });
 }

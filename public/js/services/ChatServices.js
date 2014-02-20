@@ -80,7 +80,7 @@ angular.module('ChatServices', ['ngResource'])
 
         chatClient.onMsg = function(message){
             console.log("msg recieved: " + message);
-            var jid = Strophe.getBareJidFromJid($(message).attr('from'));
+            var jid = $(message).attr('from');
 
             var body = $(message).find("html > body");
             if (body.length === 0) {
@@ -132,6 +132,7 @@ angular.module('ChatServices', ['ngResource'])
 
             $rootScope.$on('NewChatMsg', function(event, newmsg){
                 var room = newmsg.from.search('conference') != -1? newmsg.from : newmsg.to;
+                room = room.substring(0, room.indexOf('/'));
                 if(!chatManager.msgs[room])
                     chatManager.msgs[room] = [];
                 chatManager.msgs[room].push(newmsg);

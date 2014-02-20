@@ -47,11 +47,11 @@ function ChatWindowCtrl($scope, $http, $rootScope, $timeout, $routeParams, ChatC
     };
 
     $scope.getPicture = function(from){
-        var fromUser = from.substring(0, from.indexOf('@'));
+        var fromUser = from.substring(from.indexOf('/') + 1);
         if(fromUser == $scope.chatUser.username)
             return $scope.chatUser.picture;
         else
-            return '/profile/pictures/annonymous.png';
+            return '/profile/pictures/guest.png';
     };
 
     $scope.msgs = [];
@@ -74,6 +74,7 @@ function ChatWindowCtrl($scope, $http, $rootScope, $timeout, $routeParams, ChatC
 
                 var chatreq = {users:[$scope.chatUser._id], anonymous_chat: true, anonymous_user:{name: newChat.username, jid: jid}};
                 ChatManager.createNewChat(chatreq).then(function(){
+                    $scope.sendMsg(newChat.topic);
                     $('#UserDetailsDialog').modal('hide');
                 });
             });
@@ -82,8 +83,11 @@ function ChatWindowCtrl($scope, $http, $rootScope, $timeout, $routeParams, ChatC
     }
 
     $rootScope.$on('NewChatMsg', function(event, newmsg){
-        $scope.msgs.push(newmsg);
-        $scope.noOfScrollMsgs = $scope.msgs.length;
+        var from = newmsg.from.substring(0, newmsg.from.indexOf('/'));
+        if(from != ''){
+            $scope.msgs.push(newmsg);
+            $scope.noOfScrollMsgs = $scope.msgs.length;
+        }
         //var fromTop = $(".chat-content").scrollTop();
         //$(".chat-content").slimScroll({ scrollTo: fromTop + 'px' });
     });

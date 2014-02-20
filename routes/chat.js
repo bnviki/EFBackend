@@ -139,10 +139,15 @@ module.exports = function(app, sessionUsers) {
 
     //socket request handlers
     app.io.route('SEND_CHAT', function(req) {
-        console.log('sending chat: ' + req.chat._id);
-        for(usr in req.chatusers)
-            app.io.room('' + usr).broadcast('NEW_CHAT', req.chat);
-        req.io.respond(req.chat);
+        User.find({_id: {'$in': req.chatusers}},function(err, users) {
+            if (!err) {
+                for(usr in users){
+                    console.log('sending chat: ' + req.chat._id + ' to ' + users[usr].username);
+                    app.io.room('' + users[usr].username).broadcast('NEW_CHAT', req.chat);
+                }
+            }
+            req.io.respond(req.chat);
+        });
     });
 
     app.io.route('SEND_CHAT_REQUEST', function(req) {
