@@ -34,16 +34,31 @@ block content
                             label Settings
 
                         .col-md-12.content-box
-                            form.form-horizontal(role='form', style='padding: 20px;')
+                            .col-md-12
                                 .form-group
-                                    label(for='displayName') Welcome message
-                                    input.form-control(id='displayName', ng-model='userinfo.displayname')
+                                    label.col-md-12(for='welcomeMsg') Welcome message
+                                    a(href='#', id='welcomeMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        | {{ currentUser.welcome_message || 'Set the initial message to be shown to user' }}
                                 .form-group
-                                    label(for='displayName') Offline message
-                                    input.form-control(id='displayName', ng-model='userinfo.displayname')
+                                    label.col-md-12(for='offlineMsg') Offline message
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        | {{ currentUser.welcome_message || 'Set the message to show when you are offline' }}
                                 .form-group
-                                    label(for='displayName') About
-                                    textarea(class="form-control", id="aboutSignup", placeholder="about your service/business in few lines", ng-model='userSignup.about', rows='4')
+                                    label.col-md-12(for='about') About
+                                    a(href='#', id='about', editable-textarea="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        | {{ currentUser.welcome_message || 'Details' }}
+                                .form-group
+                                    label.col-md-12(class="control-label", for="descSignup") Description
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        | {{ currentUser.welcome_message || 'one line description' }}
+                                .form-group
+                                    label.col-md-12(class="control-label", for="locationSignup") Location
+                                    input(class="form-control", type="text", ng-autocomplete, id="locationSignup", ng-model='userSignup.location')
+                                .form-group
+                                    label.col-md-12(class="control-label", for="phoneNoSignup") Contact no.
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        | {{ currentUser.welcome_message || 'your contact phone number' }}
+
 
 
                 #chat-box.col-md-12(ng-show='activeChat != null')

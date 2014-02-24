@@ -27,7 +27,6 @@ var UserSchema = new mongoose.Schema({
         trim: true},
     usertype: {
         type:String,
-        required: true,
         trim: true},
 
     picture: {
