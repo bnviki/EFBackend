@@ -8,43 +8,75 @@ script.
     });*/
   });
 block content
-    .col-md-12
-        div.col-md-9.column(style='border-right: solid; border-right-color: beige;')
-            .row.well.well-sm(style='margin-bottom:5px;')
-                div.col-md-12.col-xs-12
+    .col-md-10.col-md-offset-1
+        .col-md-9.column(style='border-right: solid; border-right-color: beige;')
+            .row#user-banner(style='margin-bottom: 10px;')
+                .col-md-12.col-xs-12
                     .col-md-2.col-xs-4
-                        img.img-thumbnail(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
-                    .col-md-10.col-xs-8
-                        .label.label-success.pull-right Online
-                        h5.text-left.pull-left
+                        img.img-thumbnail.pull-right(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
+                    .col-md-6.col-xs-8
+                        h5.text-left(style='font-weight: bold;')
                             | {{currentUser.displayname}}
-                        label.chat-url.text-primary(style='padding-left:20px;', data-toggle="tooltip", title="Share this URL")
+                        .hidden-xs.col-md-12(style='padding-left:0px;')
+                            a(href='#', editable-text="currentUser.status_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                | {{ currentUser.status_message || 'One line description' }}
+                        label.chat-url.text-primary(style='', data-toggle="tooltip", title="Share this URL")
                             img.hidden-xs.pull-left(src='img/p.png', style='width:15px; height:15px; margin-right:5px;')
                             | www.mpeers.com/{{currentUser.username}}
-                        .hidden-xs.col-md-12(style='padding-left:0px; margin-top:10px;')
-                            .label.label-default(style='position:absolute;') status
-                            a(href='#', editable-textarea="currentUser.status_message", e-rows="7", e-cols="40", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                pre {{ currentUser.status_message || 'status not set' }}
+                    .col-md-4.pull-right
+                        .btn.btn-default.btn-xs.pull-right(ng-click='activeChat = null')
+                            .glyphicon.glyphicon-wrench
+
             .row
-                .col-md-12(ng-show='activeChat != null')
-                    .row(ng-slim-scroll slim-scroll-height='350px')
-                        .col-md-12(style='margin: 20px;')
-                            .media(ng-repeat='msg in activeChatMsgs')
-                                img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:30px;height:30px')
-                                .media-body
-                                    p {{msg.msg}}
+                #settings.col-md-12(ng-hide='activeChat != null')
+                    .row
+                        .col-md-12.text-center.heading-banner
+                            label Settings
 
-                    .row.chat-send-form
-                        .col-md-12(ng-show='activeChat != null')
-                            .input-group.col-md-12
-                                textarea#send-msg-text.form-control(type='text', ng-model='msgToSend', ng-enter='sendMsg(msgToSend)')
-                                span.input-group-addon
-                                    button.btn.btn-primary(type='submit', ng-click='sendMsg(msgToSend)') Send
+                        .col-md-12.content-box
+                            form.form-horizontal(role='form', style='padding: 20px;')
+                                .form-group
+                                    label(for='displayName') Welcome message
+                                    input.form-control(id='displayName', ng-model='userinfo.displayname')
+                                .form-group
+                                    label(for='displayName') Offline message
+                                    input.form-control(id='displayName', ng-model='userinfo.displayname')
+                                .form-group
+                                    label(for='displayName') About
+                                    textarea(class="form-control", id="aboutSignup", placeholder="about your service/business in few lines", ng-model='userSignup.about', rows='4')
 
-        div.col-md-3.column
-            div.row.clearfix(ng-controller='chatCtrl')
-                div.col-md-12.chatrequests
-                    .label.label-default Conversations
+
+                #chat-box.col-md-12(ng-show='activeChat != null')
+                    .row
+                        .col-md-12.text-center.heading-banner
+                            label Conversation with {{getToUser(activeChat).displayname}}
+                            .btn.btn-danger.btn-xs.pull-right(ng-click='removeChat(activeChat._id)')
+                                .glyphicon.glyphicon-trash
+                            .btn.btn-default.btn-xs.pull-right
+                                .glyphicon.glyphicon-envelope
+                            .btn.btn-default.btn-xs.pull-right
+                                .glyphicon.glyphicon-download-alt
+                    .row
+                        .content-box.col-md-12
+                            .row(ng-slim-scroll slim-scroll-height='350px')
+                                .col-md-11.col-md-offset-1(style='margin-top: 20px;')
+                                    .media(ng-repeat='msg in activeChatMsgs')
+                                        img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:30px;height:30px')
+                                        .media-body
+                                            p {{msg.msg}}
+
+                            .row.chat-send-form
+                                .col-md-12(ng-show='activeChat != null')
+                                    .input-group.col-md-12
+                                        textarea#send-msg-text.form-control(type='text', ng-model='msgToSend', ng-enter='sendMsg(msgToSend)')
+                                        span.input-group-addon
+                                            button.btn.btn-primary(type='submit', ng-click='sendMsg(msgToSend)') Send
+
+        .col-md-3.column
+            .row.clearfix(ng-controller='chatCtrl')
+                .col-md-12.chatrequests
+                    .col-md-12.text-center.heading-banner
+                        label Conversations
                     .list-group
                         a.list-group-item(href='#', ng-repeat='chat in chats', id='{{chat._id}}', ng-click='setActiveChat(chat)')
                             .media
@@ -52,13 +84,17 @@ block content
                                 .media-body
                                     p
                                         label.chat-user-name {{getToUser(chat).displayname}}
-            .col-md-12#instructions
-                h5.center-block(style='padding-left:30%; padding-top:10px;') Help
-                ul(style='padding-left: 20px;')
-                    li You can chat with registered people from the list on the left, by clicking on chat.
-                    li You can share the URL (displayed below status message) anywhere on the web or your friends. On opening this link a peer page is seen from where they can chat.
-                    li Chat requests can be accepted or rejected.
-                    li Sometimes the user may be offline when you accept the request and may not respond. (sorry this is for alpha testing. will be improved)
+            .row.clearfix
+                .col-md-12#instructions
+                    .col-md-12
+                        .row
+                            .col-md-12.text-center.heading-banner
+                                label Quick tip
+                        .row
+                            .col-md-12.content-box
+                                p Share your chat URL online <strong> www.mpeers.com/{{currentUser.username}} </strong>
+                                | you can share with your social network, websites, blogs, advertisements etc.
+
 
         .modal.fade(id='ChatRequestDialog', tabindex='-1', role='dialog', aria-labelledby="Send Chat Request", aria-hidden="true")
             .modal-dialog

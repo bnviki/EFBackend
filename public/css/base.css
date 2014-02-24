@@ -2,7 +2,8 @@ body {
   /*padding-top: 50px;
   padding-left: 50px;*/
   font: 11px "Lucida Grande", Helvetica, Arial, sans-serif;
-  height: 100%;  
+  height: 100%;
+  background-color: rgb(247,247,247) !important;
 }
 
 .userinfo-false {

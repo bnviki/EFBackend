@@ -36,6 +36,26 @@
     margin: 10px;
 }
 
+.heading-banner {
+    background: rgb(103, 92, 126);
+    padding: 3px 30px;
+    color: #e7e7e7;
+    font-size: 11px;
+}
+
+.heading-banner .btn {
+    margin-right: 3px;
+}
+
+.content-box{
+    background: #ffffff;
+    border: solid;
+    border-color: #f5f5f5;
+    margin-top: 5px;
+}
+
+
+
 .init-form input.ng-invalid.ng-dirty {
     border-color: #FA787E;
 }

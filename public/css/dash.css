@@ -32,7 +32,7 @@
 }
 
 .chatrequests {
-    min-height: 300px;
+
 }
 
 .conversations {
@@ -80,8 +80,38 @@
 }
 
 #instructions {
-    background-color: rgb(247,247,247);
-    margin: 10px;
+    padding-left: 0px;
+}
+
+.content-box{
+    background: #ffffff;
+    border: solid;
+    border-color: #f5f5f5;
+    margin-top: 5px;
+}
+
+.heading-banner {
+    background: rgb(103, 92, 126);
+    padding: 3px 30px;
+    color: #e7e7e7;
+    font-size: 11px;
+}
+
+.heading-banner .btn {
+    margin-right: 3px;
+}
+
+.chatrequests {
+    background: rgb(247,247,247);
+    padding-left: 0px;
+}
+
+#user-banner {
+    background: rgb(103, 92, 126);
+    border: solid;
+    border-color: #f5f5f5;
+    padding: 5px;
+    color: #f5f5f5;
 }
 
 

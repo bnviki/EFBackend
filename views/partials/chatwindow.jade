@@ -7,54 +7,62 @@ script.
   });*/
 
 block content
-    .container(ng-controller='ChatWindowCtrl')
-        .row
-            .col-md-8.hidden-xs.well.well-sm
-                .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
-                    .col-md-12
-                        .media(ng-repeat='msg in msgs')
-                            img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
-                            .media-body
-                                p {{msg.msg}}
-                .row.chat-send-form
-                    .col-md-12
-                        .input-group
-                            textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)')
-                            span.input-group-addon
-                                button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
-            .col-md-4.col-xs-12
-                .row.clearfix
-                    .col-md-4.col-xs-4
-                        img(alt='140x140', ng-src='{{chatUser.picture}}', style='width: 100px; height: 100px;')
+    .col-md-10.col-md-offset-1(ng-controller='ChatWindowCtrl')
+        .col-md-8.hidden-xs
+            .row
+                .col-md-12.text-center.heading-banner
+                    label Conversation with {{chatUser.displayname}}
+                    .btn.btn-danger.btn-xs.pull-right(ng-click='removeChat(activeChat._id)')
+                        .glyphicon.glyphicon-trash
+                    .btn.btn-default.btn-xs.pull-right
+                        .glyphicon.glyphicon-envelope
+                    .btn.btn-default.btn-xs.pull-right
+                        .glyphicon.glyphicon-download-alt
+            .row
+                .content-box.col-md-12
+                    .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
+                        .col-md-12
+                            .media(ng-repeat='msg in msgs')
+                                img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
+                                .media-body
+                                    p {{msg.msg}}
+                    .row.chat-send-form
+                        .col-md-12
+                            .input-group
+                                textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)')
+                                span.input-group-addon
+                                    button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
+        .col-md-4.col-xs-12
+            .row.clearfix.content-box(style='padding: 5px; padding-bottom: 10px;')
+                .col-md-12
+                    .col-md-4.col-xs-4(style='padding-left: 0px;')
+                        img.pull-left(alt='140x140', ng-src='{{chatUser.picture}}', style='width: 80px; height: 80px;')
                     .col-md-8.col-xs-8
-                        h3.text-primary.text-left
+                        h3(style='margin-top: 0px;')
                             | {{chatUser.displayname}}
-                        div(ng-switch on='chatUser.gender')
-                            label(ng-switch-when='M') Male
-                            label(ng-switch-when='F') Female
 
-                        .label.label-success(ng-show='chatUserOnline') Online
-                        .label.label-danger(ng-hide='chatUserOnline') Unavailable
-                .row#status-box
-                    .label.label-default status
-                    p {{chatUser.status_message}}
-                .row.hidden-xs
-                    .col-md-12#about-us
-                        h4(style='padding-left:30%; padding-top:20px;') About mPeers
-                        p mPeers enables an user or a business to have an online contact point, where they can be reached for a chat and extend this reach online to all social networking platforms, websites, blogspots and other forums where user interact.
-            .visible-xs.col-xs-12.well.well-sm
-                .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
-                    .col-md-12
-                        .media(ng-repeat='msg in msgs')
-                            img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
-                            .media-body
-                                p {{msg.msg}}
-                .row.chat-send-form
-                    .col-md-12
-                        .input-group
-                            textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)')
-                            span.input-group-addon
-                                button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
+                        .col-md-4
+                            .label.label-success(ng-show='chatUserOnline') Online
+                            .label.label-danger(ng-hide='chatUserOnline') Unavailable
+
+            .row.hidden-xs
+                .col-md-12.heading-banner.text-center
+                    label About
+                .col-md-12.content-box(style='padding: 5px;')
+                    p mPeers enables an user or a business to have an online contact point, where they can be reached for a chat and extend this reach online to all social networking platforms, websites, blogspots and other forums where user interact.
+        .visible-xs.col-xs-12.well.well-sm
+            .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
+                .col-md-12
+                    .media(ng-repeat='msg in msgs')
+                        img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
+                        .media-body
+                            p {{msg.msg}}
+            .row.chat-send-form
+                .col-md-12
+                    .input-group
+                        textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)')
+                        span.input-group-addon
+                            button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
 
 
         .modal.fade(id='UserDetailsDialog', tabindex='-1', role='dialog', aria-labelledby="Create Discussion", aria-hidden="true")

@@ -24,6 +24,9 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
 
     $scope.setActiveChat = function(chat){
         $scope.activeChat = chat;
+        if(!$scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host]){
+            $scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host] = [];
+        }
         $scope.activeChatMsgs = $scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host];
     };
 
@@ -32,6 +35,9 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     $scope.noOfScrollMsgs = 0;
 
     $scope.getToUser = function(chat){
+        if(!chat){
+            return {displayname: 'none', picture: '/profile/pictures/guest.png'};
+        }
         if(chat.users.length > 1){
             return chat.users[0]._id == $scope.currentUser._id ? chat.users[1] : chat.users[0];
         } else {
@@ -45,13 +51,12 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         if(fromUser == $scope.currentUser.username)
             return $scope.currentUser.picture;
         else{
-            $http.get('/users', {params:{username: from}}).success(function(users){
-                if(users.length > 0)
-                    return users[0].picture;
-                else
-                    return '/profile/pictures/guest.png';
-            });
-            return userPic;
+            if($scope.activeChat.anonymous_chat)
+                return '/profile/pictures/guest.png';
+            else {
+                var picOfUser = $scope.activeChat.users[0].username == fromUser ? $scope.activeChat.users[0] : $scope.activeChat.users[1];
+                return picOfUser.picture;
+            }
         }
     };
 
@@ -85,6 +90,11 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         });
     }
 
+    $scope.removeChat = function(chat){
+        if(confirm('Are you sure about deleting the conversation?')){
+            ChatManager.removeChat(chat);
+        }
+    }
 
     $scope.editUserDetails = function(){
         $location.path('/complete_profile');

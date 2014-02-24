@@ -1,4 +1,4 @@
-function RootCtrl($scope, $location, UserManager){
+function RootCtrl($scope, $location, UserManager, $window){
 	$scope.currentUser = UserManager.getCurrentUser();
 	$scope.isLoggedIn = UserManager.isLoggedIn();
 	
@@ -14,7 +14,7 @@ function RootCtrl($scope, $location, UserManager){
 
 	$scope.logUserOut = function(){
 		UserManager.logout().then(function(){
-			$location.path('/home');
+            $window.location.href = '/home';
 		});
   	}
 
