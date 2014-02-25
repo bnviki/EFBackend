@@ -12,8 +12,6 @@ block content
             .row
                 .col-md-12.text-center.heading-banner
                     label Conversation with {{chatUser.displayname}}
-                    .btn.btn-danger.btn-xs.pull-right(ng-click='removeChat(activeChat._id)')
-                        .glyphicon.glyphicon-trash
                     .btn.btn-default.btn-xs.pull-right
                         .glyphicon.glyphicon-envelope
                     .btn.btn-default.btn-xs.pull-right
@@ -29,7 +27,7 @@ block content
                     .row.chat-send-form
                         .col-md-12
                             .input-group
-                                textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)')
+                                textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)', ng-focus='checkForUsername()')
                                 span.input-group-addon
                                     button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
         .col-md-4.col-xs-12
@@ -49,7 +47,7 @@ block content
                 .col-md-12.heading-banner.text-center
                     label About
                 .col-md-12.content-box(style='padding: 5px;')
-                    p mPeers enables an user or a business to have an online contact point, where they can be reached for a chat and extend this reach online to all social networking platforms, websites, blogspots and other forums where user interact.
+                    | {{chatUser.about}}
         .visible-xs.col-xs-12.well.well-sm
             .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
                 .col-md-12
@@ -60,7 +58,7 @@ block content
             .row.chat-send-form
                 .col-md-12
                     .input-group
-                        textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)')
+                        textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)', ng-focus='checkForUsername()')
                         span.input-group-addon
                             button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
 
@@ -73,7 +71,7 @@ block content
                         h5(ng-show='chatUserOnline') Please provide your details
                         h5(ng-hide='chatUserOnline') Offline
                     .modal-body
-                        p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. You can leave a message, please give your name and message.
+                        p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. he says "{{chatUser.offline_message}}".
                         p(ng-show='chatUserOnline') A chat request will be sent to {{userFromURL}}, please give your name and topic for the chat.
                         form.init-form(role='form', name='InitChatForm', novalidate)
                             .form-group

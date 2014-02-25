@@ -38,6 +38,8 @@ var UserSchema = new mongoose.Schema({
     about: {type: String},
     phone: {type: String},
     address: {type: String},
+    welcome_message: {type: String},
+    offline_message: {type: String},
 
     validated: {
         type: Boolean,

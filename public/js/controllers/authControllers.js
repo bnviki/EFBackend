@@ -19,7 +19,7 @@ function RootCtrl($scope, $location, UserManager, $window){
   	}
 
     $scope.editUserDetails = function(){
-        $location.path('/complete_profile');
+        //$location.path('/complete_profile');
     }
 }
 

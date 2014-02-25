@@ -30,12 +30,12 @@ script.
         .form-group
             label(for='fileupload') Choose your profile pic
             .col-md-12
-                img(ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
                 .fileinput.fileinput-new(data-provides='fileinput', style='padding-left: 10px;')
                     .btn.btn-default.btn-file.pull-left
-                        .fileinput-new Change Picture
-                        .fileinput-exists Change
-                        input(id="fileupload", type="file", name="files[]", data-url="/upload")
+                        .fileinput-new
+                        .fileinput-exists
+                        img(ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
+                        input(id="fileupload", type="file", name="files[]", data-url="/upload", style='height:80px; width:80px;')
                     .fileinput-filename.pull-left(style='padding: 10px;')
                     a.close.fileinput-exists(href='#', data-dismiss='fileinput', style='float: right; padding-top: 10px;') &times;
             .progress(style='display: none')

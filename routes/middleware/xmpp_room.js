@@ -34,7 +34,7 @@ var xmpp_room = function (roomName, userNickname){
                     c('field',{var:'FORM_TYPE'}).c('value').t('http://jabber.org/protocol/muc#roomconfig').up().up().
                     c('field',{var:'muc#roomconfig_roomname'}).c('value').t(_self.roomInfo.roomName).up().up().
                     c('field',{var:'muc#roomconfig_roomdesc'}).c('value').t('mpeers room').up().up().
-                    c('field',{var:'muc#roomconfig_enablelogging'}).c('value').t(0).up().up().
+                    c('field',{var:'muc#roomconfig_enablelogging'}).c('value').t(1).up().up().
                     c('field',{var:'muc#roomconfig_changesubject'}).c('value').t(1).up().up().
                     c('field',{var:'muc#roomconfig_allowinvites'}).c('value').t(0).up().up().
                     c('field',{var:'muc#roomconfig_maxusers'}).c('value').t(10).up().up().

@@ -11,6 +11,18 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         $location.path('/');
     }
 
+    //these values are for jquery file upload plugin
+    $('#userid').val($scope.currentUser._id);
+    $('#user_name').val($scope.currentUser.username);
+
+    $scope.userPicChangeExt = function(){
+        var pic = $('#user_picture').val();
+        if(pic != $scope.currentUser.picture){
+            $scope.currentUser.picture = pic;
+            $scope.$apply();
+        }
+    }
+
     $scope.updateScrollMsgs = function(){
         if($scope.activeChatMsgs)
             $scope.noOfScrollMsgs = $scope.activeChatMsgs.length;

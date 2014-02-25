@@ -90,8 +90,12 @@
     margin-top: 5px;
 }
 
+.content-box label{
+    padding-left: 0px;
+}
+
 .heading-banner {
-    background: rgb(103, 92, 126);
+    background: rgb(74, 65, 94);
     padding: 3px 30px;
     color: #e7e7e7;
     font-size: 11px;
@@ -114,4 +118,8 @@
     color: #f5f5f5;
 }
 
+#conversation-list .active {
+    background: rgb(103, 92, 126);
+    border-color: rgb(103, 92, 126);
+}
 

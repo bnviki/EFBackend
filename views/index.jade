@@ -44,11 +44,15 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
         #wrap
             .navbar.navbar-fixed-top.navbar-inverse
                 .container.navbar-inner
-                    a(class='navbar-brand', href='/', style='padding: 5px;')
-                        img(src='/img/logo.png', style='width:50%; height:100%')
-                    .nav.navbar-nav.navbar-left
-                        li
-                            a(href='#') browse
+                    a(class='navbar-brand', href='/', style='padding: 5px; padding-top: 10px')
+                        img(src='/img/logo.png', style='width:45%; height:100%')
+
+                    .col-md-5.input-group.input-group-sm(style='margin-top: 1%')
+                        input.form-control(type='text', placeholder='search by name or copy & paste URL', ng-model='searchQuery')
+                        .input-group-btn
+                            .btn.btn-default
+                                | Go
+
                     .nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
                         li.hidden-xs
                             a(class='pull-right', href='#', style='font-weight: bolder;', ng-click='editUserDetails()') {{currentUser.displayname}}

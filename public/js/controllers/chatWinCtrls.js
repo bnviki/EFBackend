@@ -13,6 +13,7 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
     $scope.chatReqSent = null;
     $scope.currentChat = null;
     $scope.userFromURL = $routeParams.username;
+    $scope.currentUsername = null;
 
     if(UserManager.getCurrentUser()){
         $location.path('/dash').search({username: $routeParams.username});
@@ -24,13 +25,16 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
                 $scope.chatUser = data[0];
                 $http.get('/plugins/presence/status', {params:{jid:$scope.chatUser.username + '@' + ChatClient.host, type:'xml'}}).success(function(data){
                     console.log('presence: ' + data);
+                    $scope.msgs.push({from:'system', msg:'Welcome to mPeers'});
                     if(data.search('unavailable') == -1){
                         $scope.chatUserOnline = true;
+                        $scope.msgs.push({from:'system', msg: $scope.chatUser.welcome_message});
                     }
-                    else
+                    else {
                         $scope.chatUserOnline = false;
-                    $scope.msgs.push({from:'system', msg:'Welcome to mPeers'});
-                    $('#UserDetailsDialog').modal('show');
+                        $scope.msgs.push({from:'system', msg: $scope.chatUser.offline_message});
+                    }
+                    //$('#UserDetailsDialog').modal('show');
                 });
             } else{
                 alert($routeParams.username + ' does not seem to exist on mPeers.');
@@ -61,8 +65,15 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
     $scope.msgs = [];
     $scope.noOfScrollMsgs = 0;
 
+    $scope.checkForUsername = function(){
+        if(!$scope.currentUsername || $scope.currentUsername == ''){
+            $('#UserDetailsDialog').modal('show');
+        }
+    }
+
     $scope.initChat = function(newChat){
         if(newChat.username != '' && newChat.topic != ''){
+            $scope.currentUsername = newChat.username;
             $('init_chat_btn').attr('disabled','disabled');
             /*if(!$scope.chatUserOnline){
              var msgRequest = {name: newChat.username, msg: newChat.topic};

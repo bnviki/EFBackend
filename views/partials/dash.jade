@@ -1,27 +1,59 @@
 link(rel='stylesheet', href='css/dash.css')
 
 script.
-  $(function(){
-    /*$('#chat-content').height($(window).height()/2);
-    $('#chat-content').slimScroll({
-      height: 'auto',
-    });*/
-  });
+  $('#fileupload').fileupload({
+        dataType: 'json',
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('.progress').css(
+                'display', 'block'
+            );
+            $('.progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        },
+        done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    $.post("/users/" + $('#userid').val(), {username: $('#user_name').val(), picture: file.url}, function(data){
+                        $('#user_picture').val(file.url);
+                        $('#user_picture').trigger('input');
+                        console.log('updated profile pic');
+                    });
+                });
+              }
+    })
+
 block content
     .col-md-10.col-md-offset-1
         .col-md-9.column(style='border-right: solid; border-right-color: beige;')
-            .row#user-banner(style='margin-bottom: 10px;')
+            .row#user-banner
                 .col-md-12.col-xs-12
                     .col-md-2.col-xs-4
-                        img.img-thumbnail.pull-right(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
+                        .fileinput.fileinput-new(data-provides='fileinput', style='margin-bottom: 0px; margin-top: 5px;')
+                            .btn.btn-default.btn-file.pull-left(style='padding: 1px;')
+                                .fileinput-new
+                                .fileinput-exists
+                                img(ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
+                                input(id="fileupload", type="file", name="files[]", data-url="/upload", style='height:80px; width:80px;')
+                            .fileinput-filename.pull-left
+                            //a.close.fileinput-exists(href='#', data-dismiss='fileinput', style='float: right; padding-top: 10px;') &times;
+                        //.progress(style='display: none')
+                            .progress-bar(id='fileuploadprogress', role='progressbar', aria-valuenow="0", aria-valuemin="0", aria-valuemax="100", style="width: 0%;")
+                        input(id='userid', type='hidden')
+                        input(id='user_name', type='hidden')
+                        input(id='user_picture', ng-model='currentUser.picture', style='display: none')
+
+                        //img.img-thumbnail.pull-right(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
                     .col-md-6.col-xs-8
-                        h5.text-left(style='font-weight: bold;')
-                            | {{currentUser.displayname}}
+                        h5.text-left(style='font-weight: bold; color: white;')
+                            a(href='#', id='welcomeMsg', editable-text="currentUser.displayname", onbeforesave='updateStatus($data)', style='font-size: 12px; color:white;')
+                                | {{ currentUser.displayname || 'display name' }}
                         .hidden-xs.col-md-12(style='padding-left:0px;')
-                            a(href='#', editable-text="currentUser.status_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                | {{ currentUser.status_message || 'One line description' }}
-                        label.chat-url.text-primary(style='', data-toggle="tooltip", title="Share this URL")
-                            img.hidden-xs.pull-left(src='img/p.png', style='width:15px; height:15px; margin-right:5px;')
+                            a(href='#', editable-text="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px; color: whitesmoke')
+                                | {{ currentUser.description || 'One line description' }}
+                        label.chat-url(style='', data-toggle="tooltip", title="Share this URL")
+                            img.hidden-xs.pull-left(src='img/pw.png', style='width:15px; height:15px; margin-right:5px;')
                             | www.mpeers.com/{{currentUser.username}}
                     .col-md-4.pull-right
                         .btn.btn-default.btn-xs.pull-right(ng-click='activeChat = null')
@@ -34,30 +66,32 @@ block content
                             label Settings
 
                         .col-md-12.content-box
-                            .col-md-12
+                            .col-md-12(style='padding: 5px;')
                                 .form-group
                                     label.col-md-12(for='welcomeMsg') Welcome message
                                     a(href='#', id='welcomeMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                        | {{ currentUser.welcome_message || 'Set the initial message to be shown to user' }}
+                                        pre {{ currentUser.welcome_message || 'Set the initial message to be shown to user' }}
                                 .form-group
                                     label.col-md-12(for='offlineMsg') Offline message
-                                    a(href='#', id='offlineMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                        | {{ currentUser.welcome_message || 'Set the message to show when you are offline' }}
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.offline_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.offline_message || 'Set the message to show when you are offline' }}
                                 .form-group
                                     label.col-md-12(for='about') About
-                                    a(href='#', id='about', editable-textarea="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                        | {{ currentUser.welcome_message || 'Details' }}
+                                    a(href='#', id='about', editable-textarea="currentUser.about", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.about || 'Details' }}
                                 .form-group
                                     label.col-md-12(class="control-label", for="descSignup") Description
-                                    a(href='#', id='offlineMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                        | {{ currentUser.welcome_message || 'one line description' }}
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.description || 'one line description' }}
                                 .form-group
                                     label.col-md-12(class="control-label", for="locationSignup") Location
-                                    input(class="form-control", type="text", ng-autocomplete, id="locationSignup", ng-model='userSignup.location')
+                                    //input(class="form-control", type="text", ng-autocomplete, id="locationSignup", ng-model='userSignup.location')
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.location", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.location || 'set location' }}
                                 .form-group
                                     label.col-md-12(class="control-label", for="phoneNoSignup") Contact no.
-                                    a(href='#', id='offlineMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                        | {{ currentUser.welcome_message || 'your contact phone number' }}
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.phone", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.phone || 'your contact phone number' }}
 
 
 
@@ -92,8 +126,8 @@ block content
                 .col-md-12.chatrequests
                     .col-md-12.text-center.heading-banner
                         label Conversations
-                    .list-group
-                        a.list-group-item(href='#', ng-repeat='chat in chats', id='{{chat._id}}', ng-click='setActiveChat(chat)')
+                    .list-group#conversation-list
+                        a.list-group-item(href='#', ng-repeat='chat in chats', id='{{chat._id}}', ng-click='setActiveChat(chat)', ng-class='{active: activeChat._id == chat._id}')
                             .media
                                 img.pull-left.media-object(ng-src='{{getToUser(chat).picture}}', style='width:30px;height:30px')
                                 .media-body
