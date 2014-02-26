@@ -6,6 +6,7 @@ var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 
             when('/chatwindow', {templateUrl: 'partial/chatwindow'}).
             when('/admin', {templateUrl: 'partial/adminpage', controller: ProfileCtrl}).
             when('/dash', {templateUrl: 'partial/dash', controller: DashCtrl}).
+            when('/search', {templateUrl: 'partial/search', controller: SearchCtrl}).
             when('/:username', {templateUrl: 'partial/chatwindow'}).
             otherwise({redirectTo: '/home'});
         $locationProvider.html5Mode(true);

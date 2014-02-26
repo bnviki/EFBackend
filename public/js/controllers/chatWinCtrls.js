@@ -34,7 +34,7 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
                         $scope.chatUserOnline = false;
                         $scope.msgs.push({from:'system', msg: $scope.chatUser.offline_message});
                     }
-                    //$('#UserDetailsDialog').modal('show');
+                    $('#UserDetailsDialog').modal('show');
                 });
             } else{
                 alert($routeParams.username + ' does not seem to exist on mPeers.');

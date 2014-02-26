@@ -33,13 +33,18 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     $scope.chats = ChatManager.currentChats;
     $scope.activeChat = null;
     $scope.activeChatMsgs = null;
+    $scope.unseenChats = {};
+    $scope.trackUnseen = false; // used to trigger when to start tracking unseen messages
 
     $scope.setActiveChat = function(chat){
+        $scope.trackUnseen = true;
         $scope.activeChat = chat;
         if(!$scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host]){
             $scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host] = [];
         }
         $scope.activeChatMsgs = $scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host];
+        if($scope.unseenChats[chat.room.toLowerCase()])
+            $scope.unseenChats[chat.room.toLowerCase()] = false;
     };
 
     $scope.msgs = ChatManager.msgs;
@@ -127,14 +132,22 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
 
     $rootScope.$on('NewChatMsg', function(event, newmsg){
         $scope.updateScrollMsgs();
+        var room = newmsg.from.search('conference') != -1? newmsg.from : newmsg.to;
+        room = room.substring(0, room.indexOf('@'));
+        if(!($scope.activeChat && $scope.activeChat.room.toLowerCase() == room) && $scope.trackUnseen)
+            $scope.unseenChats[room] = true;
     });
 
 
     $rootScope.$on('NewChatAdded', function(event, chat){
-        //highlight new chat
+        if($scope.trackUnseen){
+            $scope.unseenChats[chat.room.toLowerCase()] = true;
+        }
     });
 
     if($routeParams.username && $routeParams.username != ''){
-        $scope.sendChatRequest($routeParams.username);
+        if(!($scope.currentUser && $scope.currentUser.username == $routeParams.username))
+            $scope.sendChatRequest($routeParams.username);
+        $location.search("");
     }
 }

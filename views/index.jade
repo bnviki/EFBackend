@@ -29,10 +29,9 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
             script(src='js/lib/ngAutocomplete.js')
 
             script(src='js/controllers/authControllers.js')
-            script(src='js/controllers/discussionCtrls.js')
             script(src='js/controllers/userCtrls.js')
+            script(src='js/controllers/searchCtrls.js')
             script(src='js/controllers/chatCtrls.js')
-            script(src='js/controllers/mainCtrls.js')
             script(src='js/controllers/chatWinCtrls.js')
             script(src='js/controllers/dashCtrls.js')
             script(src='js/services.js')
@@ -48,7 +47,7 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
                         img(src='/img/logo.png', style='width:45%; height:100%')
 
                     .col-md-5.input-group.input-group-sm(style='margin-top: 1%')
-                        input.form-control(type='text', placeholder='search by name or copy & paste URL', ng-model='searchQuery')
+                        input.form-control(type='text', placeholder='search by name or copy & paste URL', ng-model='searchQuery', ng-enter='search(searchQuery)')
                         .input-group-btn
                             .btn.btn-default
                                 | Go

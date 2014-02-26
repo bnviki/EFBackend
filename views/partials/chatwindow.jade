@@ -46,8 +46,8 @@ block content
             .row.hidden-xs
                 .col-md-12.heading-banner.text-center
                     label About
-                .col-md-12.content-box(style='padding: 5px;')
-                    | {{chatUser.about}}
+                .col-md-12.content-box(style='padding: 5px; white-space: pre-wrap;')
+                    p(style='text-align: justify') {{chatUser.about}}
         .visible-xs.col-xs-12.well.well-sm
             .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
                 .col-md-12

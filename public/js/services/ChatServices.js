@@ -11,11 +11,7 @@ angular.module('ChatServices', ['ngResource'])
         chatClient.messages = []; //[{from: "pukki@vikram", msg: "hi!"}];
         chatClient.conn = null;
         chatClient.user = null;
-        chatClient.host = null;
-        if($location.host().search('localhost') == -1)
-            chatClient.host = 'ip-172-31-9-1';
-        else
-            chatClient.host = 'vikram';
+        chatClient.host = 'vikram';
 
         chatClient.connect = function(username, password){
             var deffered = $q.defer();
@@ -136,17 +132,6 @@ angular.module('ChatServices', ['ngResource'])
                 if(!chatManager.msgs[room])
                     chatManager.msgs[room] = [];
                 chatManager.msgs[room].push(newmsg);
-
-                /*if(newmsg.from == ChatClient.user){
-                    if(!chatManager.msgs[newmsg.to])
-                        chatManager.msgs[newmsg.to] = [];
-                    chatManager.msgs[newmsg.to].push(newmsg);
-                } else {
-                    if(!chatManager.msgs[newmsg.from])
-                        chatManager.msgs[newmsg.from] = [];
-
-                    chatManager.msgs[newmsg.from].push(newmsg);
-                } */
             });
 
             chatManager.createNewChat = function(chat){

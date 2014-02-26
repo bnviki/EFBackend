@@ -38,6 +38,21 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/users/search', function(req, res) {
+        var query = new RegExp(req.query.searchquery, 'i');
+        var allUsers = User.find({displayname: query}, function(err, users) {
+            if (err) {
+                return next(err);
+            }
+            var jsonUsers = [];
+            users.forEach(function(user){
+                jsonUsers.push(user.toJSON());
+            });
+            res.send(jsonUsers);
+        });
+    });
+
+
     app.get('/users', function(req, res) {
         var allUsers = User.find(req.query,function(err, users) {
             if (err) {

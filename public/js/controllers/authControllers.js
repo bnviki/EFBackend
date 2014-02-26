@@ -21,6 +21,13 @@ function RootCtrl($scope, $location, UserManager, $window){
     $scope.editUserDetails = function(){
         //$location.path('/complete_profile');
     }
+
+    $scope.search = function(query){
+        query = query.trim();
+        if(query && query != ''){
+            $location.path('/search').search({search: query});
+        }
+    }
 }
 
 function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient){
