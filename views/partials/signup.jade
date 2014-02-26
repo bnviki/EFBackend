@@ -1,24 +1,39 @@
-.col-md-6
-    #signup-form
-        form(class='form-horizontal')
-            .form-group
-                label(class="col-md-3 control-label", for="userNameSignup") Username*
-                .col-md-7
-                    input(class="form-control", type="text", id="userNameSignup", placeholder="This will be used in URL", ng-model='userSignup.username')
-            .form-group
-                label(class="col-md-3 control-label", for="inputEmailSignup") Email*
-                .col-md-7
-                    input(class="form-control", type="text", id="inputEmailSignup", placeholder="Email", ng-model='userSignup.email')
-            .form-group
-                label(class="col-md-3 control-label", for="inputPasswordSignup") Password*
-                .col-md-7
-                    input(class="form-control", type="password", id="inputPasswordSignup", placeholder="Password", ng-model='userSignup.password')
-            .form-group
-                label(class="col-md-3 control-label", for="confirmPasswordSignup") Confirm Password*
-                .col-md-7
-                    input(class="form-control", type="password", id="confirmPasswordSignup", placeholder="Confirm password")
-            .form-group
-                label(class="col-md-3 control-label", for="compNameSignup") Name*
-                .col-md-7
-                    input(class="form-control", type="text", id="compNameSignup", placeholder="Display Name", ng-model='userSignup.displayname')
-            .btn.btn-default(type='submit', ng-click='signupUser(userSignup)') Sign up
+link(rel='stylesheet', href='css/search.css')
+.col-md-8.col-md-offset-2
+    .row
+        .col-md-12.text-center.heading-banner
+            label SignUp
+    .row
+        .col-md-12.content-box
+            #signup-form
+                form(name='signupForm', class='form-horizontal')
+                    .form-group
+                        label(class="col-md-3 control-label", for="userNameSignup") Username*
+                        .col-md-7
+                            input(class="form-control", name="userNameSignup", type="text", id="userNameSignup", placeholder="This will be used in URL", ng-model='userSignup.username', required, unique-username, ng-minlength='5', ng-pattern=/^[a-z0-9]+$/)
+                            p(ng-show="signupForm.userNameSignup.$error.uniqueUsername", class="help-block") That username is already taken.
+                            p(ng-show="signupForm.userNameSignup.$error.minlength", class="help-block") Minimum length must be 5.
+                            p(ng-show="signupForm.userNameSignup.$error.pattern", class="help-block") Only alphanumeric allowed.
+                    .form-group
+                        label(class="col-md-3 control-label", for="inputEmailSignup") Email*
+                        .col-md-7
+                            input(class="form-control", type="email", name='inputEmailSignup', id="inputEmailSignup", placeholder="Email", ng-model='userSignup.email', required, unique-email)
+                            p(ng-show="signupForm.inputEmailSignup.$error.uniqueEmail", class="help-block") That email is already registered.
+                            p(ng-show="signupForm.inputEmailSignup.$error.email", class="help-block") Not a valid email.
+                    .form-group
+                        label(class="col-md-3 control-label", for="inputPasswordSignup") Password*
+                        .col-md-7
+                            input(class="form-control", type="password", name='inputPasswordSignup', id="inputPasswordSignup", placeholder="Password", ng-model='userSignup.password', required, ng-minlength='7')
+                            p(ng-show="signupForm.inputPasswordSignup.$error.minlength", class="help-block") Minimum length must be 7.
+                    .form-group
+                        label(class="col-md-3 control-label", for="confirmPasswordSignup") Confirm Password*
+                        .col-md-7
+                            input(class="form-control", type="password", name='confirmPasswordSignup', id="confirmPasswordSignup", placeholder="Confirm password", ng-model='confirmPassword', required, confirm-password='userSignup.password')
+                            p(ng-show="signupForm.confirmPasswordSignup.$error.confirmPassword", class="help-block") Password do not match.
+                    .form-group
+                        label(class="col-md-3 control-label", for="compNameSignup") Name*
+                        .col-md-7
+                            input(class="form-control", type="text", id="compNameSignup", placeholder="Display Name", ng-model='userSignup.displayname', required)
+                    .col-md-offset-4
+                        .btn.btn-primary(ng-disabled='!signupForm.$valid', type='submit', ng-click='signupUser(userSignup)', style='margin: 5px;') Sign up
+                        .btn.btn-default(ng-click='cancelSignup()') Cancel

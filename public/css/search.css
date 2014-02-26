@@ -35,3 +35,13 @@
     margin-top: 5px;
 }
 
+form input.ng-invalid.ng-dirty {
+    border: solid;
+    border-color: #FA787E;
+}
+
+form input.ng-valid.ng-dirty {
+
+    border-color: #78FA89;
+}
+

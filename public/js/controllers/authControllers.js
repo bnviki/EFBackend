@@ -69,6 +69,10 @@ function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient
             $log.log("success");
         });
     }
+
+    $scope.cancelSignup = function(){
+        $location.path('/home');
+    }
 }
 
 function ProfileCtrl($scope, User) {

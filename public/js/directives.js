@@ -42,3 +42,89 @@ directiveMod.directive('ngSlimScroll', function() {
         })
     };
 });
+
+directiveMod.directive('uniqueUsername', function($http) {
+    var toId;
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, elem, attr, ctrl) {
+            //when the scope changes, check the email.
+            scope.$watch(attr.ngModel, function(value) {
+                // if there was a previous attempt, stop it.
+                if(toId) clearTimeout(toId);
+                if(!value || value == ''){
+                    ctrl.$setValidity('uniqueUsername', true);
+                    return;
+                }
+                // start a new attempt with a delay to keep it from
+                // getting too "chatty".
+                toId = setTimeout(function(){
+                    // call to some API that returns { isValid: true } or { isValid: false }
+                    $http.get('/users', {params: {username: value}}).success(function(data) {
+                        if(!data || data.length <= 0)
+                            ctrl.$setValidity('uniqueUsername', true);
+                        else if(data && data.length > 0)
+                            ctrl.$setValidity('uniqueUsername', false);
+                    });
+                }, 200);
+            })
+        }
+    }
+});
+
+directiveMod.directive('uniqueEmail', function($http) {
+    var toId;
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, elem, attr, ctrl) {
+            //when the scope changes, check the email.
+            scope.$watch(attr.ngModel, function(value) {
+                // if there was a previous attempt, stop it.
+                if(toId) clearTimeout(toId);
+                if(!value || value == ''){
+                    ctrl.$setValidity('uniqueEmail', true);
+                    return;
+                }
+                // start a new attempt with a delay to keep it from
+                // getting too "chatty".
+                toId = setTimeout(function(){
+                    // call to some API that returns { isValid: true } or { isValid: false }
+                    $http.get('/users', {params: {email: value}}).success(function(data) {
+                        if(!data || data.length <= 0)
+                            ctrl.$setValidity('uniqueEmail', true);
+                        else if(data && data.length > 0)
+                            ctrl.$setValidity('uniqueEmail', false);
+                    });
+                }, 200);
+            })
+        }
+    }
+});
+
+directiveMod.directive('confirmPassword', function($parse) {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, elem, attrs, ctrl) {
+            if (!ctrl) return;
+            if (!attrs['confirmPassword']) return;
+
+            var firstPassword = $parse(attrs['confirmPassword']);
+
+            var validator = function (value) {
+                var temp = firstPassword(scope),
+                    v = value === temp;
+                ctrl.$setValidity('confirmPassword', v);
+                return value;
+            }
+
+            ctrl.$parsers.unshift(validator);
+            ctrl.$formatters.push(validator);
+            attrs.$observe('confirmPassword', function () {
+                validator(ctrl.$viewValue);
+            });
+        }
+    }
+});
