@@ -5,7 +5,7 @@
  * Time: 6:12 PM
  * To change this template use File | Settings | File Templates.
  */
-function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, $http, ChatManager, $routeParams){
+var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $location, $http, ChatManager, $routeParams){
     $scope.currentUser = UserManager.getCurrentUser();
     if(!$scope.currentUser){
         $location.path('/');
@@ -164,3 +164,5 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
         }
     });
 }
+
+DashCtrl.$inject = ['$scope','UserManager','ChatClient','$rootScope','User','$location','$http','ChatManager','$routeParams'];

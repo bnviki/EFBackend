@@ -5,7 +5,7 @@
  * Time: 6:45 PM
  * To change this template use File | Settings | File Templates.
  */
-function SearchCtrl($scope, UserManager, $routeParams, $http, $location){
+var SearchCtrl = function ($scope, UserManager, $routeParams, $http, $location){
     $scope.currentUser = UserManager.getCurrentUser();
     $scope.results = [];
 
@@ -20,3 +20,5 @@ function SearchCtrl($scope, UserManager, $routeParams, $http, $location){
             $location.path('/chatwindow').search({username: user.username});
     }
 }
+
+SearchCtrl.$inject = ['$scope','UserManager','$routeParams','$http','$location'];

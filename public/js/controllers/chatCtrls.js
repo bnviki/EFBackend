@@ -1,4 +1,4 @@
-function chatCtrl($scope, $http, $rootScope, UserManager, Messenger, ChatManager){
+var chatCtrl = function ($scope, $http, $rootScope, UserManager, Messenger, ChatManager){
 	var currentUser = UserManager.getCurrentUser();
     $scope.chatReqs = [
         {_id: 1, username: 'vikram', topic: 'this is dummy topic', user: {picture: '/profile/pictures/guest.png'}},
@@ -84,6 +84,6 @@ function chatCtrl($scope, $http, $rootScope, UserManager, Messenger, ChatManager
             $scope.$apply();
         }
     });
-
-
 }
+
+chatCtrl.$inject = ['$scope', '$http', '$rootScope', 'UserManager', 'Messenger', 'ChatManager'];

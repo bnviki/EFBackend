@@ -1,4 +1,4 @@
-function RootCtrl($scope, $location, UserManager, $window){
+var RootCtrl = function ($scope, $location, UserManager, $window){
 	$scope.currentUser = UserManager.getCurrentUser();
 	$scope.isLoggedIn = UserManager.isLoggedIn();
 	
@@ -30,7 +30,9 @@ function RootCtrl($scope, $location, UserManager, $window){
     }
 }
 
-function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient){
+RootCtrl.$inject = ['$scope', '$location', 'UserManager', '$window'];
+
+var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User){
     var currentUser = UserManager.getCurrentUser();
     if(currentUser != null){
         $location.path('/dash');
@@ -75,7 +77,9 @@ function LoginCtrl($scope, $http, $location, UserManager, $log, User, ChatClient
     }
 }
 
-function ProfileCtrl($scope, User) {
+LoginCtrl.$inject = ['$scope', '$http', '$location', 'UserManager', '$log', 'User'];
+
+var ProfileCtrl = function ($scope) {
     $scope.qwerty = function(keys){
         var newUser = new User(keys);
         newUser.$save(function(savedUser){
@@ -84,7 +88,9 @@ function ProfileCtrl($scope, User) {
     };
 }
 
-function CompleteProfile($scope, UserManager, $location, User){
+ProfileCtrl.$inject = ['$scope'];
+
+var CompleteProfile = function ($scope, UserManager, $location, User){
     $scope.currentUser = UserManager.getCurrentUser();
     $('#userid').val($scope.currentUser._id);
     $('#user_name').val($scope.currentUser.username);
@@ -105,4 +111,5 @@ function CompleteProfile($scope, UserManager, $location, User){
 
 }
 
+CompleteProfile.$inject = ['$scope', 'UserManager', '$location', 'User'];
 

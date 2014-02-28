@@ -5,7 +5,7 @@
  * Time: 10:45 AM
  * To change this template use File | Settings | File Templates.
  */
-function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, ChatClient, Messenger, $location, ChatManager, $q){
+var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routeParams, ChatClient, Messenger, $location, ChatManager, $q){
     console.log("routeparams: " + $routeParams.username);
 
     $scope.chatUser = {};
@@ -117,3 +117,5 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
         }
     }
 }
+
+ChatWindowCtrl.$inject = ['$scope','$http','$rootScope','UserManager','$routeParams','ChatClient','Messenger','$location','ChatManager','$q'];

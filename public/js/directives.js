@@ -43,7 +43,7 @@ directiveMod.directive('ngSlimScroll', function() {
     };
 });
 
-directiveMod.directive('uniqueUsername', function($http) {
+directiveMod.directive('uniqueUsername', ['$http', function($http) {
     var toId;
     return {
         restrict: 'A',
@@ -71,9 +71,9 @@ directiveMod.directive('uniqueUsername', function($http) {
             })
         }
     }
-});
+}]);
 
-directiveMod.directive('uniqueEmail', function($http) {
+directiveMod.directive('uniqueEmail', ['$http', function($http) {
     var toId;
     return {
         restrict: 'A',
@@ -101,9 +101,9 @@ directiveMod.directive('uniqueEmail', function($http) {
             })
         }
     }
-});
+}]);
 
-directiveMod.directive('confirmPassword', function($parse) {
+directiveMod.directive('confirmPassword', ['$parse', function($parse) {
     return {
         restrict: 'A',
         require: 'ngModel',
@@ -127,4 +127,4 @@ directiveMod.directive('confirmPassword', function($parse) {
             });
         }
     }
-});
+}]);
