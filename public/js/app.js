@@ -1,11 +1,11 @@
 var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 'ngRoute', 'ChatServices', 'xeditable', 'ngAutocomplete']).
     config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider.
-            when('/home', {templateUrl: 'partial/login', controller: LoginCtrl}).
+            when('/home', {templateUrl: 'partial/home', controller: LoginCtrl}).
             when('/signup', {templateUrl: 'partial/signup', controller: LoginCtrl}).
             when('/chatwindow', {templateUrl: 'partial/chatwindow'}).
             when('/admin', {templateUrl: 'partial/adminpage', controller: ProfileCtrl}).
-            when('/dash', {templateUrl: 'partial/dash', controller: DashCtrl}).
+            when('/dash', {templateUrl: 'partial/dash'}).
             when('/search', {templateUrl: 'partial/search', controller: SearchCtrl}).
             when('/:username', {templateUrl: 'partial/chatwindow'}).
             otherwise({redirectTo: '/home'});

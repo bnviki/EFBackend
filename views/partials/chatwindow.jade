@@ -66,20 +66,21 @@ block content
         .modal.fade(id='UserDetailsDialog', tabindex='-1', role='dialog', aria-labelledby="Create Discussion", aria-hidden="true")
             .modal-dialog
                 .modal-content
-                    .modal-header
-                        button.close(data-dismiss="modal", aria-hidden="true") ×
-                        h5(ng-show='chatUserOnline') Please provide your details
-                        h5(ng-hide='chatUserOnline') Offline
-                    .modal-body
-                        p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. he says "{{chatUser.offline_message}}".
-                        p(ng-show='chatUserOnline') A chat request will be sent to {{userFromURL}}, please give your name and topic for the chat.
-                        form.init-form(role='form', name='InitChatForm', novalidate)
-                            .form-group
-                                label(for='username') Your Name
-                                input.form-control(id='username', name='uName', type='text', ng-model='newChat.username', required)
-                            .form-group
-                                label(ng-show='chatUserOnline', for='topic') Topic
-                                label(ng-hide='chatUserOnline', for='topic') Message
-                                textarea.form-control(id='topic', name='uTopic', type='text', rows='5', ng-model='newChat.topic', style='width: 98%', required)
+                    .col-md-12
+                        .row
+                            .col-md-12.heading-banner.text-center
+                                label(ng-show='chatUserOnline') Please provide your details
+                                label(ng-hide='chatUserOnline') Offline
+                                button.close(data-dismiss="modal", aria-hidden="true") ×
+                    .col-md-12
+                        .col-md-12.text-center(style='margin-top: 5px;')
+                            p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. he says "{{chatUser.offline_message}}".
+                            p(ng-show='chatUserOnline') A chat request will be sent to {{userFromURL}}, please give your name and topic for the chat.
+                        .col-md-12
+                            form.init-form(role='form', name='InitChatForm', novalidate)
+                                .form-group
+                                    input.form-control(id='username', placeholder='Your Name', name='uName', type='text', ng-model='newChat.username', required)
+                                .form-group
+                                    textarea.form-control(id='topic', placeholder='Message', name='uTopic', type='text', rows='5', ng-model='newChat.topic', style='width: 98%')
                     .modal-footer
-                        button.btn.btn-default(id='init_chat_btn', type='submit', ng-click='initChat(newChat)', ng-disabled='InitChatForm.$invalid') Send request
+                        .btn.btn-primary(id='init_chat_btn', type='submit', ng-click='initChat(newChat)', ng-disabled='InitChatForm.$invalid') Start Chatting

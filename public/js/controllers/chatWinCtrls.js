@@ -18,8 +18,7 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
     if(UserManager.getCurrentUser()){
         $location.path('/dash').search({username: $routeParams.username});
     }
-
-    if($routeParams.username && $routeParams.username != ''){
+    else if($routeParams.username && $routeParams.username != ''){
         $http.get('/users', {params:{username:$routeParams.username}}).success(function(data){
             if(data.length > 0){
                 $scope.chatUser = data[0];
@@ -42,9 +41,6 @@ function ChatWindowCtrl($scope, $http, $rootScope, UserManager, $routeParams, Ch
                 $location.path('/home');
             }
         });
-    } else {
-        $location.search('username', null);
-        $location.path('/home');
     }
 
     $scope.isSystemMsg = function(msg){

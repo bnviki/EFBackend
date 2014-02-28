@@ -15,6 +15,25 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
     $('#userid').val($scope.currentUser._id);
     $('#user_name').val($scope.currentUser.username);
 
+    if($routeParams.username && $routeParams.username != ''){
+        if(!($scope.currentUser && $scope.currentUser.username == $routeParams.username)){
+            $http.get('/users', {params:{username: $routeParams.username}}).success(function(users){
+                if(users.length > 0){
+                    $scope.userToChat = users[0];
+                    $http.get('/plugins/presence/status', {params:{jid:$scope.userToChat.username + '@' + ChatClient.host, type:'xml'}}).success(function(data){
+                        if(data.search('unavailable') == -1){
+                            $scope.userToChat.chatUserOnline = true;
+                        }
+                        else
+                            $scope.userToChat.chatUserOnline = false;
+                        $('#ChatRequestDialog').modal('show');
+                    });
+                }
+            });
+        }
+        //$location.search("");
+    }
+
     $scope.userPicChangeExt = function(){
         var pic = $('#user_picture').val();
         if(pic != $scope.currentUser.picture){
@@ -144,10 +163,4 @@ function DashCtrl($scope, UserManager, ChatClient, $rootScope, User, $location, 
             $scope.unseenChats[chat.room.toLowerCase()] = true;
         }
     });
-
-    if($routeParams.username && $routeParams.username != ''){
-        if(!($scope.currentUser && $scope.currentUser.username == $routeParams.username))
-            $scope.sendChatRequest($routeParams.username);
-        $location.search("");
-    }
 }
