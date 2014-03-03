@@ -7,10 +7,10 @@ link(rel='stylesheet', href='css/search.css')
         .col-md-12
             .userbox.pull-left(ng-repeat='user in results')
                 .row
-                    .col-md-3
-                        img.pull-left(ng-src='{{user.picture}}', style='height: 60px; width:60px;')
+                    .col-md-4
+                        img.pull-left(ng-src='{{user.picture}}', style='height: 80px; width:80px;')
                         .btn.btn-primary.btn-sm(ng-click='sendChatRequest(user)') chat
-                    .col-md-9
+                    .col-md-8
                         label(style='margin-bottom:0px;') {{user.displayname}}
                         p {{user.description}}
-                        a(ng-href="{{'/' + user.username}}") {{'www.mpeers.com/' + user.username}}
+                        a(style='font-weight: bold;', ng-href="{{'/' + user.username}}") {{'www.mpeers.com/' + user.username}}

@@ -1,26 +1,26 @@
 link(rel='stylesheet', href='css/login.css')
 
-.col-md-10.col-md-offset-1
+.col-md-10.col-md-offset-1.col-xs-12
     .row
-        .col-md-12
+        .col-md-12.col-xs-12
             .col-md-6.col-md-offset-3.text-center
                 h3 Create your online contact URL
                 h4 www.mpeers.com/you
     .row
-        .col-md-12
+        .col-md-12.col-xs-12
             .row
                 hr
-                .col-md-7.jumbotron
+                .col-md-7.col-xs-12.jumbotron
                     ul
                         li Create your online contact point.
                         li Share it online.
                         li Others can "click and chat" with you.
-                .col-md-4.content-box(style='background: #eeeeee;')
+                .col-md-4.col-xs-10.content-box(style='background: #eeeeee;')
                     .row
-                        .col-md-12.heading-banner.text-center
+                        .col-md-12.col-xs-12.heading-banner.text-center
                             label Sign In
                     .row
-                        .col-md-12.text-center(style='padding: 5px; margin-top: 10px;')
+                        .col-md-12.col-xs-12.text-center(style='padding: 5px; margin-top: 10px;')
                             form.form-horizontal
                                 .col-md-12(style='margin-bottom: 10px;')
                                     input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
@@ -29,13 +29,13 @@ link(rel='stylesheet', href='css/login.css')
                                 .col-md-12
                                     .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)', style='margin-right: 5px;') Sign in
                                     label or
-                                    .btn.btn-success(type='submit', ng-click='', , style='margin-left: 5px;') Sign up
+                                    .btn.btn-success(type='submit', ng-click='', style='margin-left: 5px;') Sign up
 
 
             .row
                 h4 Who can use it
                 hr
-                .col-md-3.content-box.pull-left(style='height: 300px;')
+                .col-md-3.col-xs-8.content-box.pull-left(style='height: 300px;')
                     .row
                         .col-md-12.heading-banner.text-center
                             label Service providers
@@ -44,7 +44,7 @@ link(rel='stylesheet', href='css/login.css')
                     .row
                         .col-md-12.text-center
                             h4 Customers or prospective customers can chat with you without the hasle of signing up for a service or sharing their personnel info.
-                .col-md-3.content-box.pull-left(style='height: 300px;')
+                .col-md-3.col-xs-8.content-box.pull-left(style='height: 300px;')
                     .row
                         .col-md-12.heading-banner.text-center
                             label Events
@@ -53,7 +53,7 @@ link(rel='stylesheet', href='css/login.css')
                     .row
                         .col-md-12.text-center
                             h4 Participants and guests can stay connected with the event organisers.
-                .col-md-3.content-box.pull-left(style='height: 300px;')
+                .col-md-3.col-xs-8.content-box.pull-left(style='height: 300px;')
                     .row
                         .col-md-12.heading-banner.text-center
                             label Individual

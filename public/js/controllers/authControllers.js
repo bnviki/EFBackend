@@ -1,4 +1,4 @@
-var RootCtrl = function ($scope, $location, UserManager, $window){
+var RootCtrl = function ($scope, $location, UserManager, $window, $timeout){
 	$scope.currentUser = UserManager.getCurrentUser();
 	$scope.isLoggedIn = UserManager.isLoggedIn();
 	
@@ -14,7 +14,10 @@ var RootCtrl = function ($scope, $location, UserManager, $window){
 
 	$scope.logUserOut = function(){
 		UserManager.logout().then(function(){
-            $window.location.href = '/home';
+            $timeout(function(){
+                $window.location.href = '/home';
+                return true;
+            }, 500);
 		});
   	}
 
@@ -30,9 +33,9 @@ var RootCtrl = function ($scope, $location, UserManager, $window){
     }
 }
 
-RootCtrl.$inject = ['$scope', '$location', 'UserManager', '$window'];
+RootCtrl.$inject = ['$scope', '$location', 'UserManager', '$window', '$timeout'];
 
-var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User){
+var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User, $timeout, $window){
     var currentUser = UserManager.getCurrentUser();
     if(currentUser != null){
         $location.path('/dash');
@@ -58,11 +61,16 @@ var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User){
         var newUser = new User(user);
         newUser.$save(function(savedUser){
             //console.log('i saved the user: ' + savedUser.username);
-            UserManager.login(savedUser.username, savedUser.password).then(function(userIn){
-                console.log('logged in after signup');
-            }, function(err){
-                $scope.alerts.push({type:'error', msg: 'user already exists'});
-            });
+            $timeout(function(){
+                UserManager.login(savedUser.username, savedUser.password).then(function(userIn){
+                    console.log('logged in after signup');
+                    $window.location.href = '/home';
+
+
+                }, function(err){
+                    $scope.alerts.push({type:'error', msg: 'user already exists'});
+                });
+            }, 500);
         });
     }
 
@@ -77,7 +85,7 @@ var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User){
     }
 }
 
-LoginCtrl.$inject = ['$scope', '$http', '$location', 'UserManager', '$log', 'User'];
+LoginCtrl.$inject = ['$scope', '$http', '$location', 'UserManager', '$log', 'User', '$timeout', '$window'];
 
 var ProfileCtrl = function ($scope) {
     $scope.qwerty = function(keys){

@@ -96,9 +96,12 @@ var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $loc
         }
     };
 
-    $scope.sendMsg = function(msg){
-        if(msg && msg != '' && $scope.activeChat != null){
-            ChatClient.sendMsg(msg, $scope.activeChat.room + '@conference.' + ChatClient.host);
+    $scope.sendMsg = function(msg, chat){
+        if(msg && msg != ''){
+            if(chat)
+                ChatClient.sendMsg(msg, chat.room + '@conference.' + ChatClient.host);
+            else if($scope.activeChat && $scope.activeChat != null)
+                ChatClient.sendMsg(msg, $scope.activeChat.room + '@conference.' + ChatClient.host);
             $scope.msgToSend = '';
         }
     }
@@ -145,8 +148,10 @@ var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $loc
 
     $scope.createNewChat = function(newChat){
         var chatreq = {users:[$scope.currentUser._id, $scope.userToChat._id], anonymous_chat: false};
-        ChatManager.createNewChat(chatreq);
-        $('#ChatRequestDialog').modal('hide');
+        ChatManager.createNewChat(chatreq).then(function(createdChat){
+            $scope.sendMsg(newChat.topic, createdChat);
+            $('#ChatRequestDialog').modal('hide');
+        });
     };
 
     $rootScope.$on('NewChatMsg', function(event, newmsg){

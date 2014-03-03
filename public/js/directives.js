@@ -33,7 +33,7 @@ directiveMod.directive('scrollToBottom', function() {
 
 directiveMod.directive('ngSlimScroll', function() {
     return function(scope, element, attrs) {
-        element.slimScroll({height: attrs.slimScrollHeight});
+        element.slimScroll({height: attrs.slimScrollHeight, allowPageScroll: true});
         scope.$watch(function(){
             return element.children().children().size();
         }, function(val){

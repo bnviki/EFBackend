@@ -24,124 +24,125 @@ script.
               }
     })
 
-.col-md-10.col-md-offset-1(ng-controller='DashCtrl')
-    .col-md-9.column(style='border-right: solid; border-right-color: beige;')
-        .row#user-banner
-            .col-md-12.col-xs-12
-                .col-md-2.col-xs-4
-                    .fileinput.fileinput-new(data-provides='fileinput', style='margin-bottom: 0px; margin-top: 5px;')
-                        .btn.btn-default.btn-file.pull-left(style='padding: 1px;')
-                            .fileinput-new
-                            .fileinput-exists
-                            img(ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
-                            input(id="fileupload", type="file", name="files[]", data-url="/upload", style='height:80px; width:80px;')
-                        .fileinput-filename.pull-left
-                        //a.close.fileinput-exists(href='#', data-dismiss='fileinput', style='float: right; padding-top: 10px;') &times;
-                    //.progress(style='display: none')
-                        .progress-bar(id='fileuploadprogress', role='progressbar', aria-valuenow="0", aria-valuemin="0", aria-valuemax="100", style="width: 0%;")
-                    input(id='userid', type='hidden')
-                    input(id='user_name', type='hidden')
-                    input(id='user_picture', ng-model='currentUser.picture', style='display: none')
+.col-md-10.col-md-offset-1.col-xs-12(ng-controller='DashCtrl')
+    div(class="row row-offcanvas row-offcanvas-right")
+        .col-md-9.col-xs-12(style='border-right: solid; border-right-color: beige;')
+            .row#user-banner
+                .col-md-12.col-xs-12
+                    .col-md-2.col-xs-4
+                        .fileinput.fileinput-new(data-provides='fileinput', style='margin-bottom: 0px; margin-top: 5px;')
+                            .btn.btn-default.btn-file.pull-left(style='padding: 1px;')
+                                .fileinput-new
+                                .fileinput-exists
+                                img(ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
+                                input(id="fileupload", type="file", name="files[]", data-url="/upload", style='height:80px; width:80px;')
+                            .fileinput-filename.pull-left
+                            //a.close.fileinput-exists(href='#', data-dismiss='fileinput', style='float: right; padding-top: 10px;') &times;
+                        //.progress(style='display: none')
+                            .progress-bar(id='fileuploadprogress', role='progressbar', aria-valuenow="0", aria-valuemin="0", aria-valuemax="100", style="width: 0%;")
+                        input(id='userid', type='hidden')
+                        input(id='user_name', type='hidden')
+                        input(id='user_picture', ng-model='currentUser.picture', style='display: none')
 
-                    //img.img-thumbnail.pull-right(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
-                .col-md-6.col-xs-8
-                    h5.text-left(style='font-weight: bold;')
-                        a(href='#', id='welcomeMsg', editable-text="currentUser.displayname", onbeforesave='updateStatus($data)', style='font-size: 12px; color: rgb(74, 65, 94);')
-                            | {{ currentUser.displayname || 'display name' }}
-                    .hidden-xs.col-md-12(style='padding-left:0px;')
-                        a(href='#', editable-text="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px; color: rgb(74, 65, 94);')
-                            | {{ currentUser.description || 'One line description' }}
-                    label.chat-url(style='', data-toggle="tooltip", title="Share this URL")
-                        img.hidden-xs.pull-left(src='img/p.png', style='width:15px; height:15px; margin-right:5px;')
-                        | www.mpeers.com/{{currentUser.username}}
-                .col-md-4.pull-right
-                    .btn.btn-default.btn-xs.pull-right(ng-click='activeChat = null')
-                        .glyphicon.glyphicon-wrench
+                        //img.img-thumbnail.pull-right(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
+                    .col-md-6.col-xs-7
+                        h5.text-left(style='font-weight: bold;')
+                            a(href='#', id='welcomeMsg', editable-text="currentUser.displayname", onbeforesave='updateStatus($data)', style='font-size: 12px; color: rgb(74, 65, 94);')
+                                | {{ currentUser.displayname || 'display name' }}
+                        .hidden-xs.col-md-12(style='padding-left:0px;')
+                            a(href='#', editable-text="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px; color: rgb(74, 65, 94);')
+                                | {{ currentUser.description || 'One line description' }}
+                        label.chat-url(style='', data-toggle="tooltip", title="Share this URL")
+                            img.hidden-xs.pull-left(src='img/p.png', style='width:15px; height:15px; margin-right:5px;')
+                            | www.mpeers.com/{{currentUser.username}}
+                    .col-md-4.col-xs-1.pull-right
+                        .btn.btn-default.btn-xs.pull-right(ng-click='activeChat = null')
+                            .glyphicon.glyphicon-wrench
 
-        .row
-            #settings.col-md-12(ng-hide='activeChat != null')
-                .row
-                    .col-md-12.text-center.heading-banner
-                        label Settings
-
-                    .col-md-12.content-box
-                        .col-md-12(style='padding: 5px;')
-                            .form-group
-                                label.col-md-12(for='welcomeMsg') Welcome message
-                                a(href='#', id='welcomeMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                    pre {{ currentUser.welcome_message || 'Set the initial message to be shown to user' }}
-                            .form-group
-                                label.col-md-12(for='offlineMsg') Offline message
-                                a(href='#', id='offlineMsg', editable-text="currentUser.offline_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                    pre {{ currentUser.offline_message || 'Set the message to show when you are offline' }}
-                            .form-group
-                                label.col-md-12(for='about') About
-                                a(href='#', id='about', editable-textarea="currentUser.about", e-rows='10', e-cols='50', onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                    pre {{ currentUser.about || 'Details' }}
-                            .form-group
-                                label.col-md-12(class="control-label", for="descSignup") Description
-                                a(href='#', id='offlineMsg', editable-text="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                    pre {{ currentUser.description || 'one line description' }}
-                            .form-group
-                                label.col-md-12(class="control-label", for="locationSignup") Location
-                                //input(class="form-control", type="text", ng-autocomplete, id="locationSignup", ng-model='userSignup.location')
-                                a(href='#', id='offlineMsg', editable-text="currentUser.location", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                    pre {{ currentUser.location || 'set location' }}
-                            .form-group
-                                label.col-md-12(class="control-label", for="phoneNoSignup") Contact no.
-                                a(href='#', id='offlineMsg', editable-text="currentUser.phone", onbeforesave='updateStatus($data)', style='font-size: 12px;')
-                                    pre {{ currentUser.phone || 'your contact phone number' }}
-
-
-
-            #chat-box.col-md-12(ng-show='activeChat != null')
-                .row
-                    .col-md-12.text-center.heading-banner
-                        label Conversation with {{getToUser(activeChat).displayname}}
-                        .btn.btn-danger.btn-xs.pull-right(ng-click='removeChat(activeChat._id)')
-                            .glyphicon.glyphicon-trash
-                        .btn.btn-default.btn-xs.pull-right
-                            .glyphicon.glyphicon-envelope
-                        .btn.btn-default.btn-xs.pull-right
-                            .glyphicon.glyphicon-download-alt
-                .row
-                    .content-box.col-md-12
-                        .row(ng-slim-scroll slim-scroll-height='350px')
-                            .col-md-11.col-md-offset-1(style='margin-top: 20px;')
-                                .media(ng-repeat='msg in activeChatMsgs')
-                                    img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:30px;height:30px')
-                                    .media-body
-                                        p {{msg.msg}}
-
-                        .row.chat-send-form
-                            .col-md-12(ng-show='activeChat != null')
-                                .input-group.col-md-12
-                                    textarea#send-msg-text.form-control(type='text', ng-model='msgToSend', ng-enter='sendMsg(msgToSend)')
-                                    span.input-group-addon
-                                        button.btn.btn-primary(type='submit', ng-click='sendMsg(msgToSend)') Send
-
-    .col-md-3.column
-        .row.clearfix(ng-controller='chatCtrl')
-            .col-md-12.chatrequests
-                .col-md-12.text-center.heading-banner
-                    label Conversations
-                .list-group#conversation-list(ng-slim-scroll slim-scroll-height='500px')
-                    a.list-group-item(href='#', ng-repeat="chat in chats | orderBy: 'created_at': true", id='{{chat._id}}', ng-click='setActiveChat(chat)', ng-class='{active: activeChat._id == chat._id, unseen: unseenChats[chat.room.toLowerCase()]}')
-                        .media
-                            img.pull-left.media-object(ng-src='{{getToUser(chat).picture}}', style='width:30px;height:30px')
-                            .media-body
-                                p
-                                    label.chat-user-name {{getToUser(chat).displayname}}
-        .row.clearfix
-            .col-md-12#instructions
-                .col-md-12
+            .row
+                #settings.col-md-12.col-xs-12(ng-hide='activeChat != null')
                     .row
-                        .col-md-12.text-center.heading-banner
-                            label Quick tip
+                        .col-md-12.col-xs-12.text-center.heading-banner
+                            label Settings
+
+                        .col-md-12.col-xs-12.content-box
+                            .col-md-12.col-xs-12(style='padding: 5px;')
+                                .form-group
+                                    label.col-md-12(for='welcomeMsg') Welcome message
+                                    a(href='#', id='welcomeMsg', editable-text="currentUser.welcome_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.welcome_message || 'Set the initial message to be shown to user' }}
+                                .form-group
+                                    label.col-md-12(for='offlineMsg') Offline message
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.offline_message", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.offline_message || 'Set the message to show when you are offline' }}
+                                .form-group
+                                    label.col-md-12(for='about') About
+                                    a(href='#', id='about', editable-textarea="currentUser.about", e-rows='10', e-cols='50', onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.about || 'Details' }}
+                                .form-group
+                                    label.col-md-12(class="control-label", for="descSignup") Description
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.description || 'one line description' }}
+                                .form-group
+                                    label.col-md-12(class="control-label", for="locationSignup") Location
+                                    //input(class="form-control", type="text", ng-autocomplete, id="locationSignup", ng-model='userSignup.location')
+                                    a(href='#', id='offlineMsg', e-ng-autocomplete, editable-text="currentUser.location", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.location || 'set location' }}
+                                .form-group
+                                    label.col-md-12(class="control-label", for="phoneNoSignup") Contact no.
+                                    a(href='#', id='offlineMsg', editable-text="currentUser.phone", onbeforesave='updateStatus($data)', style='font-size: 12px;')
+                                        pre {{ currentUser.phone || 'your contact phone number' }}
+
+
+
+                #chat-box.col-md-12.col-xs-12(ng-show='activeChat != null')
                     .row
-                        .col-md-12.content-box
-                            p Share your chat URL online <strong> www.mpeers.com/{{currentUser.username}} </strong>
-                            | you can share with your social network, websites, blogs, advertisements etc.
+                        .col-md-12.col-xs-12.text-center.heading-banner
+                            label Conversation with {{getToUser(activeChat).displayname}}
+                            .btn.btn-danger.btn-xs.pull-right(ng-click='removeChat(activeChat._id)')
+                                .glyphicon.glyphicon-trash
+                            .btn.btn-default.btn-xs.pull-right
+                                .glyphicon.glyphicon-envelope
+                            .btn.btn-default.btn-xs.pull-right
+                                .glyphicon.glyphicon-download-alt
+                    .row
+                        .content-box.col-md-12.col-xs-12
+                            .row(ng-slim-scroll slim-scroll-height='350px')
+                                .col-md-11.col-md-offset-1(style='margin-top: 20px;')
+                                    .media(ng-repeat='msg in activeChatMsgs')
+                                        img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:30px;height:30px')
+                                        .media-body
+                                            p {{msg.msg}}
+
+                            .row.chat-send-form
+                                .col-md-12.col-xs-12(ng-show='activeChat != null')
+                                    .input-group.col-md-12.col-xs-12
+                                        textarea#send-msg-text.form-control(type='text', ng-model='msgToSend', ng-enter='sendMsg(msgToSend)')
+                                        span.input-group-addon
+                                            button.btn.btn-primary(type='submit', ng-click='sendMsg(msgToSend)') Send
+
+        .col-md-3.col-xs-10(class='sidebar-offcanvas', id='sidebar', role='navigation')
+            .row.clearfix(ng-controller='chatCtrl')
+                .col-md-12.col-xs-12.chatrequests
+                    .col-md-12.col-xs-12.text-center.heading-banner
+                        label Conversations
+                    .list-group#conversation-list(ng-slim-scroll slim-scroll-height='500px')
+                        a.list-group-item(href='#', ng-repeat="chat in chats | orderBy: 'created_at': true", id='{{chat._id}}', ng-click='setActiveChat(chat)', ng-class='{active: activeChat._id == chat._id, unseen: unseenChats[chat.room.toLowerCase()]}')
+                            .media
+                                img.pull-left.media-object(ng-src='{{getToUser(chat).picture}}', style='width:30px;height:30px')
+                                .media-body
+                                    p
+                                        label.chat-user-name {{getToUser(chat).displayname}}
+            .row.clearfix
+                .col-md-12.col-xs-12#instructions
+                    .col-md-12.col-xs-12
+                        .row
+                            .col-md-12.col-xs-12.text-center.heading-banner
+                                label Quick tip
+                        .row
+                            .col-md-12.col-xs-12.content-box
+                                p Share your chat URL online <strong> www.mpeers.com/{{currentUser.username}} </strong>
+                                | you can share with your social network, websites, blogs, advertisements etc.
 
     .modal.fade(id='ChatRequestDialog', tabindex='-1', role='dialog', aria-labelledby="Send Chat Request", aria-hidden="true")
         .modal-dialog

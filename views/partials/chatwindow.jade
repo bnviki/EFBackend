@@ -7,7 +7,7 @@ script.
   });*/
 
 block content
-    .col-md-10.col-md-offset-1(ng-controller='ChatWindowCtrl')
+    .col-md-10.col-md-offset-1.col-xs-12(ng-controller='ChatWindowCtrl')
         .col-md-8.hidden-xs
             .row
                 .col-md-12.text-center.heading-banner
@@ -32,7 +32,7 @@ block content
                                     button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
         .col-md-4.col-xs-12
             .row.clearfix.content-box(style='padding: 5px; padding-bottom: 10px;')
-                .col-md-12
+                .col-md-12.col-xs-12
                     .col-md-4.col-xs-4(style='padding-left: 0px;')
                         img.pull-left(alt='140x140', ng-src='{{chatUser.picture}}', style='width: 80px; height: 80px;')
                     .col-md-8.col-xs-8
@@ -48,15 +48,23 @@ block content
                     label About
                 .col-md-12.content-box(style='padding: 5px; white-space: pre-wrap;')
                     p(style='text-align: justify') {{chatUser.about}}
-        .visible-xs.col-xs-12.well.well-sm
+        .visible-xs.col-xs-12.content-box
+            .row
+                .col-xs-12.text-center.heading-banner
+                    label Conversation with {{chatUser.displayname}}
+                    .btn.btn-default.btn-xs.pull-right
+                        .glyphicon.glyphicon-envelope
+                    .btn.btn-default.btn-xs.pull-right
+                        .glyphicon.glyphicon-download-alt
+
             .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
-                .col-md-12
+                .col-xs-12
                     .media(ng-repeat='msg in msgs')
                         img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
                         .media-body
                             p {{msg.msg}}
-            .row.chat-send-form
-                .col-md-12
+            .row(style='position: fixed; bottom: 40px;')
+                .col-xs-12(style='margin-left: auto; margin-right: auto; padding-left: 0px; width: 100%;')
                     .input-group
                         textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)', ng-focus='checkForUsername()')
                         span.input-group-addon

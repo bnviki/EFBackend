@@ -39,48 +39,64 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
             script(src='js/filters.js')
             script(src='js/directives.js')
             script(src='js/app.js')
+            script .
+                $(document).ready(function() {
+                    $('[data-toggle=offcanvas]').click(function() {
+                        $('.row-offcanvas').toggleClass('active');
+                    });
+                });
+
+            //script(src='build/app.min.js')
     body(ng-controller='RootCtrl')
         #wrap
-            .navbar.navbar-fixed-top.navbar-inverse
-                .container.navbar-inner
-                    a(class='navbar-brand', href='/', style='padding: 5px; padding-top: 10px')
-                        img(src='/img/logo.png', style='width:45%; height:100%')
+            .col-md-12.col-xs-12
+                .navbar.navbar-fixed-top.navbar-inverse
+                    .navbar-header
+                        button(type="button", class="navbar-toggle", data-toggle="collapse", data-target=".navbar-collapse")
+                            .icon-bar
+                            .icon-bar
+                            .icon-bar
+                        a(class='navbar-brand', href='/', style='padding: 10px 10px;')
+                            img(src='/img/logo.png', style='width:100px;')
+                    nav.collapse.navbar-collapse(role='navigation')
 
-                    .col-md-5.input-group.input-group-sm(style='margin-top: 1%')
-                        input.form-control(type='text', placeholder='search by name or copy & paste URL', ng-model='searchQuery', ng-enter='search(searchQuery)')
-                        .input-group-btn
-                            .btn.btn-default
-                                | Go
+                        ul.nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
+                            li.hidden-xs
+                                a(href='#', style='font-weight: bolder;', ng-click='editUserDetails()') {{currentUser.displayname}}
+                            li.dropdown
+                                a.dropdown-toggle(href='#', data-toggle='dropdown', style='padding-top: 5px;')
+                                    img(class='img-rounded pull-right', ng-src='{{currentUser.picture}}', style='height:40px; width:40px;')
+                                ul.pull-right.dropdown-menu(role="menu", aria-labelledby="dLabel")
+                                    li
+                                        a(role='menuitem', href='#', ng-click='editUserDetails()') profile
+                                    li
+                                        a(role='menuitem', href='#', ng-click='logUserOut()') logout
 
-                    .nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
-                        li.hidden-xs
-                            a(class='pull-right', href='#', style='font-weight: bolder;', ng-click='editUserDetails()') {{currentUser.displayname}}
-                        li.dropdown
-                            a.dropdown-toggle(href='#', data-toggle='dropdown', style='padding-top: 5px;')
-                                img(class='img-rounded pull-right', ng-src='{{currentUser.picture}}', style='height:40px; width:40px;')
-                            ul.pull-right.dropdown-menu(role="menu", aria-labelledby="dLabel")
-                                li
-                                    a(role='menuitem', href='#', ng-click='editUserDetails()') profile
-                                li
-                                    a(role='menuitem', href='#', ng-click='logUserOut()') logout
-                    .nav.navbar-nav.navbar-right#userinfo(ng-hide='isLoggedIn')
-                        li
-                            a(href='/signup') sign up!!
-                        li.dropdown
-                            a.dropdown-toggle(href="#", data-toggle="dropdown") Sign in
-                            .dropdown-menu(ng-controller='LoginCtrl')
-                                form#login-form.form-horizontal
-                                    .form-group
-                                        .col-md-12
-                                            input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
-                                    .form-group
-                                        .col-md-12
-                                            input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password')
-                                    .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)') Sign in
+
+                        ul.nav.navbar-nav.navbar-right#userinfo(ng-hide='isLoggedIn')
+                            li
+                                a(role='button', ng-href='/signup') Sign up
+                            //.dropdown.hidden-xs.pull-right(style='padding-right: 5px;')
+                                a.btn.btn-primary.dropdown-toggle(href="#", data-toggle="dropdown") Sign in
+                                .dropdown-menu(ng-controller='LoginCtrl')
+                                    form#login-form.form-horizontal
+                                        .form-group
+                                            .col-md-12
+                                                input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
+                                        .form-group
+                                            .col-md-12
+                                                input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password')
+                                        .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)') Sign in
+                        form.navbar-form.navbar-right
+                            .input-group.input-group-sm(style="max-width:360px; margin-top: 5px;")
+                                input.form-control(type='text', placeholder='search by name or copy & paste URL', ng-model='searchQuery', ng-enter='search(searchQuery)')
+                                .input-group-btn
+                                    .btn.btn-default
+                                        .glyphicon.glyphicon-search
 
 
             .container
-                div(ng-view, style='padding-top:60px; font-size: 12px;')
+                div(ng-view, style='padding-top: 70px; font-size: 12px;')
 
         #footer-line
             .navbar.navbar-fixed-bottom.navbar-inverse(style='min-height:20px;')

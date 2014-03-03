@@ -37,9 +37,10 @@ angular.module('OCServices', ['ngResource'])
         userManager.logout = function(){
             var deffered = $q.defer();
             $http.get('/logout').success(function(data){
-                userManager.setCurrentUser(null);
-                ChatClient.disconnect();
-                deffered.resolve();
+                userManager.setCurrentUser(null).then(function(){
+                    ChatClient.disconnect();
+                    deffered.resolve();
+                });
             }).error(function(){
                     deffered.reject('logout failed');
                 });

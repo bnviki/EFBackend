@@ -139,7 +139,7 @@ angular.module('ChatServices', ['ngResource'])
                 $http.post('/chat', chat).success(function(data){
                     console.log('new chat created' + data._id);
                     chatManager.addChat(data);
-                    deffered.resolve();
+                    deffered.resolve(data);
                 }).error(function(){
                     deffered.reject('could not create chat');
                 });

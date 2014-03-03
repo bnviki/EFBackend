@@ -106,7 +106,7 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
     $rootScope.$on('NewChatAdded', function(event, chat){
         $scope.currentChat = chat;
         $('#msg-send-button').removeAttr('disabled');
-        $scope.msgs.push({from:'system', msg: $scope.chatUser.username + ' has joined, you can chat now ... '});
+        //$scope.msgs.push({from:'system', msg: $scope.chatUser.username + ' has joined, you can chat now ... '});
         console.log('ready for chat');
     });
 
