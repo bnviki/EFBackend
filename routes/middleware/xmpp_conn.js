@@ -20,7 +20,8 @@ var xmpp_connection = {
 
 var connection = new xmpp.Client({
     jid: adminJid,
-    password: adminPass
+    password: adminPass,
+    host: 'localhost'
 });
 
 connection.connection.socket.setKeepAlive(true, 10000);
