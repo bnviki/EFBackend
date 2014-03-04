@@ -14,7 +14,7 @@ angular.module('OCServices', ['ngResource'])
                 $rootScope.$broadcast('event:loggedOut', userManager.currentUser);
                 deffered.resolve();
             } else {
-                ChatClient.connect(user.username + '@' + ChatClient.host, user.password).then(function(){
+                ChatClient.connect(user.username + '@' + ChatClient.host, user.username).then(function(){
                     $rootScope.$broadcast('event:loginConfirmed', userManager.currentUser);
                     deffered.resolve();
                 });

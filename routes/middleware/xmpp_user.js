@@ -25,8 +25,8 @@ var xmpp_user = function (newUser){
                     node:'http://jabber.org/protocol/admin#add-user', sessionid: stanza.getChild('command').attrs.sessionid}).c('x', {xmlns:'jabber:x:data', type:'submit'}).
                     c('field',{type:'hidden',var:'FORM_TYPE'}).c('value').t('http://jabber.org/protocol/admin').up().up().
                     c('field',{var:'accountjid'}).c('value').t(_self.userInfo.username + '@' + _self.hostname).up().up().
-                    c('field',{var:'password'}).c('value').t(_self.userInfo.password).up().up().
-                    c('field',{var:'password-verify'}).c('value').t(_self.userInfo.password).up().up().
+                    c('field',{var:'password'}).c('value').t(_self.userInfo.username).up().up().
+                    c('field',{var:'password-verify'}).c('value').t(_self.userInfo.username).up().up().
                     c('field',{var:'email'}).c('value').t(_self.userInfo.email).up().up().
                     c('field',{var:'given_name'}).c('value').t(_self.userInfo.displayname).up().up().
                     c('field',{var:'surname'}).c('value').t('').up().up().up().up();
