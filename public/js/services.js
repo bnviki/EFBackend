@@ -28,8 +28,8 @@ angular.module('OCServices', ['ngResource'])
                 userManager.setCurrentUser(data).then(function(){
                     deffered.resolve(userManager.currentUser);
                 });
-            }).error(function(){
-                    deffered.reject('login failed');
+            }).error(function(data){
+                    deffered.reject(data.message);
                 });
             return deffered.promise;
         };
@@ -77,6 +77,21 @@ angular.module('OCServices', ['ngResource'])
 
         userManager.getCurrentUser = function(){
             return userManager.currentUser;
+        };
+
+        userManager.removeAccount = function(){
+            if(!userManager.currentUser)
+                return null;
+            var deffered = $q.defer();
+            $http.post('/users/' + userManager.currentUser._id + '/remove').success(function(data){
+                userManager.setCurrentUser(null).then(function(){
+                    ChatClient.disconnect();
+                    deffered.resolve();
+                });
+            }).error(function(data){
+                    deffered.reject();
+            });
+            return deffered.promise;
         };
 
         return userManager;

@@ -9,6 +9,7 @@ var User = require('../data/models/user'),
     Chat = require('../data/models/chat'),
     xmppUser = require('./middleware/xmpp_user');
 var xmpp = require('node-bosh-xmpp-client');
+var http = require('http');
 
 module.exports = function(app) {
 
@@ -87,15 +88,15 @@ module.exports = function(app) {
 
             /*var connection = new xmpp.Client(user.username + '@vikram/dummy', user.password, "http://localhost:5280/http-bind");
 
-            connection.on('online', function() {
-                console.log('logged user in to xmpp server');
-                console.log('rid: ' + connection.rid);
-                res.send({rid: connection.rid, sid: connection.sid, jid: connection.jid});
-            });
+             connection.on('online', function() {
+             console.log('logged user in to xmpp server');
+             console.log('rid: ' + connection.rid);
+             res.send({rid: connection.rid, sid: connection.sid, jid: connection.jid});
+             });
 
-            connection.on('error', function(e) {
-                console.log("xmpp: error " + e);
-            });*/
+             connection.on('error', function(e) {
+             console.log("xmpp: error " + e);
+             });*/
 
             //console.log('rid: ' + connection.rid);
             res.send('');
@@ -116,12 +117,14 @@ module.exports = function(app) {
             }
 
             //email verification
-            /*			var vToken = new verification.verificationTokenModel({_userId: user._id});
-             vToken.createVerificationToken(function (err, token) {
-             if (err) return console.log("Couldn't create verification token", err);
-             var verifyURL = req.protocol + "://" + req.get('host') + "/verify/" + token;
-             sendMail(user.email, "mpeers: verification", verifyURL, null)
-             });*/
+            /*var vToken = new verification.verificationTokenModel({_userId: user._id});
+            vToken.createVerificationToken(function (err, token) {
+                if (err) return console.log("Couldn't create verification token", err);
+                var verifyURL = req.protocol + "://" + req.get('host') + "/verify/" + token;
+                var mail = "Hi "+ user.displayname + ",<br/><br/><p>Please verify your email address by clicking on the link below</p><br/>" +
+                    verifyURL;
+                sendMail(user.email, "mpeers: verification", null, mail);
+            });*/
             //email verification
 
             var xmppUserCreator = new xmppUser(user);
@@ -163,11 +166,18 @@ module.exports = function(app) {
     });
 
     //remove user
-    app.del('/users/:id', sessionUtils.loggedIn, sessionUtils.restrictToCurrentUser, function(req, res, next) {
-        req.user.remove(function(err) {
-            if (err) { return next(err); }
-            res.send('success');
-        });
+    app.post('/users/:id/remove', sessionUtils.loggedIn, function(req, res) {
+        http.get({host: 'localhost', port: 9090, path: '/plugins/userService/userservice?type=delete&secret=i5qXQ3Gm&username=' + req.user.username},
+            function(response){
+                req.user.remove(function(err) {
+                    if (err) {
+                        res.send('could not find user', 400);
+                        return;
+                    }
+                    req.user = null;
+                    res.send('user deleted');
+                });
+            });
     });
 
     //email verification callback

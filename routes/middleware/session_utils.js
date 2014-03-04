@@ -31,7 +31,7 @@ function loadUser(req, res, next) {
 }
 
 function restrictUser(req, res, next){
-	if(req.user && req.user != null && req.user.username === req.params.username)
+	if(req.user && req.user != null && req.user._id === req.params.id)
 		next();
 	else
 		res.send('Unauthorized', 401);	

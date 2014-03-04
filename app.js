@@ -136,6 +136,10 @@ app.get('*', routes.index);
 
 app.listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
+    /*var verifyURL = "http://localhost:3000/verify/";
+    var mail = "Hi "+ "Vikram" + "<br/><br/><p>Please verify your email address by clicking on the link below</p><br/><b></b>" +
+        verifyURL + "</b>";
+    sendMail('bn.vikram@gmail.com', "mpeers: verification", null, mail);*/
 });
 
 

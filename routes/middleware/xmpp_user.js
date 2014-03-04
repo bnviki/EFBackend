@@ -41,6 +41,24 @@ var xmpp_user = function (newUser){
             else if(stanza.attrs.type == 'error')
                 console.log('xmpp: registration error');
             _self.connection.removeListener('stanza', handleUserStanza);
+        } else if(stanza.is('iq') && stanza.attrs.id && stanza.attrs.id.search('user-delete1-') != -1){
+            if(stanza.attrs.type == 'result'){
+                var delUserForm = new xmpp.Element('iq', {from: _self.connection.jid, id:'user-delete2-' + _self.userInfo._id, to: _self.hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
+                    node:'http://jabber.org/protocol/admin#delete-user', sessionid: stanza.getChild('command').attrs.sessionid}).c('x', {xmlns:'jabber:x:data', type:'submit'}).
+                    c('field',{type:'hidden',var:'FORM_TYPE'}).c('value').t('http://jabber.org/protocol/admin').up().up().
+                    c('field',{var:'accountjids'}).c('value').t(_self.userInfo.username + '@' + _self.hostname).up().up().up().up();
+                _self.connection.send(delUserForm);
+            }
+        } else if(stanza.is('iq') && stanza.attrs.id && stanza.attrs.id.search('user-delete2-') != -1){
+            if(stanza.attrs.type == 'result'){
+                console.log('xmpp: deleted user ' + stanza.attrs.id);
+                _self.emit('UserDeleted', _self.userInfo);
+            }
+            else if(stanza.attrs.type == 'error'){
+                console.log('xmpp: deletion error');
+                _self.emit('UserDeleted', null);
+            }
+            _self.connection.removeListener('stanza', handleUserStanza);
         }
     };
 
@@ -48,6 +66,13 @@ var xmpp_user = function (newUser){
         var createUserMsg = new xmpp.Element('iq', {from: this.connection.jid, id: 'user-create1-' + this.userInfo._id, to: this.hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
             node:'http://jabber.org/protocol/admin#add-user', action:'execute'});
         this.connection.send(createUserMsg);
+        this.connection.on('stanza', handleUserStanza);
+    }
+
+    this.removeUser = function(){
+        var delUserMsg = new xmpp.Element('iq', {from: this.connection.jid, id: 'user-delete1-' + this.userInfo._id, to: this.hostname, type:'set' }).c('command', {xmlns:'http://jabber.org/protocol/commands',
+            node:'http://jabber.org/protocol/admin#delete-user', action:'execute'});
+        this.connection.send(delUserMsg);
         this.connection.on('stanza', handleUserStanza);
     }
 }

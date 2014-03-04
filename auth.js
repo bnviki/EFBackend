@@ -86,7 +86,25 @@ module.exports = function(app, passport, sessionUsers) {
         }
     ));
 
-    app.post('/login',
+    app.post('/login', function(req, res, next) {
+        passport.authenticate('local', function(err, user, info) {
+            if (err) { return next(err); }
+            if (!user) {
+                return res.send(info, 401);
+            }
+            req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                console.log('registering user: ' + req.user._id + ' session: ' + req.sessionID);
+                req.user.setLastLogin();
+                req.user.save();
+
+                sessionUsers[req.user._id] = req.sessionID;
+                res.send(req.user.toJSON({ hide: 'password validated created_at __v', transform: true }));
+            });
+        })(req, res, next);
+    });
+
+    /*app.post('/login',
         passport.authenticate('local'), function(req, res){
             console.log('registering user: ' + req.user._id + ' session: ' + req.sessionID);
             req.user.setLastLogin();
@@ -94,18 +112,20 @@ module.exports = function(app, passport, sessionUsers) {
 
             sessionUsers[req.user._id] = req.sessionID;
             res.send(req.user.toJSON({ hide: 'password validated created_at __v', transform: true }));
-        });
+        });*/
 
     passport.use(new LocalStrategy(
         function(username, password, done) {
             User.findOne({ username: username }, function(err, user) {
                 if (err) { return done(err); }
                 if (!user) {
-                    return done(null, false, { message: 'Incorrect username.' });
+                    return done(null, false, { message: 'Incorrect username or password' });
                 }
                 if (!user.validatePassword(password)) {
-                    return done(null, false, { message: 'Incorrect password.' });
+                    return done(null, false, { message: 'Incorrect username or password' });
                 }
+                if(!user.validated)
+                    return done(null, false, { message: 'Please verify your email' });
                 return done(null, user);
             });
         }

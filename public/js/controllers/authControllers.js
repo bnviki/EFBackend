@@ -21,8 +21,17 @@ var RootCtrl = function ($scope, $location, UserManager, $window, $timeout){
 		});
   	}
 
-    $scope.editUserDetails = function(){
-        //$location.path('/complete_profile');
+    $scope.removeAccount = function(){
+        if(confirm('Are you sure about deleting this account permanently?')){
+            UserManager.removeAccount().then(function(){
+                $timeout(function(){
+                    $window.location.href = '/home';
+                    return true;
+                }, 500);
+            }, function(){
+                alert('error removing your account');
+            });
+        }
     }
 
     $scope.search = function(query){
@@ -45,12 +54,10 @@ var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User, $ti
     //$scope.cats = Category.query();
 
     $scope.logUserIn = function(user) {
-        UserManager.login(user.username, user.password).then(function(user){
-            //if(!user.signup_complete)
-            //    $location.path('/complete_profile');
-            //else{
-                $location.path('/dash');
-            //}
+        UserManager.login(user.username.trim(), user.password.trim()).then(function(user){
+            $location.path('/dash');
+        }, function(error){
+            $scope.loginMsg = error;
         });
     }
 
@@ -61,16 +68,16 @@ var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User, $ti
         var newUser = new User(user);
         newUser.$save(function(savedUser){
             //console.log('i saved the user: ' + savedUser.username);
-            $timeout(function(){
+            alert('An email verification link has been sent to you, please check your mail box and verify.');
+            $location.path('/home');
+            /*$timeout(function(){
                 UserManager.login(savedUser.username, savedUser.password).then(function(userIn){
                     console.log('logged in after signup');
                     $window.location.href = '/home';
-
-
                 }, function(err){
                     $scope.alerts.push({type:'error', msg: 'user already exists'});
                 });
-            }, 500);
+            }, 500);*/
         });
     }
 

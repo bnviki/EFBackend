@@ -43,7 +43,7 @@ var UserSchema = new mongoose.Schema({
 
     validated: {
         type: Boolean,
-        default: false},
+        default: true},
     lastlogin: {
         type: Date
     },

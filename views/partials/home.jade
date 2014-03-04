@@ -27,6 +27,8 @@ link(rel='stylesheet', href='css/login.css')
                                 .col-md-12(style='margin-bottom: 10px;')
                                     input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password')
                                 .col-md-12
+                                    label.text-danger(ng-show='loginMsg') {{loginMsg}}
+                                .col-md-12
                                     .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)', style='margin-right: 5px;') Sign in
                                     label or
                                     .btn.btn-success(type='submit', ng-click='', style='margin-left: 5px;') Sign up
