@@ -55,7 +55,7 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
         if(fromUser == $scope.chatUser.username)
             return $scope.chatUser.picture;
         else
-            return '/profile/pictures/guest.png';
+            return 'http://s3-ap-southeast-1.amazonaws.com/mpeersdata/profile/guest.png';
     };
 
     $scope.msgs = [];

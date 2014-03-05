@@ -72,7 +72,7 @@ var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $loc
 
     $scope.getToUser = function(chat){
         if(!chat){
-            return {displayname: 'none', picture: '/profile/pictures/guest.png'};
+            return {displayname: 'none', picture: 'http://s3-ap-southeast-1.amazonaws.com/mpeersdata/profile/guest.png'};
         }
         if(chat.users.length > 1){
             return chat.users[0]._id == $scope.currentUser._id ? chat.users[1] : chat.users[0];
@@ -88,7 +88,7 @@ var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $loc
             return $scope.currentUser.picture;
         else{
             if($scope.activeChat.anonymous_chat)
-                return '/profile/pictures/guest.png';
+                return 'http://s3-ap-southeast-1.amazonaws.com/mpeersdata/profile/guest.png';
             else {
                 var picOfUser = $scope.activeChat.users[0].username == fromUser ? $scope.activeChat.users[0] : $scope.activeChat.users[1];
                 return picOfUser.picture;

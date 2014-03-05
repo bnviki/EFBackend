@@ -31,7 +31,7 @@ var UserSchema = new mongoose.Schema({
 
     picture: {
         type: String,
-        default: 'http://localhost:3000/profile/pictures/guest.png'
+        default: 'http://s3-ap-southeast-1.amazonaws.com/mpeersdata/profile/guest.png'
     },
     category: {type: mongoose.Schema.Types.ObjectId},
     description: {type: String, required: true},
