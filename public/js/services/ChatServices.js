@@ -12,6 +12,8 @@ angular.module('ChatServices', ['ngResource'])
         chatClient.conn = null;
         chatClient.user = null;
         chatClient.host = 'vikram';
+        if($location.host() != 'localhost')
+            chatClient.host = 'ip-172-31-9-1';
 
         chatClient.connect = function(username, password){
             var deffered = $q.defer();

@@ -91,7 +91,7 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
                                         .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)') Sign in
                         form.navbar-form.navbar-right
                             .input-group.input-group-sm(style="max-width:360px; margin-top: 5px;")
-                                input.form-control(type='text', placeholder='search by name or copy & paste URL', ng-model='searchQuery', ng-enter='search(searchQuery)')
+                                input.form-control(type='text', placeholder='search by name', ng-model='searchQuery', ng-enter='search(searchQuery)')
                                 .input-group-btn
                                     .btn.btn-default
                                         .glyphicon.glyphicon-search
