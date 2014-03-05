@@ -77,7 +77,7 @@ var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $loc
         if(chat.users.length > 1){
             return chat.users[0]._id == $scope.currentUser._id ? chat.users[1] : chat.users[0];
         } else {
-            var anonUser = {displayname: chat.anonymous_user.name, picture: '/profile/pictures/guest.png'}
+            var anonUser = {displayname: chat.anonymous_user.name, picture: 'http://s3-ap-southeast-1.amazonaws.com/mpeersdata/profile/guest.png'}
             return anonUser;
         }
     };
