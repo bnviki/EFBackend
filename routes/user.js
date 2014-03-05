@@ -165,6 +165,19 @@ module.exports = function(app) {
         });
     });
 
+    // change password
+    app.post('/users/:id/changepass', sessionUtils.loggedIn, function(req, res, next) {
+        if (!req.user.validatePassword(req.body.oldPassword)) {
+            res.send('incorrect password', 400);
+            return;
+        }
+        req.user.password = req.body.newPassword;
+        req.user.save(function(err) {
+            if (err) { return next(err); }
+            res.send(req.user.toJSON());
+        });
+    });
+
     //remove user
     app.post('/users/:id/remove', sessionUtils.loggedIn, function(req, res) {
         http.get({host: 'localhost', port: 9090, path: '/plugins/userService/userservice?type=delete&secret=i5qXQ3Gm&username=' + req.user.username},

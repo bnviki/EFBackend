@@ -94,6 +94,23 @@ var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User, $ti
 
 LoginCtrl.$inject = ['$scope', '$http', '$location', 'UserManager', '$log', 'User', '$timeout', '$window'];
 
+var ChangePasswordCtrl = function ($scope, $http, $location, UserManager) {
+    var currentUser = UserManager.getCurrentUser();
+    $scope.changePassword = function(data){
+        if(currentUser){
+            var changeReq = {oldPassword: data.oldPassword.trim(), newPassword: data.newPassword};
+            $http.post('/users/' + currentUser._id + '/changepass', changeReq).success(function(data){
+                alert('your password is changed successfully');
+                $location.path('/dash');
+            },function(err){
+                alert('old password is incorrect');
+            });
+        }
+    }
+}
+
+ChangePasswordCtrl.$inject = ['$scope', '$http', '$location', 'UserManager'];
+
 var ProfileCtrl = function ($scope) {
     $scope.qwerty = function(keys){
         var newUser = new User(keys);
