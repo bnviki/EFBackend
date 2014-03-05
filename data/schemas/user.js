@@ -56,7 +56,7 @@ var UserSchema = new mongoose.Schema({
 });
 
 if (!UserSchema.options.toJSON) UserSchema.options.toJSON = {};
-UserSchema.options.toJSON.hide = 'validated created_at __v';
+UserSchema.options.toJSON.hide = 'password validated created_at __v';
 UserSchema.options.toJSON.transform = function (doc, ret, options) {
     if (options.hide) {
         options.hide.split(' ').forEach(function (prop) {
@@ -82,7 +82,6 @@ UserSchema.pre('save', function(next) {
         this.created_at = Date.now();
         this.chats = [];
     }
-    this.picture = 'http://s3-ap-southeast-1.amazonaws.com/mpeersdata/' + this.picture;
     next();
 });
 

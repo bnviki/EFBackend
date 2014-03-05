@@ -25,7 +25,7 @@ link(rel='stylesheet', href='css/login.css')
                                 .col-md-12(style='margin-bottom: 10px;')
                                     input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
                                 .col-md-12(style='margin-bottom: 10px;')
-                                    input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password')
+                                    input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password', ng-enter='logUserIn(userLogin)')
                                 .col-md-12
                                     label.text-danger(ng-show='loginMsg') {{loginMsg}}
                                 .col-md-12
