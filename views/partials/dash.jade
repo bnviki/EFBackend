@@ -1,8 +1,9 @@
 link(rel='stylesheet', href='css/dash.css')
 
 script.
-  $('#fileupload').fileupload({
-        dataType: 'json',
+  $('#file_upload').fileupload({
+        forceIframeTransport: true,
+        autoUpload: true,
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $('.progress').css(
@@ -13,14 +14,39 @@ script.
                 progress + '%'
             );
         },
+        add: function (event, data) {
+          $.ajax({
+            url: "/users/" + $('#userid').val() + "/uploadpic",
+            type: 'GET',
+            dataType: 'json',
+            data: {fileName: data.files[0].name},
+            async: false,
+            success: function(retdata) {
+              $('#file_upload').find('input[name=key]').val(retdata.key);
+              $('#file_upload').find('input[name=policy]').val(retdata.s3PolicyBase64);
+              $('#file_upload').find('input[name=signature]').val(retdata.s3Signature);
+              $('#file_upload').find('input[name=Content-Type]').val(retdata.contentType);
+            }
+
+          });
+
+          data.submit();
+        },
+        send: function(e, data) {
+          $('#loading').show();
+        },
+        fail: function(e, data) {
+          console.log('fail');
+          console.log(data);
+          $('#loading').hide();
+        },
         done: function (e, data) {
-                $.each(data.result.files, function (index, file) {
-                    $.post("/users/" + $('#userid').val(), {username: $('#user_name').val(), picture: file.url}, function(data){
-                        $('#user_picture').val(file.url);
+                    $.post("/users/" + $('#userid').val(), {username: $('#user_name').val(), picture: $('#file_upload').find('input[name=key]').val()}, function(data){
+                        $('#user_picture').val(data.picture);
                         $('#user_picture').trigger('input');
                         console.log('updated profile pic');
+                        $('#loading').hide();
                     });
-                });
               }
     })
 
@@ -30,21 +56,27 @@ script.
             .row#user-banner
                 .col-md-12.col-xs-12
                     .col-md-2.col-xs-4
-                        .fileinput.fileinput-new(data-provides='fileinput', style='margin-bottom: 0px; margin-top: 5px;')
-                            .btn.btn-default.btn-file.pull-left(style='padding: 1px;')
-                                .fileinput-new
-                                .fileinput-exists
-                                img(ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
-                                input(id="fileupload", type="file", name="files[]", data-url="/upload", style='height:80px; width:80px;')
-                            .fileinput-filename.pull-left
-                            //a.close.fileinput-exists(href='#', data-dismiss='fileinput', style='float: right; padding-top: 10px;') &times;
-                        //.progress(style='display: none')
-                            .progress-bar(id='fileuploadprogress', role='progressbar', aria-valuenow="0", aria-valuemin="0", aria-valuemax="100", style="width: 0%;")
+                        form#file_upload(action="https://mpeersdata.s3.amazonaws.com", method="post", enctype="multipart/form-data")
+                            input(name='key', type='hidden')
+                            input(name='AWSAccessKeyId', type='hidden', value='AKIAJFUUM2GSD5FQJ7EA')
+                            input(name='acl', type='hidden', value='public-read')
+                            input(name='success_action_status', type='hidden', value='200')
+                            input(name='policy', type='hidden')
+                            input(name='signature', type='hidden')
+                            input(name='Content-Type', type='hidden')
+                            //.fileinput.fileinput-new(data-provides='fileinput', style='margin-bottom: 0px; margin-top: 5px;')
+                            .fileupload-content(style='margin-bottom: 0px; margin-top: 5px;')
+                                .fileupload-progress
+                            .file-upload
+                                .btn.btn-default.btn-file.pull-left(style='padding: 1px;')
+                                    img(ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
+                                    input(type="file", name="file", style='height:80px; width:80px;')
+                            img.center-block(id='loading', src='/img/loading.gif', style='position:fixed; height:60px; width:60px; display: none; padding-top: 20px; padding-left: 20px;')
+
                         input(id='userid', type='hidden')
                         input(id='user_name', type='hidden')
                         input(id='user_picture', ng-model='currentUser.picture', style='display: none')
 
-                        //img.img-thumbnail.pull-right(alt='140x140', ng-src='{{currentUser.picture}}', style='height:80px; width:80px;')
                     .col-md-6.col-xs-7
                         h5.text-left(style='font-weight: bold;')
                             a(href='#', id='welcomeMsg', editable-text="currentUser.displayname", onbeforesave='updateStatus($data)', style='font-size: 12px; color: rgb(74, 65, 94);')
@@ -85,7 +117,6 @@ script.
                                         pre {{ currentUser.description || 'one line description' }}
                                 .form-group
                                     label.col-md-12(class="control-label", for="locationSignup") Location
-                                    //input(class="form-control", type="text", ng-autocomplete, id="locationSignup", ng-model='userSignup.location')
                                     a(href='#', id='offlineMsg', e-ng-autocomplete, editable-text="currentUser.location", onbeforesave='updateStatus($data)', style='font-size: 12px;')
                                         pre {{ currentUser.location || 'set location' }}
                                 .form-group

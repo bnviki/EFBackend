@@ -82,6 +82,7 @@ UserSchema.pre('save', function(next) {
         this.created_at = Date.now();
         this.chats = [];
     }
+    this.picture = 'http://s3-ap-southeast-1.amazonaws.com/mpeersdata/' + this.picture;
     next();
 });
 

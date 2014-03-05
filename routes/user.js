@@ -7,9 +7,13 @@ var User = require('../data/models/user'),
     sessionUtils = require('./middleware/session_utils'),
     ChatRequest = require('../data/models/chatRequest'),
     Chat = require('../data/models/chat'),
-    xmppUser = require('./middleware/xmpp_user');
-var xmpp = require('node-bosh-xmpp-client');
-var http = require('http');
+    xmppUser = require('./middleware/xmpp_user'),
+    xmpp = require('node-bosh-xmpp-client'),
+    http = require('http'),
+    s3policy = require('s3policy'),
+    random = require('randomstring');;
+
+var s3 = new s3policy('AKIAJFUUM2GSD5FQJ7EA', 'zFj05wkGJPZlRocETz6XBqjIKsXMLy782Po/aCSX');
 
 module.exports = function(app) {
 
@@ -191,6 +195,23 @@ module.exports = function(app) {
                     res.send('user deleted');
                 });
             });
+    });
+
+    app.get('/users/:id/uploadpic', function(req, res) {
+        User.findOne({_id: req.params.id}, function(err, user) {
+            if (err || !user) {
+                return res.send('Not found', 404);
+            }
+
+            var filename = req.query.fileName;
+            var fileExt = filename.substring(filename.indexOf('.'));
+
+            var imageKey = 'profile/' + random.generate(20) + fileExt;
+            var policy = s3.writePolicy(imageKey, 'mpeersdata', 120, 10, null, 'image/' + fileExt.substring(1));
+            policy.key = imageKey;
+            policy.contentType = 'image/' + fileExt.substring(1);
+            res.send(policy);
+        });
     });
 
     //email verification callback
