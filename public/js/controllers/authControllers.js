@@ -54,9 +54,12 @@ var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User, $ti
     //$scope.cats = Category.query();
 
     $scope.logUserIn = function(user) {
+        $('#loading').show();
         UserManager.login(user.username.trim(), user.password.trim()).then(function(user){
+            $('#loading').hide();
             $location.path('/dash');
         }, function(error){
+            $('#loading').hide();
             $scope.loginMsg = error;
         });
     }

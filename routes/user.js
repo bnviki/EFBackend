@@ -159,7 +159,7 @@ module.exports = function(app) {
         var newuser = req.body;
         for (var prop in newuser) {
             if (newuser.hasOwnProperty(prop)) {
-                if(prop == 'picture')
+                if(prop == 'picture' && newuser[prop].search('http://s3-ap-southeast-1.amazonaws.com/mpeersdata/') == -1)
                     newuser[prop] = 'http://s3-ap-southeast-1.amazonaws.com/mpeersdata/' + newuser[prop];
                 req.user[prop] = newuser[prop];
             }

@@ -68,7 +68,7 @@ block content
                     .input-group
                         textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)', ng-focus='checkForUsername()')
                         span.input-group-addon
-                            button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
+                            button#msg-send-button-xs.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
 
 
         .modal.fade(id='UserDetailsDialog', tabindex='-1', role='dialog', aria-labelledby="Create Discussion", aria-hidden="true")
