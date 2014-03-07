@@ -110,7 +110,7 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
                             .input-group.input-group-sm(style="max-width:360px; margin-top: 5px;")
                                 input.form-control(type='text', placeholder='search by name', ng-model='searchQuery', ng-enter='search(searchQuery)')
                                 .input-group-btn
-                                    .btn.btn-default
+                                    .btn.btn-default(ng-click='search(searchQuery)')
                                         .glyphicon.glyphicon-search
 
 

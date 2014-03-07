@@ -1,16 +1,16 @@
 link(rel='stylesheet', href='css/search.css')
-.col-md-8.col-md-offset-2
+.col-md-8.col-md-offset-2.col-xs-12
     .row
-        .col-md-12.text-center.heading-banner
+        .col-md-12.col-xs-12.text-center.heading-banner
             label Search results
     .row
-        .col-md-12
+        .col-md-12.col-xs-12
             .userbox.pull-left(ng-repeat='user in results')
                 .row
-                    .col-md-4
+                    .col-md-4.col-xs-4
                         img.pull-left(ng-src='{{user.picture}}', style='height: 80px; width:80px;')
                         .btn.btn-primary.btn-sm(ng-click='sendChatRequest(user)') chat
-                    .col-md-8
+                    .col-md-8.col-xs-8
                         label(style='margin-bottom:0px;') {{user.displayname}}
                         p {{user.description}}
                         a(style='font-weight: bold;', ng-href="{{'/' + user.username}}") {{'www.mpeers.com/' + user.username}}

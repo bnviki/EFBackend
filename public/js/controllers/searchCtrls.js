@@ -17,7 +17,7 @@ var SearchCtrl = function ($scope, UserManager, $routeParams, $http, $location){
 
     $scope.sendChatRequest = function(user){
         if(!($scope.currentUser && $scope.currentUser.username == user.username))
-            $location.path('/chatwindow').search({username: user.username});
+            $location.path('/' + user.username).search('');
     }
 }
 
