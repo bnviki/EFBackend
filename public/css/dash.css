@@ -127,6 +127,10 @@
     border-color: rgb(255, 170, 61);
 }
 
+#chat-content p {
+    word-wrap: break-word;
+}
+
 /*testing*/
 #sidebar {
     height: 100%;

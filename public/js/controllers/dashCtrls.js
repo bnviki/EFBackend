@@ -112,6 +112,14 @@ var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $loc
         User.save($scope.currentUser);
     }
 
+    $scope.updatePhone = function(data){
+        var INTEGER_REGEXP = /^\-?\d+$/;
+        if(!INTEGER_REGEXP.test(data)){
+            return 'Phone no must be only integers';
+        }
+        $scope.updateStatus();
+    }
+
     $scope.userToChat = null;
 
 

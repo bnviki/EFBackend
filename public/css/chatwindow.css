@@ -54,7 +54,9 @@
     margin-top: 5px;
 }
 
-
+#chat-content p {
+    word-wrap: break-word;
+}
 
 .init-form input.ng-invalid.ng-dirty {
     border-color: #FA787E;
