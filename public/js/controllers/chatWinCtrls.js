@@ -14,6 +14,7 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
     $scope.currentChat = null;
     $scope.userFromURL = $routeParams.username;
     $scope.currentUsername = null;
+    var x2js = new X2JS();
 
     if(UserManager.getCurrentUser()){
         $location.path('/dash').search({username: $routeParams.username});
@@ -25,13 +26,17 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
                 $http.get('/plugins/presence/status', {params:{jid:$scope.chatUser.username + '@' + ChatClient.host, type:'xml'}}).success(function(data){
                     console.log('presence: ' + data);
                     $scope.msgs.push({from:'system', msg:'Welcome to mPeers'});
-                    if(data.search('unavailable') == -1){
-                        $scope.chatUserOnline = true;
-                        $scope.msgs.push({from:'system', msg: $scope.chatUser.welcome_message});
-                    }
-                    else {
+
+                    var jsonObj = x2js.xml_str2json(data);
+                    console.log(jsonObj);
+
+                    if(jsonObj.presence._type == 'unavailable' || jsonObj.presence._type == 'error'){
                         $scope.chatUserOnline = false;
                         $scope.msgs.push({from:'system', msg: $scope.chatUser.offline_message});
+                    }
+                    else {
+                        $scope.chatUserOnline = true;
+                        $scope.msgs.push({from:'system', msg: $scope.chatUser.welcome_message});
                     }
                     $('#UserDetailsDialog').modal('show');
                 });

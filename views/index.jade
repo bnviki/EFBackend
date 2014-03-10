@@ -44,6 +44,7 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
             script(src='js/lib/ngAutocomplete.js')
             script(src='js/lib/strophe.min.js')
             script(src='js/lib/xeditable.min.js')
+            script(src='js/lib/xml2json.min.js')
             script(src='js/controllers/authControllers.js')
             script(src='js/controllers/userCtrls.js')
             script(src='js/controllers/searchCtrls.js')
@@ -75,8 +76,7 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
                             .icon-bar
                         a(class='navbar-brand', href='/', style='padding: 10px 10px;')
                             img(src='/img/logo.png', style='width:100px;')
-                    nav.collapse.navbar-collapse(role='navigation')
-
+                    nav#collapse-bar.collapse.navbar-collapse(role='navigation')
                         ul.nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
                             li.hidden-xs
                                 a(href='#', style='font-weight: bolder;', ng-click='editUserDetails()') {{currentUser.displayname}}

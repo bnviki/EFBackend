@@ -17,7 +17,7 @@ var RootCtrl = function ($scope, $location, UserManager, $window, $timeout){
             $timeout(function(){
                 $window.location.href = '/home';
                 return true;
-            }, 500);
+            }, 00);
 		});
   	}
 
@@ -37,6 +37,7 @@ var RootCtrl = function ($scope, $location, UserManager, $window, $timeout){
     $scope.search = function(query){
         query = query.trim();
         if(query && query != ''){
+            $("#collapse-bar").collapse('hide');
             $location.path('/search').search({search: query});
         }
     }

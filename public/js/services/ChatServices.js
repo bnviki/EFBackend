@@ -12,7 +12,9 @@ angular.module('ChatServices', ['ngResource'])
         chatClient.conn = null;
         chatClient.user = null;
         chatClient.host = 'vikram';
-        if($location.host() != 'localhost')
+        if($location.host() == 'localhost' || $location.host().search(/192\.168\.1\.*/) != -1)
+            chatClient.host = 'vikram';
+        else
             chatClient.host = 'ip-172-31-9-1';
 
         chatClient.connect = function(username, password){
