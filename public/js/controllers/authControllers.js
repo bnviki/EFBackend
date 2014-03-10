@@ -17,7 +17,7 @@ var RootCtrl = function ($scope, $location, UserManager, $window, $timeout){
             $timeout(function(){
                 $window.location.href = '/home';
                 return true;
-            }, 00);
+            }, 500);
 		});
   	}
 
