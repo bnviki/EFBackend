@@ -58,12 +58,14 @@ var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $loc
     $scope.setActiveChat = function(chat){
         $scope.trackUnseen = true;
         $scope.activeChat = chat;
-        if(!$scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host]){
-            $scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host] = [];
+        if($scope.activeChat && $scope.activeChat != null){
+            if(!$scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host]){
+                $scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host] = [];
+            }
+            $scope.activeChatMsgs = $scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host];
+            if($scope.unseenChats[chat.room.toLowerCase()])
+                $scope.unseenChats[chat.room.toLowerCase()] = false;
         }
-        $scope.activeChatMsgs = $scope.msgs[chat.room.toLowerCase() + '@conference.' + ChatClient.host];
-        if($scope.unseenChats[chat.room.toLowerCase()])
-            $scope.unseenChats[chat.room.toLowerCase()] = false;
     };
 
     $scope.msgs = ChatManager.msgs;
@@ -129,9 +131,20 @@ var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $loc
         });
     }
 
-    $scope.removeChat = function(chat){
+    $scope.removeChat = function(chatId){
         if(confirm('Are you sure about deleting the conversation?')){
-            ChatManager.removeChat(chat);
+            for(var i=0; i < $scope.chats.length; i++){
+                if(chatId == $scope.chats[i]._id){
+                    if(i+1 < $scope.chats.length)
+                        $scope.setActiveChat($scope.chats[i+1]);
+                    else if(i-1 >= 0)
+                        $scope.setActiveChat($scope.chats[i-1]);
+                    else
+                        $scope.setActiveChat(null);
+                    break;
+                }
+            }
+            ChatManager.removeChat(chatId);
         }
     }
 

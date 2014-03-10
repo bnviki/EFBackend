@@ -195,7 +195,6 @@ angular.module('ChatServices', ['ngResource'])
 
             chatManager.removeChat = function(chatId){
                 $http.post('/chat/' + chatId + '/live').success(function(){
-                    console.log('good');
                     for(i=0; i < chatManager.currentChats.length; i++){
                         if(chatManager.currentChats[i]._id == chatId){
                             chatManager.currentChats.splice(i,1);
