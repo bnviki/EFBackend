@@ -78,11 +78,13 @@ block content
                         .row
                             .col-md-12.heading-banner.text-center
                                 label(ng-show='chatUserOnline') Please provide your details
+                                    .label.label-success(style='margin-left: 5px;') online
                                 label(ng-hide='chatUserOnline') Offline
+                                    .label.label-danger(style='margin-left: 5px;') offline
                                 button.close(data-dismiss="modal", aria-hidden="true") ×
                     .col-md-12
                         .col-md-12.text-center(style='margin-top: 5px;')
-                            p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. he says "{{chatUser.offline_message}}".
+                            p(ng-hide='chatUserOnline') {{userFromURL}} seems to be offline right now. "{{chatUser.offline_message}}".
                             p(ng-show='chatUserOnline') A chat request will be sent to {{userFromURL}}, please give your name and topic for the chat.
                         .col-md-12
                             form.init-form(role='form', name='InitChatForm', novalidate)
@@ -91,4 +93,5 @@ block content
                                 .form-group
                                     textarea.form-control(id='topic', placeholder='Message', name='uTopic', type='text', rows='5', ng-model='newChat.topic', style='width: 98%')
                     .modal-footer
+                        img.center-block(id='loading-img', src='/img/loading.gif', style='height:30px; width:30px; display: none;')
                         .btn.btn-primary(id='init_chat_btn', type='submit', ng-click='initChat(newChat)', ng-disabled='InitChatForm.$invalid') Start Chatting
