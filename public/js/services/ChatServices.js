@@ -162,11 +162,7 @@ angular.module('ChatServices', ['ngResource'])
                 if(isNew){
                     chatManager.currentChats.push(chat);
                     console.log('joining room ' + chat.room);
-                    var nickname = '';
-                    if(chat.anonymous_chat && !UserManager.getCurrentUser())
-                        nickname = chat.anonymous_user.name;
-                    else
-                        nickname = UserManager.getCurrentUser().username;
+                    var nickname = Math.random().toString(36).slice(2);
                     ChatClient.joinRoom(chat.room, nickname);
                     $rootScope.$emit('NewChatAdded', chat);
                 }
