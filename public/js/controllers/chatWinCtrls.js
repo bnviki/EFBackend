@@ -75,14 +75,9 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
     $scope.initChat = function(newChat){
         if(newChat.username != '' && newChat.topic != ''){
             $scope.currentUsername = newChat.username;
-            $('init_chat_btn').attr('disabled','disabled');
-            /*if(!$scope.chatUserOnline){
-             var msgRequest = {name: newChat.username, msg: newChat.topic};
-             $http.post('/users/' + $scope.chatUser._id + '/message', msgRequest).success(function(data){
-             $('#UserDetailsDialog').modal('hide');
-             $scope.msgs.push({from:'system', msg:'your message was sent, contact ' + $scope.chatUser.username + ' later.'});
-             });
-             } else {*/
+            $('#init_chat_btn').hide();
+            $('#loading-img').show();
+
             ChatClient.connect(ChatClient.host, '').then(function(jid){
                 var uname = jid.substring(0, jid.indexOf('@'));
                 Messenger.socket.emit('register', {username: uname});
@@ -94,7 +89,6 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
                     $('#UserDetailsDialog').modal('hide');
                 });
             });
-            //}
         }
     }
 
