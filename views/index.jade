@@ -93,19 +93,19 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
 
 
                         ul.nav.navbar-nav.navbar-right#userinfo(ng-hide='isLoggedIn')
-                            li
-                                a(role='button', ng-href='/signup') Sign up
-                            //.dropdown.hidden-xs.pull-right(style='padding-right: 5px;')
+                            a.btn.btn-success(role='button', ng-href='/signup') Sign up
+                            .dropdown.pull-right(style='padding-right: 5px;')
                                 a.btn.btn-primary.dropdown-toggle(href="#", data-toggle="dropdown") Sign in
-                                .dropdown-menu(ng-controller='LoginCtrl')
-                                    form#login-form.form-horizontal
+                                .dropdown-menu(ng-controller='LoginCtrl', style='padding: 5px;')
+                                    form#login-form.form-horizontal.col-md-12
                                         .form-group
-                                            .col-md-12
-                                                input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
+                                            input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
                                         .form-group
-                                            .col-md-12
-                                                input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password')
-                                        .btn.btn-primary(type='submit', ng-click='logUserIn(userLogin)') Sign in
+                                            input(class="form-control", type="password", id="inputPasswordLogin", placeholder="Password", ng-model='userLogin.password', ng-enter='logUserIn(userLogin)')
+                                        .col-md-12
+                                            img.center-block(id='loading', src='/img/loading.gif', style='height:30px; width:30px; display: none;')
+                                            label.text-danger(ng-show='loginMsg') {{loginMsg}}
+                                        .btn.btn-primary.pull-right(type='submit', ng-click='logUserIn(userLogin)') Sign in
                         form.navbar-form.navbar-right
                             .input-group.input-group-sm(style="max-width:360px; margin-top: 5px;")
                                 input.form-control(type='text', placeholder='search by name', ng-model='searchQuery', ng-enter='search(searchQuery)')
