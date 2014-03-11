@@ -85,7 +85,7 @@ var DashCtrl = function ($scope, UserManager, ChatClient, $rootScope, User, $loc
     };
 
     $scope.getPicture = function(from){
-        var fromUser = from.substring(from.indexOf('/') + 1);
+        var fromUser = from.substring(from.indexOf('/') + 1,  from.indexOf('###'));
         if(fromUser == $scope.currentUser.username)
             return $scope.currentUser.picture;
         else{

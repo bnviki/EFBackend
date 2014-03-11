@@ -78,10 +78,10 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
                             img(src='/img/logo.png', style='width:100px;')
                     nav#collapse-bar.collapse.navbar-collapse(role='navigation')
                         ul.nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')
-                            li.hidden-xs
+                            //.hidden-xs
                                 a(href='#', style='font-weight: bolder;', ng-click='editUserDetails()') {{currentUser.displayname}}
                             li.dropdown
-                                a.dropdown-toggle(href='#', data-toggle='dropdown', style='padding-top: 5px;')
+                                a.dropdown-toggle(href='#', data-toggle='dropdown', style='padding-top: 0px;')
                                     img(class='img-rounded pull-right', ng-src='{{currentUser.picture}}', style='height:40px; width:40px;')
                                 ul.pull-right.dropdown-menu(role="menu", aria-labelledby="dLabel")
                                     li

@@ -56,7 +56,7 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
     };
 
     $scope.getPicture = function(from){
-        var fromUser = from.substring(from.indexOf('/') + 1);
+        var fromUser = from.substring(from.indexOf('/') + 1, from.indexOf('###'));
         if(fromUser == $scope.chatUser.username)
             return $scope.chatUser.picture;
         else
