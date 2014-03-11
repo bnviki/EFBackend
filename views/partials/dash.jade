@@ -101,34 +101,34 @@ script.
                                 .form-group
                                     label.col-md-12(for='welcomeMsg') Welcome message (max: 200 chars)
                                     .visible-xs
-                                        a(href='#', id='welcomeMsg-xs', editable-textarea="currentUser.welcome_message", e-rows='3', onbeforesave='updateStatus($data)', style='font-size: 12px;', e-char-limit='200')
+                                        a(href='#', id='welcomeMsg-xs', editable-textarea="currentUser.welcome_message", e-rows='3', onbeforesave='updateStatus($data)', style='font-size: 12px;', e-maxlength='200')
                                             pre {{ currentUser.welcome_message || 'Set the initial message to be shown to user' }}
                                     .hidden-xs
-                                        a(href='#', id='welcomeMsg', editable-textarea="currentUser.welcome_message", e-rows='3', onbeforesave='updateStatus($data)', style='font-size: 12px;', e-style='width: 150%', e-char-limit='200')
+                                        a(href='#', id='welcomeMsg', editable-textarea="currentUser.welcome_message", e-rows='3', onbeforesave='updateStatus($data)', style='font-size: 12px;', e-style='width: 150%', e-maxlength='200')
                                             pre {{ currentUser.welcome_message || 'Set the initial message to be shown to user' }}
                                 .form-group
                                     label.col-md-12(for='offlineMsg') Offline message (max: 200 chars)
                                     .visible-xs
-                                        a(href='#', id='offlineMsg-xs', editable-textarea="currentUser.offline_message", onbeforesave='updateStatus($data)', style='font-size: 12px;', e-char-limit='200')
+                                        a(href='#', id='offlineMsg-xs', editable-textarea="currentUser.offline_message", onbeforesave='updateStatus($data)', style='font-size: 12px;', e-maxlength='200')
                                             pre {{ currentUser.offline_message || 'Set the message to show when you are offline' }}
                                     .hidden-xs
-                                        a(href='#', id='offlineMsg', editable-textarea="currentUser.offline_message", onbeforesave='updateStatus($data)', style='font-size: 12px;', e-style='width: 150%', e-char-limit='200')
+                                        a(href='#', id='offlineMsg', editable-textarea="currentUser.offline_message", onbeforesave='updateStatus($data)', style='font-size: 12px;', e-style='width: 150%', e-maxlength='200')
                                             pre {{ currentUser.offline_message || 'Set the message to show when you are offline' }}
                                 .form-group
                                     label.col-md-12(for='about') About (max: 500 chars)
                                     .visible-xs
-                                        a(href='#', id='about', editable-textarea="currentUser.about", e-rows='10', onbeforesave='updateStatus($data)', style='font-size: 12px;', e-char-limit='500')
+                                        a(href='#', id='about', editable-textarea="currentUser.about", e-rows='10', onbeforesave='updateStatus($data)', style='font-size: 12px;', e-maxlength='500')
                                             pre {{ currentUser.about || 'Details' }}
                                     .hidden-xs
-                                        a(href='#', id='about', editable-textarea="currentUser.about", e-rows='10', onbeforesave='updateStatus($data)', style='font-size: 12px;', e-style='width: 150%', e-char-limit='500')
+                                        a(href='#', id='about', editable-textarea="currentUser.about", e-rows='10', onbeforesave='updateStatus($data)', style='font-size: 12px;', e-style='width: 150%', e-maxlength='500')
                                             pre {{ currentUser.about || 'Details' }}
                                 .form-group
                                     label.col-md-12(class="control-label", for="descSignup") Description (max: 200 chars)
                                     .visible-xs
-                                        a(href='#', id='offlineMsg', editable-textarea="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px;', e-char-limit='200')
+                                        a(href='#', id='offlineMsg', editable-textarea="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px;', e-maxlength='200')
                                             pre {{ currentUser.description || 'one line description' }}
                                     .hidden-xs
-                                        a(href='#', id='offlineMsg', editable-textarea="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px;', e-style='width: 150%', e-char-limit='200')
+                                        a(href='#', id='offlineMsg', editable-textarea="currentUser.description", onbeforesave='updateStatus($data)', style='font-size: 12px;', e-style='width: 150%', e-maxlength='200')
                                             pre {{ currentUser.description || 'one line description' }}
                                 .form-group
                                     label.col-md-12(class="control-label", for="locationSignup") Location
@@ -141,10 +141,10 @@ script.
                                 .form-group
                                     label.col-md-12(class="control-label", for="phoneNoSignup") Contact no.
                                     .visible-xs
-                                        a(href='#', id='offlineMsg', editable-text="currentUser.phone", onbeforesave='updatePhone($data)', style='font-size: 12px;', e-char-limit='20')
+                                        a(href='#', id='offlineMsg', editable-text="currentUser.phone", onbeforesave='updatePhone($data)', style='font-size: 12px;', e-maxlength='20')
                                             pre {{ currentUser.phone || 'your contact phone number' }}
                                     .hidden-xs
-                                        a(href='#', id='offlineMsg', editable-text="currentUser.phone", onbeforesave='updatePhone($data)', style='font-size: 12px;', e-style='width: 150%', e-char-limit='20')
+                                        a(href='#', id='offlineMsg', editable-text="currentUser.phone", onbeforesave='updatePhone($data)', style='font-size: 12px;', e-style='width: 150%', e-maxlength='20')
                                             pre {{ currentUser.phone || 'your contact phone number' }}
 
                 #chat-box.col-md-12.col-xs-12(ng-show='activeChat != null')
