@@ -58,6 +58,28 @@ p {
     word-wrap: break-word;
 }
 
+#phone-screen .user-info {
+    position: fixed;
+    margin-left: -15px;
+}
+
+#conversation-box {
+    /*position: fixed;*/
+    padding-bottom: 40px;
+    /*margin-left: -15px;*/
+    margin-top: 85px;
+}
+
+#about-box-xs {
+    margin-top: 85px;
+}
+
+#conversation-box .send-form-xs {
+    position: fixed;
+    bottom: 32px;
+    margin-left: -30px;
+}
+
 .init-form input.ng-invalid.ng-dirty {
     border-color: #FA787E;
 }

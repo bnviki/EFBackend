@@ -92,6 +92,24 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
         }
     }
 
+    $scope.aboutActive = false;
+
+    $scope.msgs = [
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'},
+        {from: 'xyz@ffsf.com/sdf', to: 'xyz@ffsf.com/sdf', msg: 'sdf sdf wefwe gweg weg weg we gweg  wegweg'}
+    ];
+
     $rootScope.$on('NewChatMsg', function(event, newmsg){
         var from = newmsg.from.substring(0, newmsg.from.indexOf('/'));
         if(from != ''){

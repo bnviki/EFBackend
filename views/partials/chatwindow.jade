@@ -7,68 +7,96 @@ script.
   });*/
 
 block content
-    .col-md-10.col-md-offset-1.col-xs-12(ng-controller='ChatWindowCtrl')
-        .col-md-8.hidden-xs
+    .container(ng-controller='ChatWindowCtrl')
+        .col-md-10.col-md-offset-1.hidden-xs
+            .col-md-8
+                .row
+                    .col-md-12.text-center.heading-banner
+                        label Conversation with {{chatUser.displayname}}
+                        .btn.btn-default.btn-xs.pull-right
+                            .glyphicon.glyphicon-envelope
+                        .btn.btn-default.btn-xs.pull-right
+                            .glyphicon.glyphicon-download-alt
+                .row
+                    .content-box.col-md-12
+                        .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
+                            .col-md-12
+                                .media(ng-repeat='msg in msgs')
+                                    img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
+                                    .media-body
+                                        p {{msg.msg}}
+                        .row.chat-send-form
+                            .col-md-12
+                                .input-group
+                                    textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)', ng-focus='checkForUsername()')
+                                    span.input-group-addon
+                                        button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
+            .col-md-4.col-xs-12
+                .row.clearfix.content-box(style='padding: 5px; padding-bottom: 10px;')
+                    .col-md-12.col-xs-12
+                        .col-md-4.col-xs-4(style='padding-left: 0px;')
+                            img.pull-left(alt='140x140', ng-src='{{chatUser.picture}}', style='width: 80px; height: 80px;')
+                        .col-md-8.col-xs-8
+                            h3(style='margin-top: 0px;')
+                                | {{chatUser.displayname}}
+
+                            .col-md-4
+                                .label.label-success(ng-show='chatUserOnline') Online
+                                .label.label-danger(ng-hide='chatUserOnline') Unavailable
+
+                .row.hidden-xs
+                    .col-md-12.heading-banner.text-center
+                        label About
+                    .col-md-12.content-box(style='padding: 5px; white-space: pre-wrap;')
+                        p(style='text-align: justify; word-wrap: break-word;') {{chatUser.about}}
+
+        #phone-screen.visible-xs(style='margin-top: -22px;')
             .row
-                .col-md-12.text-center.heading-banner
-                    label Conversation with {{chatUser.displayname}}
-                    .btn.btn-default.btn-xs.pull-right
-                        .glyphicon.glyphicon-envelope
-                    .btn.btn-default.btn-xs.pull-right
-                        .glyphicon.glyphicon-download-alt
+                .col-xs-12
+                    .row
+                        .col-xs-12.user-info.content-box(style='padding: 5px; padding-bottom: 10px; z-index: 10;')
+                            .col-xs-3(style='padding-left: 0px;')
+                                img.pull-left(alt='60x60', ng-src='{{chatUser.picture}}', style='width: 60px; height: 60px;')
+                            .col-xs-9.text-left
+                                .row
+                                    label(style='margin-top: 0px;')
+                                        | {{chatUser.displayname}}
+                                .row
+                                    .col-xs-4(style='padding: 0px')
+                                        .label.label-success(ng-show='chatUserOnline') Online
+                                        .label.label-danger(ng-hide='chatUserOnline') Unavailable
+                                .row
+                                    .col-xs-4.pull-right(style='padding: 0px')
+                                        a.btn.btn-info.btn-xs(href='#', ng-hide='aboutActive', ng-click='aboutActive=true') About
+                                        a.btn.btn-info.btn-xs(href='#', ng-show='aboutActive', ng-click='aboutActive=false') Conversation
             .row
-                .content-box.col-md-12
-                    .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
-                        .col-md-12
+                #conversation-box.col-xs-12.content-box(ng-hide='aboutActive')
+                    .row
+                        .col-xs-12.text-center.heading-banner
+                            label Conversation with {{chatUser.displayname}}
+                            .btn.btn-default.btn-xs.pull-right
+                                .glyphicon.glyphicon-envelope
+                            .btn.btn-default.btn-xs.pull-right
+                                .glyphicon.glyphicon-download-alt
+
+                    .row#chat-content
+                        .col-xs-12
                             .media(ng-repeat='msg in msgs')
                                 img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
                                 .media-body
                                     p {{msg.msg}}
-                    .row.chat-send-form
-                        .col-md-12
+                    .row.send-form-xs
+                        .col-xs-12(style='margin-left: auto; margin-right: auto; padding-left: 0px; width: 100%;')
                             .input-group
                                 textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)', ng-focus='checkForUsername()')
                                 span.input-group-addon
-                                    button#msg-send-button.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
-        .col-md-4.col-xs-12
-            .row.clearfix.content-box(style='padding: 5px; padding-bottom: 10px;')
-                .col-md-12.col-xs-12
-                    .col-md-4.col-xs-4(style='padding-left: 0px;')
-                        img.pull-left(alt='140x140', ng-src='{{chatUser.picture}}', style='width: 80px; height: 80px;')
-                    .col-md-8.col-xs-8
-                        h3(style='margin-top: 0px;')
-                            | {{chatUser.displayname}}
+                                    button#msg-send-button-xs.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
 
-                        .col-md-4
-                            .label.label-success(ng-show='chatUserOnline') Online
-                            .label.label-danger(ng-hide='chatUserOnline') Unavailable
-
-            .row.hidden-xs
-                .col-md-12.heading-banner.text-center
-                    label About
-                .col-md-12.content-box(style='padding: 5px; white-space: pre-wrap;')
-                    p(style='text-align: justify; word-wrap: break-word;') {{chatUser.about}}
-        .visible-xs.col-xs-12.content-box(style='padding-bottom: 40px;')
-            .row
-                .col-xs-12.text-center.heading-banner
-                    label Conversation with {{chatUser.displayname}}
-                    .btn.btn-default.btn-xs.pull-right
-                        .glyphicon.glyphicon-envelope
-                    .btn.btn-default.btn-xs.pull-right
-                        .glyphicon.glyphicon-download-alt
-
-            .row#chat-content(ng-slim-scroll slim-scroll-height='400px')
-                .col-xs-12
-                    .media(ng-repeat='msg in msgs')
-                        img.media-object.pull-left(ng-hide='isSystemMsg(msg)', ng-src='{{getPicture(msg.from)}}', style='width:40px;height:40px')
-                        .media-body
-                            p {{msg.msg}}
-            .row(style='position: fixed; bottom: 40px;')
-                .col-xs-12(style='margin-left: auto; margin-right: auto; padding-left: 0px; width: 100%;')
-                    .input-group
-                        textarea.form-control(type='text', ng-model='msgSendText', ng-enter='sendMsg(msgSendText)', ng-focus='checkForUsername()')
-                        span.input-group-addon
-                            button#msg-send-button-xs.btn.btn-primary(type='submit', ng-click='sendMsg(msgSendText)', disabled) Send
+                #about-box-xs.col-xs-12(ng-show='aboutActive')
+                    .heading-banner.text-center
+                        label About
+                    .col-xs-12.content-box(style='padding: 5px; white-space: pre-wrap;')
+                        p(style='text-align: justify; word-wrap: break-word;') {{chatUser.about}}
 
 
         .modal.fade(id='UserDetailsDialog', tabindex='-1', role='dialog', aria-labelledby="Create Discussion", aria-hidden="true")
