@@ -122,13 +122,13 @@ module.exports = function(app) {
 
             //email verification
             /*var vToken = new verification.verificationTokenModel({_userId: user._id});
-            vToken.createVerificationToken(function (err, token) {
-                if (err) return console.log("Couldn't create verification token", err);
-                var verifyURL = req.protocol + "://" + req.get('host') + "/verify/" + token;
-                var mail = "Hi "+ user.displayname + ",<br/><br/><p>Please verify your email address by clicking on the link below</p><br/>" +
-                    verifyURL;
-                sendMail(user.email, "mpeers: verification", null, mail);
-            });*/
+             vToken.createVerificationToken(function (err, token) {
+             if (err) return console.log("Couldn't create verification token", err);
+             var verifyURL = req.protocol + "://" + req.get('host') + "/verify/" + token;
+             var mail = "Hi "+ user.displayname + ",<br/><br/><p>Please verify your email address by clicking on the link below</p><br/>" +
+             verifyURL;
+             sendMail(user.email, "mpeers: verification", null, mail);
+             });*/
             //email verification
 
             var xmppUserCreator = new xmppUser(user);
@@ -184,6 +184,28 @@ module.exports = function(app) {
         });
     });
 
+    // set new password
+    app.post('/users/:id/setpass', function(req, res, next) {
+        if (!req.body.newPassword) {
+            res.send('new password required', 400);
+            return;
+        }
+        User.findOne({_id: req.params.id}, function(err, user) {
+            if (err || !user) {
+                return res.send('Not found', 404);
+            }
+
+            user.password = req.body.newPassword;
+            user.save(function(err){
+                if(err){
+                    res.send('cannot set password', 500);
+                    return
+                }
+                res.send('password changed');
+            });
+        });
+    });
+
     //remove user
     app.post('/users/:id/remove', sessionUtils.loggedIn, function(req, res) {
         http.get({host: 'localhost', port: 9090, path: '/plugins/userService/userservice?type=delete&secret=i5qXQ3Gm&username=' + req.user.username},
@@ -216,12 +238,42 @@ module.exports = function(app) {
         });
     });
 
+
+
     //email verification callback
-    app.get("/verify/:token", sessionUtils.notLoggedIn, function (req, res, next) {
+    app.get("/verify/:token", sessionUtils.notLoggedIn, function (req, res) {
         var token = req.params.token;
         verification.verifyUser(token, function(err) {
             if (err) return res.redirect("/");
             res.redirect("/");
+        });
+    });
+
+    //forgot password
+    app.post("/forgotpassword", sessionUtils.notLoggedIn, function (req, res) {
+        var email = req.body.email;
+        User.findOne({email: email}, function(err, user) {
+            if (err || !user) {
+                return res.send('email not found', 404);
+            }
+            var vToken = new verification.verificationTokenModel({_userId: user._id});
+            vToken.createVerificationToken(function (err, token) {
+                if (err) return console.log("Couldn't create verification token", err);
+                var verifyURL = req.protocol + "://" + req.get('host') + "/setpassword?token=" + token;
+                var mail = "Hi "+ user.displayname + ",<br/><br/><p>You can set your new password by clicking on the following link.</p><br/>" +
+                    verifyURL;
+                sendMail(user.email, "mpeers: set new password", null, mail);
+                res.send('password recovery mail sent');
+            });
+        });
+    });
+
+    //forgot password callback
+    app.get("/setnewpassword/:token", sessionUtils.notLoggedIn, function (req, res) {
+        var token = req.params.token;
+        verification.verifyPasswordChange(token, function(err, user) {
+            if (err || !user) return res.send("invalid token", 404);
+            res.send(user.toJSON());
         });
     });
 };

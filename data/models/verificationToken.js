@@ -18,3 +18,14 @@ module.exports.verifyUser = function(token, done) {
         })
     })
 }
+
+module.exports.verifyPasswordChange = function(token, done) {
+    verificationTokenModel.findOne({token: token}, function (err, doc){
+        if (err || !doc) return done(err, null);
+        User.findOne({_id: doc._userId}, function (err, user) {
+            if (err) return done(err);
+            doc.remove();
+            done(null, user);
+        });
+    });
+}

@@ -8,6 +8,8 @@ var app = angular.module('mainMod', ['OCServices', 'OCDirectives', 'OCFilters', 
             when('/dash', {templateUrl: 'partial/dash'}).
             when('/search', {templateUrl: 'partial/search', controller: SearchCtrl}).
             when('/changepassword', {templateUrl: 'partial/change_password', controller: ChangePasswordCtrl}).
+            when('/setpassword', {templateUrl: 'partial/setpassword', controller: SetNewPasswordCtrl}).
+            when('/forgotpass', {templateUrl: 'partial/forgotpass', controller: ChangePasswordCtrl}).
             when('/:username', {templateUrl: 'partial/chatwindow'}).
             otherwise({redirectTo: '/home'});
         $locationProvider.html5Mode(true);

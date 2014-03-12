@@ -1,0 +1,19 @@
+link(rel='stylesheet', href='css/search.css')
+.col-md-8.col-md-offset-2
+    .row
+        .col-md-12.text-center.heading-banner
+            label Forgot password
+    .row
+        .col-md-12.content-box
+            #signup-form
+                form.col-md-12.text-center(name='changePasswordForm', class='form-horizontal')
+                    .form-group
+                        label.col-md-12(for="inputEmailSignup") Please give your registered email address.
+                        .col-md-6.col-md-offset-3
+                            input(class="form-control", type="email", name='inputEmailSignup', id="inputEmailSignup", placeholder="Email", ng-model='userChange.email', required)
+                            p(ng-show="changePasswordForm.inputEmailSignup.$error.email", class="help-block") Not a valid email.
+                    .row
+                        .col-md-6.col-md-offset-3
+                            .btn.btn-primary(ng-disabled='!changePasswordForm.$valid', type='submit', ng-click='forgotPassword(userChange)', style='margin: 5px;') Send mail
+                            a.btn.btn-default(href='/home') Cancel
+                    p(ng-show='errorMsg') {{errorMsg}}

@@ -102,6 +102,7 @@ LoginCtrl.$inject = ['$scope', '$http', '$location', 'UserManager', '$log', 'Use
 
 var ChangePasswordCtrl = function ($scope, $http, $location, UserManager) {
     var currentUser = UserManager.getCurrentUser();
+    $scope.errorMsg = null;
     $scope.changePassword = function(data){
         if(currentUser){
             var changeReq = {oldPassword: data.oldPassword.trim(), newPassword: data.newPassword};
@@ -113,9 +114,48 @@ var ChangePasswordCtrl = function ($scope, $http, $location, UserManager) {
             });
         }
     }
+
+    $scope.forgotPassword = function(data){
+        if(data.email && data.email != ''){
+            var changeReq = {email: data.email};
+            $http.post('/forgotpassword', changeReq).success(function(data){
+                alert('Instructions to change the password has been sent to your email id');
+                $location.path('/home');
+            }).error(function(err){
+                alert('This email address has not been registerd with us');
+            });
+        }
+    }
 }
 
 ChangePasswordCtrl.$inject = ['$scope', '$http', '$location', 'UserManager'];
+
+var SetNewPasswordCtrl = function ($scope, $http, $location, UserManager, $routeParams) {
+    $scope.currentUser = null;
+    if($routeParams.token && $routeParams.token != ''){
+        $http.get('/setnewpassword/' + $routeParams.token).success(function(user){
+            $scope.currentUser = user;
+        }).error(function(){
+            $location.path('/home');
+        });
+    } else {
+        $location.path('/home');
+    }
+
+    $scope.setNewPassword = function(data){
+        if($scope.currentUser){
+            var changeReq = {newPassword: data.newPassword};
+            $http.post('/users/' + $scope.currentUser._id + '/setpass', changeReq).success(function(data){
+                alert('your password is changed successfully');
+                $location.path('/home');
+            },function(err){
+                alert('cannot set new password.. please try again.');
+            });
+        }
+    }
+}
+
+SetNewPasswordCtrl.$inject = ['$scope', '$http', '$location', 'UserManager', '$routeParams'];
 
 var ProfileCtrl = function ($scope) {
     $scope.qwerty = function(keys){
