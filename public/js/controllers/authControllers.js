@@ -57,11 +57,14 @@ var LoginCtrl = function ($scope, $http, $location, UserManager, $log, User, $ti
     $scope.logUserIn = function(user) {
         if(user.username && user.username.trim() != '' && user.password && user.password.trim() != ''){
             $('#loading').show();
+            $('#loading-img').show();
             UserManager.login(user.username.trim(), user.password.trim()).then(function(user){
                 $('#loading').hide();
+                $('#loading-img').hide();
                 $location.path('/dash');
             }, function(error){
                 $('#loading').hide();
+                $('#loading-img').hide();
                 $scope.loginMsg = error;
             });
         }

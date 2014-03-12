@@ -96,7 +96,7 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
                             a.btn.btn-success(role='button', ng-href='/signup') Sign up
                             .dropdown.pull-right(style='padding-right: 5px;')
                                 a.btn.btn-primary.dropdown-toggle(href="#", data-toggle="dropdown") Sign in
-                                .dropdown-menu(ng-controller='LoginCtrl', style='padding: 5px;')
+                                .dropdown-menu(ng-controller='LoginCtrl', style='padding: 5px; width: 200px')
                                     form#login-form.form-horizontal.col-md-12
                                         .form-group
                                             input(class="form-control", type="text", id="userNameLogin", placeholder="UserName", ng-model='userLogin.username')
@@ -106,6 +106,7 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
                                             img.center-block(id='loading', src='/img/loading.gif', style='height:30px; width:30px; display: none;')
                                             label.text-danger(ng-show='loginMsg') {{loginMsg}}
                                         .btn.btn-primary.pull-right(type='submit', ng-click='logUserIn(userLogin)') Sign in
+                                        a.pull-left(href='/forgotpass', style='margin-top: 10px; margin-bottom: 10px; font-size: 10px;') forgot password?
                         form.navbar-form.navbar-right
                             .input-group.input-group-sm(style="max-width:360px; margin-top: 5px;")
                                 input.form-control(type='text', placeholder='search by name', ng-model='searchQuery', ng-enter='search(searchQuery)')
