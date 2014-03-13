@@ -99,6 +99,7 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
         if(from != ''){
             $scope.msgs.push(newmsg);
             $scope.noOfScrollMsgs = $scope.msgs.length;
+            $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         }
         //var fromTop = $(".chat-content").scrollTop();
         //$(".chat-content").slimScroll({ scrollTo: fromTop + 'px' });
