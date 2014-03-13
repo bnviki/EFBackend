@@ -1,11 +1,17 @@
 var nodemailer = require("nodemailer")
 
-var smtpTransport = nodemailer.createTransport("SMTP",{
+/*var smtpTransport = nodemailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
         user: "admin@mpeers.com",
         pass: "mpeersadmin"
     }
+});*/
+
+var SEStransport = nodemailer.createTransport("SES", {
+    AWSAccessKeyID: "AKIAJFUUM2GSD5FQJ7EA",
+    AWSSecretKey: "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",
+    ServiceUrl: "https://email.eu-west-1.amazonaws.com"
 });
 
 var sendMail = function(toAdd, mailSubject, mailText, mailHtml){
@@ -18,7 +24,7 @@ var sendMail = function(toAdd, mailSubject, mailText, mailHtml){
 	}
 
 
-	smtpTransport.sendMail(mailOptions, function(error, response){
+    SEStransport.sendMail(mailOptions, function(error, response){
 	    if(error){
 		console.log(error);
 	    }else{
