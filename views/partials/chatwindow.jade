@@ -1,11 +1,13 @@
 link(rel='stylesheet', href='css/chatwindow.css')
 script.
   window.onbeforeunload = function() {
-    return "this chat will be closed if you leave this page, are you sure?";
+    if($('#preventClose') && $('#preventClose').val() == 'true')
+        return "this chat will be closed if you leave this page, are you sure?";
   };
 
 block content
     .container(ng-controller='ChatWindowCtrl')
+        input(type='hidden', id='preventClose', value='true')
         .col-md-10.col-md-offset-1.hidden-xs
             .col-md-8
                 .row
