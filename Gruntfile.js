@@ -16,7 +16,8 @@ module.exports = function(grunt) {
                 dest: 'public/build/concat.js'
             },
             extras: {
-                src: ['public/js/lib/xeditable.min.js', 'public/js/lib/strophe.min.js', 'public/js/lib/jquery.slimscroll.min.js', 'public/js/lib/bootstrap/jasny-bootstrap.min.js', 'public/js/lib/xml2json.min.js', 'public/build/ang.min.js'],
+                src: ['public/js/lib/angular.min.js', 'public/js/lib/angular-route.min.js', 'public/js/lib/angular-resource.min.js', 'public/js/lib/xeditable.min.js', 'public/js/lib/strophe.min.js', 'public/js/lib/jquery.slimscroll.min.js',
+                    'public/js/lib/bootstrap/jasny-bootstrap.min.js', 'public/js/lib/xml2json.min.js', 'public/build/ang.min.js'],
                 dest: 'public/build/app.min.js'
             }
         },

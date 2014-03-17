@@ -12,6 +12,15 @@ var RootCtrl = function ($scope, $location, UserManager, $window, $timeout){
 		$scope.currentUser = null;
   	});
 
+    $scope.onLogoClick = function(){
+        if($('#preventClose') && $('#preventClose').val() == 'true'){
+            if(confirm('This will close your ongoing chat, are you sure?'))
+                $location.path('/home');
+        } else {
+            $location.path('/home');
+        }
+    };
+
 	$scope.logUserOut = function(){
 		UserManager.logout().then(function(){
             $timeout(function(){
@@ -35,6 +44,11 @@ var RootCtrl = function ($scope, $location, UserManager, $window, $timeout){
     }
 
     $scope.search = function(query){
+        if($('#preventClose') && $('#preventClose').val() == 'true'){
+            if(!confirm('This will close your ongoing chat, are you sure?'))
+                return;
+        }
+
         query = query.trim();
         if(query && query != ''){
             $("#collapse-bar").collapse('hide');

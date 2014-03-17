@@ -20,9 +20,9 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
             script(src='//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js')
             script(src='//cdnjs.cloudflare.com/ajax/libs/json3/3.3.0/json3.js')
             script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
-            script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js')
-            script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-resource.min.js')
-            script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js')
+            //script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js')
+            //script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-resource.min.js')
+            //script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js')
             script(src='build/app.min.js')
 
             // both in production and dev
@@ -74,7 +74,7 @@ html(xmlns:ng="http://angularjs.org", id='ng-app', ng-app="mainMod")
                             .icon-bar
                             .icon-bar
                             .icon-bar
-                        a(class='navbar-brand', href='/', style='padding: 10px 10px;')
+                        a(class='navbar-brand', href='#', ng-click='onLogoClick()', style='padding: 10px 10px;')
                             img(src='/img/logo.png', style='width:100px;')
                     nav#collapse-bar.collapse.navbar-collapse(role='navigation')
                         ul.nav.navbar-nav.navbar-right#userinfo(ng-show='isLoggedIn')

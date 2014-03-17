@@ -14,3 +14,7 @@ link(rel='stylesheet', href='css/search.css')
                         label(style='margin-bottom:0px;') {{user.displayname}}
                         p {{user.description}}
                         a(style='font-weight: bold;', ng-href="{{'/' + user.username}}") {{'www.mpeers.com/' + user.username}}
+            p(ng-show='results.length == 0', style='margin-top: 10px') No users with that name.
+    .row
+        .col-md-12
+            a.btn.btn-default.btn-xs(href='/home') back to home
