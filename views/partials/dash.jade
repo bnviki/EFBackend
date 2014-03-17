@@ -174,7 +174,7 @@ script.
                                             button.btn.btn-primary(type='submit', ng-click='sendMsg(msgToSend)') Send
 
         .col-md-3.col-xs-10(class='sidebar-offcanvas', id='sidebar', role='navigation')
-            .row.clearfix(ng-controller='chatCtrl')
+            .row(ng-controller='chatCtrl')
                 .col-md-12.col-xs-12.chatrequests
                     .col-md-12.col-xs-12.text-center.heading-banner
                         label Conversations
@@ -185,7 +185,7 @@ script.
                                 .media-body
                                     p
                                         label.chat-user-name {{getToUser(chat).displayname}}
-            .row.clearfix
+            .row
                 .col-md-12.col-xs-12#instructions
                     .col-md-12.col-xs-12
                         .row

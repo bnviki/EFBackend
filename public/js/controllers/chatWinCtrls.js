@@ -99,7 +99,7 @@ var ChatWindowCtrl = function ($scope, $http, $rootScope, UserManager, $routePar
         if(from != ''){
             $scope.msgs.push(newmsg);
             $scope.noOfScrollMsgs = $scope.msgs.length;
-            if($scope.currentChat && $scope.currentChat != null)
+            if($('#preventClose') && $('#preventClose').val() == 'true')
                 $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         }
         //var fromTop = $(".chat-content").scrollTop();
